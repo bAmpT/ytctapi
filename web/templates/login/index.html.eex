@@ -1,0 +1,15 @@
+
+<div id="email_form_body" class="fs_split_body">
+      <h1>Login with Email</h1>
+      <form action="/login" method="post">
+        <label id="email_label"><span class="normal">Your </span>email address</label>
+        <input type="text" placeholder="you@yourdomain.com" name="login_email" spellcheck="false" data-email-healing="true">
+        </br>
+        <label id="password_label"><span class="normal">Your </span>password</label>
+        <input type="password" placeholder="*******" name="login_password" spellcheck="false">
+        <p class="error_message"></p>
+        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+        <button type="submit" id="submit_login" style="width: 250px;">Login</button>
+       </form>
+</div>
+

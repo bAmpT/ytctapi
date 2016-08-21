@@ -1,0 +1,27 @@
+<h2><%= @watch.title %></h2>
+<%= if @watch.user do %>
+	<strong>Creator: <%= @watch.user.username %></strong>
+<% end %>
+<strong>Views: <%= @watch.views_count %></strong>
+<strong>Likes: <%= @watch.likes_count %></strong> 
+<strong>Youtube ID: <%= @watch.ytid %></strong>  
+
+<div id="player"></div>
+
+<ul class="list-player">
+<%= for line <- @watch.lines do %>
+    <li>
+      <a onclick="gotoTimestamp(<%= line["t"] %>)">
+      	<id><%= line["q"] %></id>
+      	<name><%= line["a"] %></name>
+      </a>
+    </li>
+<% end %>
+</ul>
+
+<script type="text/javascript">var ytid = "<%= @watch.ytid %>";</script>
+<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+<script>require("web/static/js/ytctplayer")</script>
+
+
+

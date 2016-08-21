@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YTCT - Transscripts</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="header">
+        <nav role="navigation">
+          <ul class="nav nav-pills pull-right">
+            <li>
+              <input type="text" value="Search" name="search" class="input-field search-field tt-input" style="vertical-align: top; position: relative; background-color: transparent;" autocomplete="off" spellcheck="false" dir="auto">
+              <button type="submit" class="btn btn-small btn-flat-blue btn-search">Go</button>
+            </li>
+            <%= if user = Guardian.Plug.current_resource(@conn) do %>
+             <li><a href="<%= login_path(@conn, :logout) %>"><%= user.username %> - Logout</a></li>
+            <% else %>
+             <li><a href="<%= login_path(@conn, :index) %>">Login / Signup</a></li>
+            <% end %>
+          </ul>
+        </nav>
+        <a href="/"><span class="logo"></span></a>
+      </header>
+
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+
+    </div> <!-- /container -->
+    <script>window.jwt = "<%= Guardian.Plug.current_token(@conn) %>";</script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

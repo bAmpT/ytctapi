@@ -1,0 +1,19 @@
+ul.list-player {
+	text-align: center;
+	list-style: none;
+	padding-left: 0px;
+	max-width: 730px;
+}
+
+ul.list-player li {
+	font-size: 2em;
+}
+
+ul.list-player a {
+	text-decoration: none;
+	color: lightblue;
+}
+
+ul.list-player a:hover {
+    color: hotpink;
+}

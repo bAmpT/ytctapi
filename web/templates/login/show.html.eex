@@ -1,0 +1,11 @@
+<h2>Show login</h2>
+
+<ul>
+
+  <li>
+    <strong>Ytid:</strong>
+    <%= @login.ytid %>
+  </li>
+
+</ul>
+
