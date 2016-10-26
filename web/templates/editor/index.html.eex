@@ -1,0 +1,26 @@
+<h2>Listing Users Transscripts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for transscript <- @transscripts do %>
+    <tr>
+
+      <td><%= transscript.title %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: editor_path(@conn, :show, transscript), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: editor_path(@conn, :edit, transscript), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: editor_path(@conn, :delete, transscript), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New Transscript", to: editor_path(@conn, :new) %>

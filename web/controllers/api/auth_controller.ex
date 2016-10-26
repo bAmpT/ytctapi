@@ -3,9 +3,6 @@ defmodule Ytctapi.AuthController do
 
   import Comeonin.Bcrypt
 
-  alias Ytctapi.Auth
-  alias Ytctapi.User
-
 # Login
   def login(conn, params) do
     
@@ -15,14 +12,15 @@ defmodule Ytctapi.AuthController do
        jwt = Guardian.Plug.current_token(new_conn)
        claims = Guardian.Plug.claims(new_conn)
        case claims do
-         {:ok, claims} -> exp = Map.get(claims, "exp")
-       end
+       {:ok, claims} -> exp = Map.get(claims, "exp")
 
        new_conn
        |> put_resp_header("x-expires", "#{exp}")
        |> put_resp_header("authorization", "Bearer #{jwt}")
        |> render "login.json", user: user, jwt: jwt, exp: exp
-    {:error, changeset} ->
+
+       end
+    {:error, _} ->
       conn
       |> put_status(401)
       |> json %{status: 401, message: "Could not login", }

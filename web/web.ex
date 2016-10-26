@@ -18,7 +18,9 @@ defmodule Ytctapi.Web do
 
   def model do
     quote do
-      use Ecto.Schema
+      # Change in to old Ecto.Model because MongodbEcto
+      # use Ecto.Schema
+      use Ecto.Model
 
       import Ecto
       import Ecto.Changeset
@@ -48,6 +50,9 @@ defmodule Ytctapi.Web do
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
+
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
 
       import Ytctapi.Router.Helpers
       import Ytctapi.ErrorHelpers

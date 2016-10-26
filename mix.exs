@@ -19,7 +19,7 @@ defmodule Ytctapi.Mixfile do
   def application do
     [mod: {Ytctapi, []},
      applications: [:phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :mongodb_ecto, :comeonin, :guardian, :exjieba]]
+                    :phoenix_ecto, :mongodb_ecto, :comeonin, :guardian, :exjieba, :briefly, :ecto_lazy_float]]
   end
 
   # Specifies which paths to compile per environment.
@@ -30,8 +30,10 @@ defmodule Ytctapi.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.0"},
+    [
+     {:phoenix, "~> 1.2.0"},
      {:phoenix_html, "~> 2.6"},
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 1.2.0"},
      {:mongodb_ecto, ">= 0.1.4"},
@@ -39,7 +41,11 @@ defmodule Ytctapi.Mixfile do
      {:cowboy, "~> 1.0"},
      {:guardian, "~> 0.12.0"},
      {:comeonin, "~> 2.5"},
-     {:exjieba, git: "https://github.com/falood/exjieba.git"}]
+     {:exjieba, git: "https://github.com/falood/exjieba.git"},
+     {:ecto_lazy_float, "~> 0.1.2"},
+     {:briefly, "~> 0.3"},
+     {:distillery, "~> 0.9"}
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

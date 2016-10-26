@@ -10,6 +10,8 @@ defmodule Ytctapi.User do
 
     has_many :transscripts, Ytctapi.Transscript
     has_many :likes, Ytctapi.Like
+    
+    embeds_many :words, Ytctapi.Word
     timestamps()
   end
 
@@ -18,7 +20,9 @@ defmodule Ytctapi.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:username, :email])
+    |> cast(params, [:username, :email, :encrypted_password])
+    |> unique_constraint(:email)
+    |> unique_constraint(:username)
   end
 
   def hashpassword(password) do

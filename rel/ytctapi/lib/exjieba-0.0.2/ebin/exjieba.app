@@ -1,0 +1,10 @@
+{application,exjieba,
+             [{registered,[]},
+              {description,"exjieba"},
+              {vsn,"0.0.2"},
+              {modules,['Elixir.ExJieba','Elixir.ExJieba.HMMSegment',
+                        'Elixir.ExJieba.MPSegment',
+                        'Elixir.ExJieba.MixSegment',
+                        'Elixir.ExJieba.QuerySegment']},
+              {applications,[kernel,stdlib,elixir]},
+              {mod,{'Elixir.ExJieba',[]}}]}.

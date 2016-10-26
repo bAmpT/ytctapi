@@ -2,6 +2,8 @@ defmodule Ytctapi.LikeController do
   use Ytctapi.Web, :controller
   use Guardian.Phoenix.Controller
 
+  import Ecto.Query
+
   alias Ytctapi.Like
 
   plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
@@ -18,18 +20,23 @@ defmodule Ytctapi.LikeController do
 
     case Repo.insert(changeset) do
       {:ok, like} ->
-        conn
-        |> put_status(:created)
-        |> render("show.json", like: like)
+        like = Repo.preload(like, :transscript)
 
         #TODO:
         # Update Likes_Count of Transscript
         # do it in a worker
+        likes_count = Repo.one from(l in Like, where: l.transscript_id == ^like.transscript_id, select: count(l.id))
         changeset = transscript
         |> Ecto.Changeset.change
-        |> Ecto.Changeset.put_change(:likes_count, transscript.likes_count + 1)
+        |> Ecto.Changeset.put_change(:likes_count, likes_count)
 
         Repo.update!(changeset)
+
+        Ytctapi.Endpoint.broadcast("like:"<>transscript.id, "likes_count", %{likes_count: likes_count})
+
+        conn
+        |> put_status(:created)
+        |> render("show.json", like: like)
 
       {:error, changeset} ->
         conn
@@ -58,7 +65,7 @@ defmodule Ytctapi.LikeController do
   end
 
   def delete(conn, %{"id" => id}, _user, _claims) do
-    like = Repo.get!(Like, id) |> Repo.preload(:transscript)
+    like = Repo.get!(Like, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
@@ -66,11 +73,14 @@ defmodule Ytctapi.LikeController do
 
     #TODO:
     # Update Likes Count in Transscript
+    likes_count = Repo.one from(l in Like, where: l.transscript_id == ^like.transscript_id, select: count(l.id))
     changeset = like.transscript
     |> Ecto.Changeset.change
-    |> Ecto.Changeset.put_change(:likes_count, like.transscript.likes_count - 1)
+    |> Ecto.Changeset.put_change(:likes_count, likes_count)
 
     Repo.update!(changeset)
+
+    Ytctapi.Endpoint.broadcast("like:"<>like.transscript_id, "likes_count", %{likes_count: likes_count})
 
     send_resp(conn, :no_content, "")
   end

@@ -1,0 +1,93 @@
+<header class="profile-page">
+	<div class="profile-page-image">
+		<img class="_8gpiy _r43r5" src="https://scontent-fra3-1.cdninstagram.com/t51.2885-19/s150x150/12356350_1510009145960986_670697426_a.jpg">
+	</div>
+	<div class="profile-page-info">
+		<div class="_8mm5v">
+			<h1 class="_i572c notranslate" title="<%= @user.username %>"><%= @user.username %></h1>
+			<ul class="profile-page-info-list">
+				<li class="_218yx">
+					<span class="_s53mj"><!-- react-text: 26 --><!-- /react-text -->
+					<span class="_bkw5z"><%= length(@user.transscripts) %></span>
+					<%= if length(@user.transscripts) == 1 do %>Beitrag
+					<% else %>Beiträge<% end %>
+					</span>
+				</li>
+				<li class="_218yx">
+					<a class="_s53mj" href="/<%= @user.username %>/followers/"><!-- react-text: 31 --><!-- /react-text -->
+					<span class="_bkw5z" title="14">4</span><!-- react-text: 33 --> Playlists<!-- /react-text --></a>
+				</li>
+				<li class="_218yx"><a class="_s53mj" href="/<%= @user.username %>/following/"><!-- react-text: 36 --><!-- /react-text --><span class="_bkw5z">2</span><!-- react-text: 38 --> Words<!-- /react-text --></a>
+				</li>
+			</ul>
+	</div>
+</header>
+<style type="text/css">
+	header.profile-page {
+		display: flex;
+		flex-direction: row;
+		padding: 20px 0;
+		margin-bottom: 45px;
+	}
+
+	.profile-page div.profile-page-image {
+		flex-basis: 0;
+		flex-grow: 1;
+		flex-shrink: 0;
+		margin-right: 30px;
+	}
+
+	div.profile-page-image img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+
+		height: 152px;
+		margin-bottom: -7px;
+		margin-top: -7px;
+		width: 152px;
+
+		background-color: #fafafa;
+		border-radius: 50%;
+		border: 1px solid #dbdbdb;
+		box-sizing: border-box;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.profile-page div.profile-page-info {
+		flex-basis: 30px;
+		flex-grow: 2;
+		flex-shrink: 1;
+		min-width: 0;
+		color: #262626;
+	}
+
+	div.profile-page-info ul {
+	 	display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		margin-top: 17px;
+		padding: 0px;
+		list-style: none;
+	}
+
+	div.profile-page-info ul > li:first-child {
+		margin-left: 0;
+	}
+	div.profile-page-info ul > li {
+	 	font-size: 17px;
+		margin-right: 40px;
+	}
+</style>
+
+<ul class="video-list">
+  <%= for transscript <- @user.transscripts do %>
+    <li>
+        <a href="/watch?v=<%= transscript.ytid %>">
+        <h4><%= transscript.title %></h4>
+        <img width=500 style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/>
+        </a>
+    </li>
+  <% end %>
+</ul>

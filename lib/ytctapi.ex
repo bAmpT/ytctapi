@@ -12,14 +12,15 @@ defmodule Ytctapi do
       supervisor(Ytctapi.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Ytctapi.Endpoint, []),
-      # Start your own worker by calling: Ytctapi.Worker.start_link(arg1, arg2, arg3)
-      # worker(Ytctapi.Worker, [arg1, arg2, arg3]),
       # Start the Presence server
       supervisor(Ytctapi.Presence, []),
+      # Start the Task supervisor
+      supervisor(Task.Supervisor, [[name: Ytctapi.TaskSupervisor]]),
     ]
-    
-    ExJieba.MixSegment.init
 
+    # Init ExJieba Library
+    ExJieba.MixSegment.init
+    
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Ytctapi.Supervisor]

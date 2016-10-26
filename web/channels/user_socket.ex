@@ -5,6 +5,11 @@ defmodule Ytctapi.UserSocket do
   ## Channels
   # channel "room:*", Ytctapi.RoomChannel
   channel "watch:*", Ytctapi.WatchChannel
+  channel "comment:*", Ytctapi.CommentChannel
+  channel "like:*", Ytctapi.LikeChannel
+
+  channel "live-html", Ytctapi.LiveHtmlChannel
+  channel "live-api", Ytctapi.LiveApiChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -49,30 +49,33 @@ import {Socket, Presence} from "phoenix"
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
-
+window.onload = function () {
+  console.log("Loading App...")
+}
 
 document.addEventListener("turbolinks:load", function() {
+  console.log("Turbolink App...")
 
-let socket = new Socket("/socket", {params: {guardian_token: window.jwt}})
-socket.connect()
+  if (document.socket == undefined) {
+    document.socket = new Socket("/socket", {params: {guardian_token: document.jwt}})
+    document.socket.connect() 
+  }
 
-// Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("watch:"+ytid, {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  // Leave unwanted channels
+  // 
+  let ytid = document.getElementById("ytid")
+  if (ytid == undefined) {
+      document.socket.channels.forEach(function(channel) {
+        if (channel.topic.startsWith("watch:")) {
+          console.log('leaving channel: '+ channel.topic)
+          channel.leave()
+        }
+      })
+      return
+  }
 
-let presences = {}
-channel.on("presence_state", state => {
-  Presence.syncState(presences, state)
-  console.log("Presence synced", presences)
+  // Join Live-HTML Channel?
+
 })
 
-channel.on("presence_diff", diff => {
-  Presence.syncDiff(presences, diff)
-  console.log("Presence diff synced", diff)
-})
-
-})
-
-export default socket
+export default document.socket

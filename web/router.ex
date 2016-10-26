@@ -35,13 +35,17 @@ defmodule Ytctapi.Router do
 
   	get "/", HomeController, :index
     get "/watch", WatchController, :show
+    resources "/editor", EditorController
+    resources "/search", SearchController, only: [:index, :show]
     get "/logout", LoginController, :logout
+    
+    resources "/", ProfileController, only: [:show]
   end
 
   scope "/api/v1", Ytctapi do
     pipe_through :api
 
-	post "/auth", AuthController, :login
+	  post "/auth", AuthController, :login
   end
 
   scope "/api/v1", Ytctapi do
@@ -50,8 +54,11 @@ defmodule Ytctapi.Router do
     resources "/jieba", JiebaController, only: [:index, :show]
 
   	resources "/transscripts", TransscriptController, except: [:new, :edit]
+    get "/users/me", UserController, :me
     resources "/users", UserController
     resources "/likes", LikeController
+
+    get "/gifs", GifController, :show
   end
 
 end

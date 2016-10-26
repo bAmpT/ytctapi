@@ -1455,6 +1455,331 @@ var _socket2 = _interopRequireDefault(_socket);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 });
 
+;require.register("web/static/js/player", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Player = undefined;
+
+var _phoenix = require("phoenix");
+
+function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
+
+document.addEventListener("turbolinks:load", function () {
+    onYouTubeIframeAPIReady && onYouTubeIframeAPIReady();
+
+    document.ytct = document.getElementById("ytid").getAttribute("data-ytid");
+});
+
+// This code loads the IFrame Player API code asynchronously.
+var loadYoutubeApi = function loadYoutubeApi() {
+    if (window.YT) {
+        return;
+    };
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+};
+
+var timer;
+
+window.onPlayerReady = function onPlayerReady() {};
+window.onPlayerPlaybackQualityChange = function onPlayerPlaybackQualityChange() {};
+window.onPlayerStateChange = function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+        timer = setInterval(function () {
+            if (player.getCurrentTime() >= player.getDuration()) {
+                clearInterval(timer);
+            };
+            playingAt(player.getCurrentTime());
+        }, 400);
+    } else {
+        clearInterval(timer);
+    }
+};
+window.onPlayerError = function onPlayerError() {};
+
+window.player = null;
+window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
+    if (!window.YT) {
+        loadYoutubeApi();
+        return;
+    }
+    window.player = new YT.Player('player', {
+        videoId: document.ytct,
+        width: "100%",
+        playerVars: { 'autoplay': 0, 'controls': 0 },
+        events: {
+            'onReady': onPlayerReady,
+            'onPlaybackQualityChange': onPlayerPlaybackQualityChange,
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
+        }
+    });
+};
+
+window.gotoTimestamp = function gotoTimestamp(timestamp) {
+    window.player.seekTo(timestamp, true);
+    currentTimestampIndex = currentTimestamp = 0;
+    for (var i = 0; i < timestamps.length; i++) {
+        timestamps[i].getElementsByTagName("a")[0].style.color = "";
+        if (timestamps[i].getAttribute("data-timestamp") == timestamp) {
+            timestamps[i].getElementsByTagName("a")[0].style.color = "hotpink";
+        }
+    }
+};
+
+window.scrollToLine = function scrollToLine(line) {
+    var list = document.getElementsByClassName("list-player"),
+        targetLi = document.getElementById(line); // id tag of the <li> element
+
+    list.scrollTop = targetLi.offsetTop - 50;
+};
+
+var timestamps = document.getElementById("list-lines").getElementsByTagName("li");
+var currentTimestampIndex = 0;
+var currentTimestamp = parseFloat(timestamps[0].getAttribute("data-timestamp")) || 0;
+
+document.addEventListener("turbolinks:load", function () {
+    timestamps = document.getElementById("list-lines").getElementsByTagName("li");
+    currentTimestampIndex = 0;
+    currentTimestamp = parseFloat(timestamps[0].getAttribute("data-timestamp")) || 0;
+});
+
+function playingAt(time) {
+    // console.log(time, currentTimestampIndex, currentTimestamp)
+    if (time >= currentTimestamp && currentTimestampIndex < timestamps.length - 1) {
+        timestamps[currentTimestampIndex].getElementsByTagName("a")[0].style.color = "";
+
+        currentTimestampIndex = currentTimestampIndex + 1;
+        currentTimestamp = parseFloat(timestamps[currentTimestampIndex].getAttribute("data-timestamp"));
+
+        timestamps[currentTimestampIndex].getElementsByTagName("a")[0].style.color = "hotpink";
+    }
+}
+
+console.log("Requering Search...");
+
+if (document.socket == undefined) {
+    document.socket = new _phoenix.Socket("/socket", { params: { guardian_token: document.jwt } });
+    document.socket.connect();
+}
+
+function fade(element) {
+    var op = 1; // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1) {
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+
+var Player = exports.Player = {
+    presence_channel: document.socket.channel("watch:" + ytid, {}),
+    like_channel: document.socket.channel("like:" + ytid, {}),
+    comment_channel: document.socket.channel("comment:" + ytid, {}),
+
+    presences: {},
+
+    join_like_channel: function join_like_channel() {
+        this.like_channel.join().receive('ok', function (resp) {
+            console.log('LIKE: Joined successfully', resp);
+        }).receive('error', function (resp) {
+            console.log('LIKE: Unable to join', resp);
+        });
+
+        this.like_channel.on("likes_count", function (payload) {
+            console.log(payload.likes_count);
+            document.getElementById("likes-count").innerText = payload.likes_count;
+        });
+    },
+
+    join_comment_channel: function join_comment_channel() {
+        this.comment_channel.join().receive('ok', function (resp) {
+            console.log('COMMENT: Joined successfully', resp);
+        }).receive('error', function (resp) {
+            console.log('COMMENT: Unable to join', resp);
+        });
+
+        this.comment_channel.on("created_comment", function (payload) {
+            console.log(payload);
+            var p = document.createElement("p");
+            p.innerText = payload.body;
+            p.className = "marquee";
+            p.style.color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+            p.style.top = Math.floor(Math.random() * 300 + 1) + "px";
+            // p.setAttribute("class", "marquee")
+            document.getElementById("marquees").appendChild(p);
+        });
+    },
+
+    join_presence_channel: function join_presence_channel() {
+        var _this = this;
+
+        this.presence_channel.join().receive("ok", function (resp) {
+            console.log("PRESENCE: Joined successfully", resp);
+        }).receive("error", function (resp) {
+            console.log("PRESENCE: Unable to join", resp);
+        });
+
+        this.presence_channel.on("presence_state", function (state) {
+            _this.presences = _phoenix.Presence.syncState(_this.presences, state, _this.onJoin, _this.onLeave);
+            var listBy = function listBy(id, _ref) {
+                var _ref$metas = _toArray(_ref.metas);
+
+                var first = _ref$metas[0];
+
+                var rest = _ref$metas.slice(1);
+
+                first.count = rest.length + 1; // count of this user's presences
+                first.id = id;
+                return first;
+            };
+            var onlineUsers = _phoenix.Presence.list(state, listBy);
+
+            document.getElementsByClassName("alert-info")[0].innerText = "Online Users: " + onlineUsers.map(function (obj) {
+                return obj["id"];
+            }).join(", ");
+            setTimeout(function () {
+                document.getElementsByClassName("alert-info")[0].innerText = "";
+            }, 3000);
+            // console.log("Presence synced", this.presences)
+        });
+
+        this.presence_channel.on("presence_diff", function (diff) {
+            _this.presences = _phoenix.Presence.syncDiff(_this.presences, diff, _this.onJoin, _this.onLeave);
+            var listBy = function listBy(id, _ref2) {
+                var _ref2$metas = _toArray(_ref2.metas);
+
+                var first = _ref2$metas[0];
+
+                var rest = _ref2$metas.slice(1);
+
+                first.count = rest.length + 1; // count of this user's presences
+                first.id = id;
+                return first;
+            };
+            var onlineUsers = _phoenix.Presence.list(_this.presences, listBy);
+            document.getElementsByClassName("alert-info")[0].innerText = "Neue User: " + onlineUsers.map(function (obj) {
+                return obj["id"];
+            }).join(", ");
+            setTimeout(function () {
+                document.getElementsByClassName("alert-info")[0].innerText = "";
+            }, 3000);
+            // console.log("Presence diff synced", diff)
+        });
+    },
+
+    init: function init() {
+
+        if (this.presence_channel.isClosed()) {
+            this.presence_channel = document.socket.channel("watch:" + ytid, {});
+        }
+        if (this.like_channel.isClosed()) {
+            this.like_channel = document.socket.channel("like:" + ytid, {});
+        }
+        if (this.comment_channel.isClosed()) {
+            this.comment_channel = document.socket.channel("comment:" + ytid, {});
+        }
+
+        if (this.presence_channel.isJoined() == false) {
+            this.join_presence_channel();
+        }
+        if (this.like_channel.isJoined() == false) {
+            this.join_like_channel();
+        }
+        if (this.comment_channel.isJoined() == false) {
+            this.join_comment_channel();
+        }
+    },
+
+    onJoin: function onJoin(id, current, newPres) {
+        // if(!current){
+        //   console.log("user has entered for the first time", newPres)
+        // } else {
+        //   console.log("user additional presence", newPres)
+        // }
+    },
+
+    onLeave: function onLeave(id, current, leftPres) {
+        // if(current.metas.length === 0){
+        //   console.log("user has left from all devices", leftPres)
+        // } else {
+        //   console.log("user left from a device", leftPres)
+        // }
+    }
+
+};
+});
+
+;require.register("web/static/js/search", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Search = undefined;
+
+var _phoenix = require("phoenix");
+
+console.log("Requering Search...");
+
+if (document.socket == undefined) {
+  document.socket = new _phoenix.Socket("/socket", { params: { guardian_token: document.jwt } });
+  document.socket.connect();
+}
+
+var Search = exports.Search = {
+  channel: document.socket.channel("live-html", {}),
+
+  init: function init() {
+    console.log('Loading Module: Search');
+    if (this.channel.isJoined() == false) {
+      this.join();
+    }
+  },
+
+  join: function join() {
+    // Now that you are connected, you can join channels with a topic:
+    this.channel = document.socket.channel("live-html", {});
+    this.channel.join().receive("ok", function (resp) {
+      console.log("Live-Html: Joined successfully", resp);
+    }).receive("error", function (resp) {
+      console.log("Live-Html: Unable to join", resp);
+    });
+
+    this.channel.on("search_results", function (payload) {
+      document.getElementById("search-results").innerHTML = payload.search_html;
+    });
+  },
+
+  onkeypress: function onkeypress(event) {
+    if (event.keyCode == 13) {
+
+      if (this.channel == undefined) {
+        console.log('Search.channel# undefined, reconnecting...');
+        return;
+      }
+
+      if (searchInput.value.length < 2) {
+        return;
+      }
+
+      this.channel.push("search", searchInput.value);
+    } else {
+      document.getElementById("search-results").innerHTML = "";
+    }
+  }
+};
+});
+
 ;require.register("web/static/js/socket", function(exports, require, module) {
 "use strict";
 
@@ -1508,83 +1833,40 @@ var _phoenix = require("phoenix");
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
-
-document.addEventListener("turbolinks:load", function () {
-
-  var socket = new _phoenix.Socket("/socket", { params: { guardian_token: window.jwt } });
-  socket.connect();
-
-  // Now that you are connected, you can join channels with a topic:
-  var channel = socket.channel("watch:" + ytid, {});
-  channel.join().receive("ok", function (resp) {
-    console.log("Joined successfully", resp);
-  }).receive("error", function (resp) {
-    console.log("Unable to join", resp);
-  });
-
-  var presences = {};
-  channel.on("presence_state", function (state) {
-    _phoenix.Presence.syncState(presences, state);
-    console.log("Presence synced", presences);
-  });
-
-  channel.on("presence_diff", function (diff) {
-    _phoenix.Presence.syncDiff(presences, diff);
-    console.log("Presence diff synced", diff);
-  });
-}); // NOTE: The contents of this file will only be executed if
+window.onload = function () {
+  console.log("Loading App...");
+}; // NOTE: The contents of this file will only be executed if
 // you uncomment its entry in "web/static/js/app.js".
 
 // To use Phoenix channels, the first step is to import Socket
 // and connect at the socket path in "lib/my_app/endpoint.ex":
-exports.default = socket;
-});
 
-;require.register("web/static/js/ytctplayer", function(exports, require, module) {
-"use strict";
 
 document.addEventListener("turbolinks:load", function () {
-    onYouTubeIframeAPIReady && onYouTubeIframeAPIReady();
+  console.log("Turbolink App...");
+
+  if (document.socket == undefined) {
+    document.socket = new _phoenix.Socket("/socket", { params: { guardian_token: document.jwt } });
+    document.socket.connect();
+  }
+
+  // Leave unwanted channels
+  // 
+  var ytid = document.getElementById("ytid");
+  if (ytid == undefined) {
+    document.socket.channels.forEach(function (channel) {
+      if (channel.topic.startsWith("watch:")) {
+        console.log('leaving channel: ' + channel.topic);
+        channel.leave();
+      }
+    });
+    return;
+  }
+
+  // Join Live-HTML Channel?
 });
 
-// This code loads the IFrame Player API code asynchronously.
-var loadYoutubeApi = function loadYoutubeApi() {
-    if (window.YT) {
-        return;
-    };
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-};
-
-window.onPlayerReady = function onPlayerReady() {};
-window.onPlayerPlaybackQualityChange = function onPlayerPlaybackQualityChange() {};
-window.onPlayerStateChange = function onPlayerStateChange() {};
-window.onPlayerError = function onPlayerError() {};
-
-var player;
-window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
-    if (!window.YT) {
-        loadYoutubeApi();
-        return;
-    }
-    player = new YT.Player('player', {
-        videoId: ytid,
-        width: 730,
-        playerVars: { 'autoplay': 1, 'controls': 0 },
-        events: {
-            'onReady': onPlayerReady,
-            'onPlaybackQualityChange': onPlayerPlaybackQualityChange,
-            'onStateChange': onPlayerStateChange,
-            'onError': onPlayerError
-        }
-    });
-};
-
-window.gotoTimestamp = function gotoTimestamp(timestamp) {
-    player.seekTo(timestamp, true);
-};
+exports.default = document.socket;
 });
 
 ;require('web/static/js/app');

@@ -4,9 +4,8 @@ defmodule Ytctapi.LoginController do
   import Comeonin.Bcrypt
 
   alias Ytctapi.User
-  alias Ytctapi.Auth
 
-  def index(conn, parmas) do
+  def index(conn, _parmas) do
     render conn, "index.html"
   end
 
@@ -30,7 +29,7 @@ defmodule Ytctapi.LoginController do
   end
 
   def find_and_confirm_password(%{"login_email" => email, "login_password" => password})  do
-    user = Repo.get_by!(Ytctapi.User, email: email)
+    user = Repo.get_by!(User, email: email)
     if checkpw(password, user.encrypted_password) do
       {:ok, user}
     else 

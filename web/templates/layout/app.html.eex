@@ -9,26 +9,137 @@
 
     <title>YTCT - Transscripts</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </head>
 
-  <body>
+  <body data-js-view-name="<%= js_view_name(@conn, @view_template) %>">
+
+     <nav class="navbar" role="navigation">
+        <div class="frame">
+          <div class="subframe">
+            <a href="/" class="flexcenter">
+              <span class="logo"></span>
+              <!--<span class="margin10">YT - Chinese Transscripts</span>-->
+            </a>
+
+            <div style="position: absolute; left: calc(50% - 12px); top:24px; z-index: 1;"> 
+                <a id="openNavButton" href="javascript:void(0)" style="height: 23px; font-weight:600;" class="flexcenter" onclick="openNav(this)">
+                  <img src="/images/dragmenu.png" height="100%">
+                </a>
+            </div>
+
+            <div class="navitems">
+              <div class="navitem"> 
+                <a href="/" style="height: 23px; font-weight:600;" class="flexcenter">
+                  <img src="/images/compass.png" height="100%">
+                </a>
+              </div>
+              <div class="navitem"> 
+                <a href="/search" style="height: 23px; font-weight:600;" class="flexcenter">
+                  <img src="/images/search.png" height="100%">
+                </a>
+              </div>
+              <div class="navitem">
+                <%= if user = Guardian.Plug.current_resource(@conn) do %>
+                  <a href="<%= login_path(@conn, :logout) %>"><%= user.username %> - Logout</a>
+                <% else %>
+                  <a href="<%= login_path(@conn, :index) %>" style="height: 25px; font-weight:600;" class="flexcenter" onclick="Turbolinks.clearCache()">
+                  <img src="/images/userprofile.png" height="100%">
+                  <!--<span class="margin10">Login | Signup</span>-->
+                  </a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+    </nav>
+
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li>
-              <input type="text" value="Search" name="search" class="input-field search-field tt-input" style="vertical-align: top; position: relative; background-color: transparent;" autocomplete="off" spellcheck="false" dir="auto">
-              <button type="submit" class="btn btn-small btn-flat-blue btn-search">Go</button>
-            </li>
-            <%= if user = Guardian.Plug.current_resource(@conn) do %>
-             <li><a href="<%= login_path(@conn, :logout) %>"><%= user.username %> - Logout</a></li>
-            <% else %>
-             <li><a href="<%= login_path(@conn, :index) %>">Login / Signup</a></li>
-            <% end %>
+
+      <nav id="mySidenav" class="sidenav wrapper">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <div class="fresh-items">
+          <h4>TOPICS</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li><a href="#0">Arts and Entertainment</a></li>
+            <li><a href="#0">Business</a></li>
+            <li><a href="#0">Culture</a></li>
+            <li><a href="#0">Everyday Life</a></li>
           </ul>
-        </nav>
-        <a href="/"><span class="logo"></span></a>
-      </header>
+        </div> <!-- .news -->
+
+        <div class="fresh-items">
+          <h4>DIFFICULTY</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li><a href="#0">Beginner</a></li>
+            <li><a href="#0">Elementary</a></li>
+            <li><a href="#0">Intermediate</a></li>
+            <li><a href="#0">Upper Intermediate</a></li>
+            <li><a href="#0">Advanced</a></li>
+            <li><a href="#0">Native</a></li>
+          </ul>
+        </div> <!-- .news -->
+
+        <div class="fresh-items">
+          <h4>FORMATS</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li><a href="#0">Clips</a></li>
+            <li><a href="#0">Commercials</a></li>
+            <li><a href="#0">Mini-Movies</a></li>
+            <li><a href="#0">Movie Trailers</a></li>
+            <li><a href="#0">Music Videos</a></li>
+            <li><a href="#0">News</a></li>
+          </ul>
+        </div> <!-- .news -->
+
+        <div class="quick-links">
+          <h4>Quick Links</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li><a href="#0">All</a></li>
+            <li><a href="#0">Videos</a></li>
+            <li><a href="#0">Audios</a></li>
+            <li><a href="#0">Playlists</a></li>
+          </ul>
+        </div> <!-- .quick-links -->
+
+        <style type="text/css">
+          .fresh-items {
+            float: left;
+          }
+
+          .quick-links {
+            margin-top:50px;
+            float: right;
+            width: 140px;
+            margin-right: 15px;
+            text-align: right;
+          }
+
+          .quick-links a {
+            padding: 0 0px 7px 10px;
+          }
+        </style>
+      </nav>
+      <script type="text/javascript">
+                /* Set the width of the side navigation to 250px */
+          function openNav(e) {
+              if (e.getAttribute('active') == 'true') {
+                closeNav()
+              } else {
+                document.getElementById("mySidenav").style.height = "210px";
+                e.setAttribute('active', true)
+              }
+          }
+
+          /* Set the width of the side navigation to 0 */
+          function closeNav() {
+              document.getElementById("mySidenav").style.height = "0";
+              document.getElementById("openNavButton").setAttribute("active", false)
+          }
+      </script>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
@@ -37,8 +148,9 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
 
+      <footer class="bottomfooter" role="contentinfo"></footer>
+
     </div> <!-- /container -->
-    <script>window.jwt = "<%= Guardian.Plug.current_token(@conn) %>";</script>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script>document.jwt = "<%= Guardian.Plug.current_token(@conn) %>";</script>
   </body>
 </html>

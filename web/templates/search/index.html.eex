@@ -1,0 +1,16 @@
+<header class="col heading">
+  <form action="/search" onsubmit="return false;">
+    <input class="textInputGiant" id="searchInput" type="search" placeholder="Search YTCT" onkeypress="Search.onkeypress(event)" autocomplete=off autofocus value="<%= @query %>">
+  </form>
+</header>
+
+<div id="search-results">
+  <%= if @search_results != nil do 
+  	  render "results.html", transscripts: @search_results
+  	  end
+  %>
+
+  <row></row>
+</div>
+
+<script>var Search = require("web/static/js/search").Search; Search.init()</script>

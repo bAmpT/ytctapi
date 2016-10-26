@@ -1,15 +1,15 @@
-<h2>YTCT Home</h2>
+<h2 class="centered">Newest Content</h2>
 
 <%= if @user && @welcome do %>
 Welcome back, <strong><%= @user.username %></strong>!
 <% end %>
 
-<ul style="list-style: none; padding-left: 0px;">
+<ul class="video-list">
   <%= for transscript <- @transscripts do %>
     <li>
         <a href="/watch?v=<%= transscript.ytid %>">
         <h4><%= transscript.title %></h4>
-        <img width=500 style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/>
+        <img width="100%" style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/>
         </a>
     </li>
   <% end %>

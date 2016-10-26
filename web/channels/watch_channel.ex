@@ -2,6 +2,11 @@ defmodule Ytctapi.WatchChannel do
   use Ytctapi.Web, :channel
   alias Ytctapi.Presence
 
+  alias Ecto.Queryable
+  import Ecto.Query
+
+  alias Ytctapi.Transscript
+
   def random_string(length) do
     :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
   end
@@ -10,10 +15,9 @@ defmodule Ytctapi.WatchChannel do
     if authorized?(payload) do
       send(self, :after_join)
       if user = Guardian.Phoenix.Socket.current_resource(socket) do 
-        IO.puts "---------------------- WATCH: AUTHED ----------------------"
-        {:ok, assign(socket,  :user_id, user.id )}
+        {:ok, assign(socket,  :user_id, user.username )}
       else 
-        {:ok, assign(socket, :user_id, random_string(10))}
+        {:ok, assign(socket, :user_id, "anym_"  <> random_string(5))}
       end
     else
       {:error, %{reason: "unauthorized"}}
@@ -38,6 +42,15 @@ defmodule Ytctapi.WatchChannel do
     {:ok, _} = Ytctapi.Presence.track(socket, socket.assigns.user_id, %{
       online_at: inspect(System.system_time(:seconds))
     })
+
+    ytid = String.slice(socket.topic, 6..-1)
+    from(t in Transscript, where: t.ytid == ^ytid)
+      |> Repo.update_all([inc: [views_count: 1]], returning: :views_count)
+
+    # views_count = from(t in Transscript, where: t.ytid == ^ytid, select: t.views_count)
+    #   |> Repo.one()
+    # broadcast socket, "views_count", %{views_count: views_count}
+
     {:noreply, socket}
   end
 

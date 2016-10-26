@@ -1,0 +1,118 @@
+<%= form_for @changeset, @action, [onsubmit: "return validateForm();"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :title, class: "control-label" %>
+    <%= text_input f, :title, class: "form-control" %>
+    <%= error_tag f, :title %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :ytid, class: "control-label" %>
+    <%= text_input f, :ytid, class: "form-control" %>
+    <%= error_tag f, :ytid %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :language, class: "control-label" %>
+    <%= select(f, :language, ["chinese": "zh/zh", "english": "us/en"]) %>
+    <%= error_tag f, :language %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :lines_input, class: "control-label" %>
+    <%= textarea f, :lines_input, name: "" %>
+    <input name="transscript[lines]" hidden=true></input>
+    <button onclick="clear_lines(event)">clear</button>
+    <button onclick="lines_to_fields(event)">apply</button>
+    <%= error_tag f, :lines %>
+  </div>
+
+  <div id="player"></div>
+
+  <ul class="list-player">
+<%= for line <- @changeset.model.lines do %>
+    <li>
+      <a onclick="">
+        <input class="line_q" id="lines_q_" value="<%= line["q"] %>"></input>
+        <input class="line_a" id="lines_a_" value="<%= line["a"] %>"></input>
+        <button class="line_t" value="<%= line["t"] %>" onclick="getTimestamp(event)">Timestamp</button>
+      </a>
+    </li>
+<% end %>
+</ul>
+
+<button onclick="add_new_line(event)" style="width:100%;">add new line</button>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  var ytid = document.getElementById("transscript_ytid").value
+
+  function getTimestamp(event) {
+    event.preventDefault()
+    event.srcElement.value = player.getCurrentTime()
+    // console.log(player.getCurrentTime())
+  }
+
+  function clear_lines(event) {
+     event.preventDefault()
+
+     document.getElementsByClassName("list-player")[0].innerHTML = 
+     "<li><a>" + "<input class=line_q></input>" + "<input class=line_a></input>" + "<button class=line_t onclick=\"getTimestamp(event)\">Timestamp</button>" + "</a></li>"
+  }
+
+  function lines_to_fields (event) {
+     event.preventDefault()
+
+     var lines = document.getElementById("transscript_lines_input").value.trim()
+     lines = lines.split("\n")
+     alert(lines)
+
+     var html = ""
+     for (var line in lines) {
+      html += "<li><a>" + "<input class=line_q value=\""+lines[line]+"\"></input>" + "<input class=line_a ></input>" + "<button class=line_t onclick=\"getTimestamp(event)\">Timestamp</button>" + "</a></li>"
+     }
+     document.getElementsByClassName("list-player")[0].innerHTML = html
+     
+  }
+
+  function add_new_line(event) {
+    event.preventDefault()
+
+     var li = document.createElement("li")
+     li.innerHTML = "<a>" + "<input class=line_q></input>" + "<input class=line_a></input>" + "<button class=line_t onclick=\"getTimestamp(event)\">Timestamp</button>" + "</a>"
+      document.getElementsByClassName("list-player")[0].appendChild(li)
+  }
+
+  function lines_to_json() {
+   
+    var json = ""
+    var lines = []
+    var lines_q = Array.prototype.slice.call(document.getElementsByClassName("line_q"),0)
+    var lines_a = Array.prototype.slice.call(document.getElementsByClassName("line_a"),0)
+    var lines_t = Array.prototype.slice.call(document.getElementsByClassName("line_t"),0)
+
+    for (var line in lines_q) {
+      lines.push({t:lines_t[line].value, q: lines_q[line].value, a:lines_a[line].value})
+    }
+    json = encodeURIComponent(JSON.stringify(lines))
+    alert(JSON.stringify(lines))
+    document.getElementsByName("transscript[lines]")[0].value = json
+  }
+
+  function validateForm() {
+    lines_to_json();
+    return true
+  }
+</script>
+<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+<script>require("web/static/js/ytctplayer")</script>
+

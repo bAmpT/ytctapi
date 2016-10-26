@@ -1,0 +1,6 @@
+<h2>Edit search</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: search_path(@conn, :update, @search) %>
+
+<%= link "Back", to: search_path(@conn, :index) %>

@@ -12,6 +12,7 @@ defmodule Ytctapi.LikeView do
   def render("like.json", %{like: like}) do
     %{id: like.id,
       user_id: like.user_id,
-      transscript_id: like.transscript_id}
+      transscript: render_one(like.transscript, Ytctapi.TransscriptView, "transscript.json")
+    }
   end
 end

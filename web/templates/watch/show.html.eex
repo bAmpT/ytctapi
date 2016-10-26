@@ -1,16 +1,30 @@
-<h2><%= @watch.title %></h2>
-<%= if @watch.user do %>
-	<strong>Creator: <%= @watch.user.username %></strong>
-<% end %>
-<strong>Views: <%= @watch.views_count %></strong>
-<strong>Likes: <%= @watch.likes_count %></strong> 
-<strong>Youtube ID: <%= @watch.ytid %></strong>  
+<h2 class="centered"><%= @watch.title %></h2>
 
+<header class="profile">
+	<a class="profile-image" href="/<%= @watch.user.username %>/" style="width: 40px; height: 40px;">
+		<img class="" src="https://scontent-fra3-1.cdninstagram.com/t51.2885-19/s150x150/12356350_1510009145960986_670697426_a.jpg">
+	</a>
+	<div class="profile-title">
+		<a class="" title="<%= @watch.user.username %>" href="/<%= @watch.user.username %>/" style="font-weight: 600;">
+		<%= if @watch.user do %><%= @watch.user.username %><% end %>
+		</a>
+		<a class="" title="Hollywood Boulevard" href="/explore/locations/43329604/">3 days ago</a>
+	</div>
+	<!-- <span class="profile-link">
+		<button class="">Abonniert</button>
+	</span> -->
+	<span class="info-box">
+		<strong>Youtube ID: <%= @watch.ytid %></strong> 
+		<strong id="views-count">Views: <%= @watch.views_count %></strong>  
+	</span>
+</header>
+
+<div id="marquees"></div>
 <div id="player"></div>
 
-<ul class="list-player">
+<ul class="list-player" id="list-lines">
 <%= for line <- @watch.lines do %>
-    <li>
+    <li data-timestamp="<%= line["t"] %>">
       <a onclick="gotoTimestamp(<%= line["t"] %>)">
       	<id><%= line["q"] %></id>
       	<name><%= line["a"] %></name>
@@ -19,9 +33,114 @@
 <% end %>
 </ul>
 
-<script type="text/javascript">var ytid = "<%= @watch.ytid %>";</script>
-<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-<script>require("web/static/js/ytctplayer")</script>
+<button class="approval-button" onclick="approveAction(this);">
+			<span class="button-inactiveState">
+				<input type="checkbox" id="approval-input" style="display: none; width: 0px; height: 0px;">
+				<span class="approval-button-image"></span>
+				<p id="approval-label">Thank You!</p>
+			</span>
+			
+			<style type="text/css">
+				.approval-button {
+					padding: 0; 
+					margin-left: calc(50% - 25px); 
+					background-color: #fff;
+					border-color: #fff;
+					border-radius: 0;
+					border-width: 0px; width: 50px;
+					height: 100px;
+				}
+
+				.approval-button-image {
+					background-image: url('/images/approval.png'); 
+					width: 50px;
+					height: 50px;
+					display: inline-block;
+					background-size: 100px 50px;
+					background-repeat: no-repeat;
+				}
+
+				#approval-input:checked + .approval-button-image  {
+					background-position-x: -50px;
+				}
+
+				#approval-label {
+					transition: opacity 1s ease-in; 
+					opacity: 0;
+				}
+			</style>
+			<script type="text/javascript">
+			function approveAction(event) {
+				var checked = document.getElementById("approval-input").checked 
+				if (checked == true) {
+					document.getElementById("approval-input").checked = false
+					document.getElementById("approval-label").style.opacity = 0
+				} else {
+					document.getElementById("approval-input").checked = true
+					document.getElementById("approval-label").style.opacity = 1
+				}
+			}
+			</script>
+</button>
+
+<div class="action-bar is-visible">
+	<div class="action-bar-container container">
+		<div class="action-bar-content">	
+		<input type="checkbox" id="like-input" style="visibility:hidden; width: 0px; height: 0px;" <%= if @liked do "checked" end %>>
+		<button class="like-button" onclick="likeAction(this)" style="padding-top: 5px;" active=<%= @liked %> >
+			<span class="button-inactiveState">
+				<svg class="svgIcon-use" width="29" height="29" viewBox="0 0 29 29"><path d="M16.215 23.716c-.348.288-.984.826-1.376 1.158a.526.526 0 0 1-.68 0c-.36-.307-.92-.78-1.22-1.03C9.22 20.734 3 15.527 3 10.734 3 7.02 5.916 4 9.5 4c1.948 0 3.77.898 5 2.434C15.73 4.898 17.552 4 19.5 4c3.584 0 6.5 3.02 6.5 6.734 0 4.9-6.125 9.96-9.785 12.982zM19.5 5.2c-1.774 0-3.423.923-4.41 2.468a.699.699 0 0 1-.59.323.706.706 0 0 1-.59-.32c-.988-1.54-2.637-2.47-4.41-2.47-2.922 0-5.3 2.49-5.3 5.54 0 4.23 6.19 9.41 9.517 12.19.217.18.566.48.783.66l.952-.79c3.496-2.88 9.348-7.72 9.348-12.05 0-3.05-2.378-5.53-5.3-5.53z"></path></svg>
+			</span>
+			<span class="button-activeState">
+				<svg class="svgIcon-use" width="29" height="29" viewBox="0 0 29 29"><path d="M19.5 4c-1.948 0-3.77.898-5 2.434C13.27 4.898 11.448 4 9.5 4 5.916 4 3 7.02 3 10.734c0 4.793 6.227 10 9.95 13.11.296.25.853.723 1.212 1.03.196.166.48.166.677 0 .39-.332 1.02-.87 1.37-1.158 3.66-3.022 9.79-8.08 9.79-12.982C26 7.02 23.08 4 19.5 4z" fill-rule="evenodd"></path></svg>
+			</span>
+		</button>
+		<button id="likes-count" style="font-size:16px; font-weight:500; padding-top: 0px;"><%= @watch.likes_count %></button>
+
+		<!--<button>
+			<svg class="svgIcon-use" width="29" height="29" viewBox="0 0 29 29"><path d="M21.27 20.058c1.89-1.826 2.754-4.17 2.754-6.674C24.024 8.21 19.67 4 14.1 4 8.53 4 4 8.21 4 13.384c0 5.175 4.53 9.385 10.1 9.385 1.007 0 2-.14 2.95-.41.285.25.592.49.918.7 1.306.87 2.716 1.31 4.19 1.31.276-.01.494-.14.6-.36a.625.625 0 0 0-.052-.65c-.61-.84-1.042-1.71-1.282-2.58a5.417 5.417 0 0 1-.154-.75zm-3.85 1.324l-.083-.28-.388.12a9.72 9.72 0 0 1-2.85.424c-4.96 0-8.99-3.706-8.99-8.262 0-4.556 4.03-8.263 8.99-8.263 4.95 0 8.77 3.71 8.77 8.27 0 2.25-.75 4.35-2.5 5.92l-.24.21v.32c0 .07 0 .19.02.37.03.29.1.6.19.92.19.7.49 1.4.89 2.08-.93-.14-1.83-.49-2.67-1.06-.34-.22-.88-.48-1.16-.74z"></path></svg>
+		</button>
+		<button><%= @watch.comments_count %></button>-->
+		<input id="comment-input" placeholder="Write Comment here..." style="position: absolute; right: 75px; height: 100%; border: 0; outline:0;">
+		<button style="position: absolute; right: 30px; height: 100%;" onclick="commentAction()">Send</button>
+		</div>
+	</div>
+</div>
+
+<div id="ytid" data-ytid="<%= @watch.ytid %>"></div>
+<script>var Player = require("web/static/js/player").Player; Player.init()</script>
+
+<script type="text/javascript">
+
+	function likeAction(action) {
+		var active = action.getAttribute("active") == 'true'
+		console.log(active);
+		
+		if (active) {
+			console.log('delete like')
+			Player.like_channel.push("delete_like", {transscript_id: "<%= @watch.id %>"})
+			action.setAttribute("active", false)
+			document.getElementById("like-input").checked = false
+			document.getElementById("likes-count").innerText = parseInt(document.getElementById("likes-count").innerText, 10) - 1
+		} else {
+			Player.like_channel.push("create_like", {transscript_id: "<%= @watch.id %>"})
+			action.setAttribute("active", true)
+			document.getElementById("like-input").checked = true
+			document.getElementById("likes-count").innerText = parseInt(document.getElementById("likes-count").innerText, 10) + 1
+		}
+	}
+
+	function commentAction() {
+	 	console.log('create comment')
+	 	var body = document.getElementById("comment-input").value
+		Player.comment_channel.push("create_comment", {
+			transscript_id: "<%= @watch.id %>",
+			body: body,
+			author: "<%= @watch.user.username %>"
+		})
+	}
+
+</script>
 
 
 
