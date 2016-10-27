@@ -1632,11 +1632,9 @@ var Player = exports.Player = {
         this.presence_channel.on("presence_state", function (state) {
             _this.presences = _phoenix.Presence.syncState(_this.presences, state, _this.onJoin, _this.onLeave);
             var listBy = function listBy(id, _ref) {
-                var _ref$metas = _toArray(_ref.metas);
-
-                var first = _ref$metas[0];
-
-                var rest = _ref$metas.slice(1);
+                var _ref$metas = _toArray(_ref.metas),
+                    first = _ref$metas[0],
+                    rest = _ref$metas.slice(1);
 
                 first.count = rest.length + 1; // count of this user's presences
                 first.id = id;
@@ -1656,11 +1654,9 @@ var Player = exports.Player = {
         this.presence_channel.on("presence_diff", function (diff) {
             _this.presences = _phoenix.Presence.syncDiff(_this.presences, diff, _this.onJoin, _this.onLeave);
             var listBy = function listBy(id, _ref2) {
-                var _ref2$metas = _toArray(_ref2.metas);
-
-                var first = _ref2$metas[0];
-
-                var rest = _ref2$metas.slice(1);
+                var _ref2$metas = _toArray(_ref2.metas),
+                    first = _ref2$metas[0],
+                    rest = _ref2$metas.slice(1);
 
                 first.count = rest.length + 1; // count of this user's presences
                 first.id = id;
