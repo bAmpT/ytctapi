@@ -20221,23 +20221,23 @@ defmodule Ytctapi.ZhConversion do
 def translate(content), do: content |> do_t2s |> IO.iodata_to_binary
 def translate(content, :s2t), do: content |> do_s2t |> IO.iodata_to_binary
 
-def get_t2s(char) do
-    Map.get(@zh2Hans, char, char)
-end
+# def get_t2s(char) do
+#     Map.get(@zh2Hans, char, char)
+# end
 
-def get_s2t(char) do
-    Map.get(@zh2Hant, char, char)
-end
+# def get_s2t(char) do
+#     Map.get(@zh2Hant, char, char)
+# end
 
-# Enum.map(@zh2Hant, fn({simp, trad}) -> 
-#     def do_t2s(unquote(trad) <> rest) do
-#       unquote(:binary.bin_to_list(simp)) ++ do_t2s(rest)
-#     end
+Enum.map(@zh2Hant, fn({simp, trad}) -> 
+    def do_t2s(unquote(trad) <> rest) do
+      unquote(:binary.bin_to_list(simp)) ++ do_t2s(rest)
+    end
 
-#     def do_s2t(unquote(simp) <> rest) do
-#       unquote(:binary.bin_to_list(trad)) ++ do_s2t(rest)
-#     end
-# end)
+    def do_s2t(unquote(simp) <> rest) do
+      unquote(:binary.bin_to_list(trad)) ++ do_s2t(rest)
+    end
+end)
 
 def do_t2s(<<ch, rest :: binary>>) do
     [ch|do_t2s(rest)]

@@ -5,17 +5,17 @@ defmodule Ytctapi.TransscriptController do
   alias Ytctapi.Transscript
   alias Mongo
 
+
+import Ecto.Query
+
   # plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
-require IEx
 
-  def index(conn, params, _u, _c) do
-    transscripts = Repo.all(from t in Transscript, order_by: [desc: :inserted_at]) 
-                  |> Repo.preload(:likes)
-                  
-
-  IEx.pry
-    {transscripts, kerosene} = Repo.paginate(transscripts)
-    IO.inspect kerosene
+  def index(conn, params, _u, _c) do   
+   
+    {transscripts, kerosene} = Transscript 
+      |> order_by(desc: :inserted_at)
+      |> preload(:likes)
+      |> Repo.paginate(params)
 
     render(conn, "index.json", transscripts: transscripts, kerosene: kerosene)
   end

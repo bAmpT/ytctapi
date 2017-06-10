@@ -1,6 +1,6 @@
 defmodule Ytctapi.Transscript do
   use Ytctapi.Web, :model
-
+  
   alias Mongo.Ecto
 
   schema "transscripts" do
