@@ -1,8 +1,16 @@
+# Import all plugins from `rel/plugins`
+# They can then be used by adding `plugin MyPlugin` to
+# either an environment, or release definition, where
+# `MyPlugin` is the name of the plugin module.
+Path.join(["rel", "plugins", "*.exs"])
+|> Path.wildcard()
+|> Enum.map(&Code.eval_file(&1))
+
 use Mix.Releases.Config,
     # This sets the default release built by `mix release`
     default_release: :default,
     # This sets the default environment used by `mix release`
-    default_environment: :prod
+    default_environment: Mix.env()
 
 # For a full list of config options for both releases
 # and environments, visit https://hexdocs.pm/distillery/configuration.html
@@ -16,11 +24,14 @@ use Mix.Releases.Config,
 environment :dev do
   set dev_mode: true
   set include_erts: false
+  set cookie: :"F;ZND$?(M!EzkLANmB_yQ]EExa7>,5b5/5v4K<p~spqrHQD3COX}w[>bH8iyLx;>"
 end
 
 environment :prod do
-  set include_erts: "/Users/bampt/Documents/erlang"
+  set include_erts: true
   set include_src: false
+  set cookie: :"W*yNJbz:iQQF@yj&<~!v?}VP*SLzt*8E0W?m>p(8uJA2C/:),`JQd>_UaP1j_@Yh"
+  set post_start_hook: "rel/hooks/post_start.d"
 end
 
 # You may define one or more releases in this file.
@@ -30,5 +41,8 @@ end
 
 release :ytctapi do
   set version: current_version(:ytctapi)
+  set applications: [
+    :runtime_tools
+  ]
 end
 

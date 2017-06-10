@@ -5,10 +5,148 @@
 </header>
 
 <div id="search-results">
+  <!--<row class="u-width100">
+  	<div class="col u-size12of12"><nav class="u-flex heading u-marginBottom20 u-xs-paddingBottom20 u-xs-borderBottomLight u-xs-marginLeft20 u-xs-marginRight20"><span class="u-flex1"><ul class="heading-tabs"><li class="heading-tabsItem u-inlineBlock js-tabsItem is-active u-fontSize16"><span class="heading-title u-inlineBlock  u-fontWeightMedium"><a class="button button--unstyled is-touched" href="https://medium.com/search?q=sadfasdfasdfasdfasdf">Stories</a></span></li><li class="heading-tabsItem u-inlineBlock js-tabsItem u-fontSize16"><span class="heading-title u-inlineBlock  u-fontWeightNormal"><a class="button button--unstyled" href="https://medium.com/search/users?q=sadfasdfasdfasdfasdf">People</a></span></li><li class="heading-tabsItem u-inlineBlock js-tabsItem u-fontSize16"><span class="heading-title u-inlineBlock  u-fontWeightNormal"><a class="button button--unstyled" href="https://medium.com/search/publications?q=sadfasdfasdfasdfasdf">Publications</a></span></li><li class="heading-tabsItem u-inlineBlock js-tabsItem u-fontSize16"><span class="heading-title u-inlineBlock  u-fontWeightNormal"><a class="button button--unstyled" href="https://medium.com/search/tags?q=sadfasdfasdfasdfasdf">Tags</a></span></li></ul></span></nav></div>
+  </row>
+  <style type="text/css">
+
+ .u-width100 {
+ 	width: 100%!important;
+ 	max-width: 100%!important;
+ }
+
+ .col {
+ 	position: relative;
+    min-height: 1px;
+    padding-right: 20px;
+    padding-left: 20px;
+ }
+
+ .u-size12of12 {
+ 	width: 100%!important;
+ 	float: left!important;
+ }
+
+ .u-flex {
+ 	display: -ms-flexbox!important;
+    display: flex!important;
+ }
+
+ .u-flex1 {
+ 	-ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+ }
+
+ .u-marginBottom20 {
+ 	margin-bottom: 20px!important;
+ }
+
+ .u-xs-borderBottomLight {
+        border-bottom:1px solid rgba(0,0,0,.0785)!important
+ }
+
+ .u-fontSize16 {
+ 	font-size: 16px!important;
+ }
+
+ .u-inlineBlock {
+ 	display: inline-block!important;
+ }
+
+ .heading-tabs {
+ 	display: block;
+ 	padding: 0;
+    list-style: none;
+    list-style-image: none;
+
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden
+}
+
+.heading-tabsItem {
+    margin-right: 20px;
+    color: rgba(0,0,0,.44)
+}
+
+.heading--borderedTop .heading-tabsItem {
+    padding-top: 16px
+}
+
+.heading--borderedBottom .heading-tabsItem {
+    padding-bottom: 8px
+}
+
+.heading-tabsItem:last-child {
+    margin-right: 0
+}
+
+.heading--borderedTop .heading-tabsItem.is-active {
+    border-top: 1px solid rgba(0,0,0,.44)
+}
+
+.heading--borderedBottom .heading-tabsItem.is-active {
+    border-bottom: 1px solid rgba(0,0,0,.44)
+}
+
+.heading-tabsItem.is-active .heading-title {
+    font-weight: 600;
+    color: rgba(0,0,0,.8)
+}
+
+.heading--light .heading-tabsItem.is-active .heading-title {
+    color: rgba(0,0,0,.8)
+}
+
+.heading-count {
+    margin-left: 8px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-style: normal;
+    color: rgba(0,0,0,.44)
+}
+
+.heading-tabsItem.is-active .heading-count {
+    color: rgba(0,0,0,.8)
+}
+
+.heading-dismissButton {
+    font-size: 32px;
+    vertical-align: middle;
+    line-height: 14px;
+    font-weight: 300;
+    top: -5px
+}
+
+.button {
+	transition: .1s background-color,.1s border-color,.1s color,.1s fill;
+}
+
+.button--unstyled, .button--unstyled:active, .button--unstyled:focus, .button--unstyled:hover {
+	border-radius: 0;
+    box-shadow: none;
+    background: inherit;
+    color: inherit;
+    height: auto;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-transform: inherit;
+    border-width: 0;
+    padding: 0;
+    vertical-align: baseline;
+    white-space: normal;
+}
+
+  </style>
+  -->
+
   <%= if @search_results != nil do 
   	  render "results.html", transscripts: @search_results
-  	  end
-  %>
+  end %>
 
   <row></row>
 </div>

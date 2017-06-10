@@ -1,25 +1,31 @@
 defmodule Ytctapi.Transscript do
   use Ytctapi.Web, :model
 
+  alias Mongo.Ecto
+
   schema "transscripts" do
     field :ytid, :string
     field :title, :string
     field :description, :string
     field :language, :string
     field :lines, {:array, :map}, default: [], on_replace: :delete
+
     field :views_count, :integer, default: 0
     field :likes_count, :integer, default: 0
     field :words_count, :integer, default: 0
     field :comments_count, :integer, default: 0
+    field :appreciate_count, :integer, default: 0
+    
     field :difficulty, :integer, default: 1
     field :category, :string
+    field :topic, :string
     field :gif_url, :string
     # embeds_many :lines, Line, on_replace: :delete
 
     belongs_to :user, Ytctapi.User
     has_many :likes, Ytctapi.Like
     has_many :comments, Ytctapi.Comment
-    timestamps
+    timestamps()
   end
 
   @doc """
@@ -49,6 +55,12 @@ defmodule Ytctapi.Transscript do
     File.mkdir(dict)
     dict
   end
+
+  def multi_id(<<_::24-binary>> = transscript_id), do: %{id: transscript_id}
+  def multi_id(transscript_id) do
+    %{ytid: transscript_id}
+  end
+
 end
 
 # defmodule Line do

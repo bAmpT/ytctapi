@@ -3,7 +3,7 @@ defmodule Ytctapi.CommentController do
 
   alias Ytctapi.Comment
   alias Ytctapi.Transscript
-  alias Ecto.Repo
+  alias Ytctapi.Repo
 
   def index(conn, _params) do
     comments = Repo.all(Comment)

@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+  web:
+    build: .
+    environment:
+      - MIX_ENV=prod
+      - PORT=4000
+    command: [sh, -c, "mix ecto.migrate && mix phoenix.server"]
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+
+# Start
+# docker-compose up 
+
+# New Container
+# docker-compose run -e "MIX_ENV=prod" web mix compile
+# docker-compose run -e "MIX_ENV=prod" web mix setup
+
+# When running
+# docker-compose exec web /bin/sh

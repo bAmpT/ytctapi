@@ -4,7 +4,7 @@ defmodule Ytctapi.Mixfile do
   def project do
     [app: :ytctapi,
      version: "0.0.1",
-     elixir: "~> 1.2",
+     elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
@@ -19,7 +19,8 @@ defmodule Ytctapi.Mixfile do
   def application do
     [mod: {Ytctapi, []},
      applications: [:phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :mongodb_ecto, :comeonin, :guardian, :exjieba, :briefly, :ecto_lazy_float]]
+                    :phoenix_ecto, :gen_stage, :mongodb_ecto, :arc_ecto, :comeonin, :guardian, 
+                    :briefly, :ecto_lazy_float, :httpoison, :httpotion, :con_cache, :exjieba]]
   end
 
   # Specifies which paths to compile per environment.
@@ -31,20 +32,35 @@ defmodule Ytctapi.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-     {:phoenix, "~> 1.2.0"},
-     {:phoenix_html, "~> 2.6"},
+     {:phoenix, "~> 1.2"},
+     {:phoenix_html, "~> 2.8"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 1.2.0"},
-     {:mongodb_ecto, ">= 0.1.4"},
+     {:phoenix_ecto, "~> 3.0.1"},
+     {:gen_stage, "~> 0.11"},
+     {:mongodb_ecto, github: "michalmuskala/mongodb_ecto", branch: "ecto-2" },
+     {:ecto, "~> 2.0.0", override: true},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:guardian, "~> 0.12.0"},
-     {:comeonin, "~> 2.5"},
-     {:exjieba, git: "https://github.com/falood/exjieba.git"},
+     {:kerosene, "~> 0.7.0"},
+     {:guardian, "~> 0.14"},
+     {:comeonin, "~> 3.0"},
+     {:arc, "~> 0.8.0"},
+     {:arc_ecto, "~> 0.7.0"},
+     {:exjieba, github: "falood/exjieba"},
+     {:pinyin, github: "lidashuang/pinyin"},
      {:ecto_lazy_float, "~> 0.1.2"},
      {:briefly, "~> 0.3"},
-     {:distillery, "~> 0.9"}
+     {:con_cache, "~> 0.12.0"},
+     {:flow, "~> 0.11"},
+     {:httpoison, "~> 0.11"},
+     {:httpotion, "~> 3.0.2"},
+     {:floki, "~> 0.17.0"},
+     {:credo, "~> 0.8", only: [:dev, :test]},
+     {:distillery, "~> 1.4"},
+     {:mix_docker, "~> 0.4.0"}
+     # {:boltun, "~> 1.0.2"},
+     # {:chinese_translation, github: "tyrchen/chinese_translation"},
    ]
   end
 

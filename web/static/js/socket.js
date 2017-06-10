@@ -49,17 +49,15 @@ import {Socket, Presence} from "phoenix"
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
-window.onload = function () {
+window.addEventListener("load", function(event) {
   console.log("Loading App...")
-}
+
+    var event = new Event("turbolinks:load");
+    document.dispatchEvent(event);
+}, false);
 
 document.addEventListener("turbolinks:load", function() {
   console.log("Turbolink App...")
-
-  if (document.socket == undefined) {
-    document.socket = new Socket("/socket", {params: {guardian_token: document.jwt}})
-    document.socket.connect() 
-  }
 
   // Leave unwanted channels
   // 
@@ -75,7 +73,13 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   // Join Live-HTML Channel?
-
 })
+
+/* Because the JWT Token is set before everything else */
+if (document.socket == undefined) {
+    document.socket = new Socket("/socket", {params: {guardian_token: document.jwt}})
+    document.socket.connect() 
+    console.log("SOCKET set")
+}
 
 export default document.socket

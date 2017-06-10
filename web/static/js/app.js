@@ -12,10 +12,25 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-import "turbolinks"
 
-// Import local files
-//
+// Vendor
+// import "turbolinks"
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+
+// Components
+import MessageList from '../components/MessageList.vue'
+
+Vue.use(VueResource)
+Vue.http.options.root = '/api'
+
+new Vue({
+  el: 'main',
+  components: {
+    MessageList
+  }
+})
+
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 

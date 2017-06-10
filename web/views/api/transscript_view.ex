@@ -1,11 +1,11 @@
 defmodule Ytctapi.TransscriptView do
   use Ytctapi.Web, :view
-  # import Kerosene.JSON
+  import Kerosene.JSON
 
-  def render("index.json", %{transscripts: transscripts}) do
+  def render("index.json", %{conn: conn, transscripts: transscripts, kerosene: kerosene}) do
     %{
       data: render_many(transscripts, Ytctapi.TransscriptView, "transscript.json"),
-      meta: %{}
+      meta: %{pagination: paginate(conn, kerosene)}
     }
   end
 

@@ -3,10 +3,19 @@ defmodule Ytctapi.HomeController do
 
   alias Ytctapi.Transscript
 
-  def index(conn, _params) do
+  def index(conn, params) do
     user = Guardian.Plug.current_resource(conn)
 
-    transscripts = Repo.all(from t in Transscript, order_by: [desc: :inserted_at])
+    filters = Ecto.Changeset.cast(
+            %Transscript{},  # the model/schema
+            params,
+            [],
+            [:language, :difficulty, :category, :topic] # the filters I want to allow
+          )
+          |> Map.fetch!(:changes)
+          |> Map.to_list
+
+    transscripts = Repo.all(from t in Transscript, where: ^filters, order_by: [desc: :inserted_at])
     welcome = get_session(conn, :welcome)
     
     conn   

@@ -46,6 +46,7 @@ defmodule Ytctapi.Router do
     pipe_through :api
 
 	  post "/auth", AuthController, :login
+    post "/tokenauth", AuthController, :token_auth
   end
 
   scope "/api/v1", Ytctapi do

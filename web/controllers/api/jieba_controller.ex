@@ -10,7 +10,7 @@ defmodule Ytctapi.JiebaController do
     if String.length(text) > 100 do
       conn
       |> put_status(:unprocessable_entity)
-      |> json %{status: "error", message: "Unprocessable, text too long!"}
+      |> json(%{status: "error", message: "Unprocessable, text too long!"})
     end
     
     jieba = ExJieba.MixSegment.cut text
@@ -24,6 +24,6 @@ defmodule Ytctapi.JiebaController do
       Map.put line, "q", ExJieba.MixSegment.cut( Map.get(line, "q") )
     end
 
-    json conn, %{data: jiebas, meta: %{}}
+    json(conn, %{data: jiebas, meta: %{}})
   end
 end

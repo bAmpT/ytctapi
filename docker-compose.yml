@@ -1,0 +1,44 @@
+version: '3'
+services:
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.release
+    environment:
+      - PORT=4000
+      - DOMAIN=localhost
+      - DB_HOST=db
+      - DB_NAME=ytctapi_prod
+      - DB_USER=groot
+      - DB_PASSWORD=wVRnnfy9Al7Ozc6ZHtTkJiZ0iP15DguDFmGTPhtHDE6VVXbb1N2Xnsz09jVhKpHE
+      - SECRET_KEY_BASE=R0TECTAj1TDz3ZR6n4W8RwmDHvKeFVgf3tTBOoRDMgDd7Ghs3kDGoaqYnpsRWM2S
+    command: "foreground"
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+
+# docker cp foo.txt mycontainer:/foo.txt
+
+# docker-compose up -d db
+# docker-compose exec db bash
+# mongo ytctapi_prod
+# db.createUser({ user: 'groot', pwd: 'wVRnnfy9Al7Ozc6ZHtTkJiZ0iP15DguDFmGTPhtHDE6VVXbb1N2Xnsz09jVhKpHE', roles: [ { role: "dbAdmin", db: "ytctapi_prod" } ] });
+# db.createUser({ user: 'groot', pwd: 'wVRnnfy9Al7Ozc6ZHtTkJiZ0iP15DguDFmGTPhtHDE6VVXbb1N2Xnsz09jVhKpHE', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+# 
+# Start
+# docker-compose up 
+
+# New Container
+# docker-compose run -e "MIX_ENV=prod" web mix compile
+# docker-compose run -e "MIX_ENV=prod" web mix setup
+
+# When running
+# docker-compose exec web /bin/sh
+  

@@ -1,8 +1,6 @@
 defmodule Ytctapi.GifController do
   use Ytctapi.Web, :controller
 
-  alias Ytctapi.Transscript
-
   plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
   def show(conn, %{"id" => id}) do

@@ -6,8 +6,9 @@ defmodule Ytctapi.EditorController do
   plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
   def index(conn, _params) do
-    user = Guardian.Plug.current_resource(conn) |> Repo.preload(:transscripts)
-    render(conn, "index.html", transscripts: user.transscripts)
+    user = Guardian.Plug.current_resource(conn) |> Repo.preload([:transscripts])
+    transscripts = user.transscripts |> Enum.with_index
+    render(conn, "index.html", transscripts: transscripts)
   end
 
   def new(conn, _params) do
@@ -21,7 +22,11 @@ defmodule Ytctapi.EditorController do
     
     transscript_params = 
       case Poison.decode(URI.decode(transscript_params["lines"] || "")) do
-        {:ok, lines} -> Map.put(transscript_params, "lines", lines)
+        {:ok, lines} -> 
+          lines = Enum.map(lines, fn line -> 
+            Map.put( line, "a", Pinyin.pinyin(Map.get(line, "q")) |> Enum.map(fn x -> x <> " " end) |> Enum.join )
+          end)
+          Map.put(transscript_params, "lines", lines)
         {:error, _} -> transscript_params
       end
     changeset = Transscript.changeset(%Transscript{}, transscript_params)
@@ -44,6 +49,7 @@ defmodule Ytctapi.EditorController do
   def edit(conn, %{"id" => id}) do
     transscript = Repo.get!(Transscript, id)
     changeset = Transscript.changeset(transscript)
+     IO.inspect changeset
     render(conn, "edit.html", transscript: transscript, changeset: changeset)
   end
 

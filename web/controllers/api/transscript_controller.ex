@@ -3,23 +3,34 @@ defmodule Ytctapi.TransscriptController do
   use Guardian.Phoenix.Controller
 
   alias Ytctapi.Transscript
+  alias Mongo
 
   # plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
+require IEx
 
-  def index(conn, _params, _u, _c) do
-    transscripts = Repo.all(from t in Transscript, order_by: [desc: :inserted_at]) |> Repo.preload(:likes)
+  def index(conn, params, _u, _c) do
+    transscripts = Repo.all(from t in Transscript, order_by: [desc: :inserted_at]) 
+                  |> Repo.preload(:likes)
+                  
 
-    render(conn, "index.json", transscripts: transscripts)
+  IEx.pry
+    {transscripts, kerosene} = Repo.paginate(transscripts)
+    IO.inspect kerosene
+
+    render(conn, "index.json", transscripts: transscripts, kerosene: kerosene)
   end
 
   def create(conn, %{"transscript" => transscript_params}, user, _claims) do
     #if {}"zh/zh" = Map.get(transscript_params, "language", lines) do end
-    {lines, words_count} = Enum.map_reduce(Map.get(transscript_params, "lines"), 0, fn(line, acc) ->
-      # Word HSK Level?
-      words = ExJieba.MixSegment.cut( Map.get(line, "q") )
-      {Map.put(line, "jieba_q", words), Enum.count(words) + acc} 
-    end)
+    {lines, words_count} = Enum.map_reduce(
+      Map.get(transscript_params, "lines"), 0, fn(line, acc) ->
+        # Word HSK Level?
+        words = ExJieba.MixSegment.cut( Map.get(line, "q") )
+        {Map.put(line, "jieba_q", words), Enum.count(words) + acc} 
+      end
+    )
     transscript_params = Map.put(transscript_params, "lines", lines)
+    # transscript_params = %{transscript_params | lines: lines}
     transscript_params = Map.put(transscript_params, "words_count", words_count)
 
     transscript_params = Map.put(transscript_params, "user_id", user.id)
@@ -32,14 +43,13 @@ defmodule Ytctapi.TransscriptController do
       # ytid = Ecto.Changeset.get_field(changeset, :ytid)
       # gif_path = "/media/gifs/#{ytid}.gif"
       # youtube_url = "https://www.youtube.com/watch?v=" <> ytid
-      changeset_new = changeset
       
       with ytid = Ecto.Changeset.get_field(changeset, :ytid),
          tmp = Transscript.temporary_dict(ytid),
          gif_path = "/media/gifs/#{ytid}.gif",
          video_path = Path.join(tmp, ytid<>".mp4"),
          args = ["-f", "bestvideo[height<=240]/mp4", "https://www.youtube.com/watch?v=#{ytid}", "-o", "#{video_path}"],
-         {output, _} <- System.cmd("youtube-dl", args),
+         {_output, _} <- System.cmd("youtube-dl", args),
          args = ["-i", "#{video_path}", "-f", "null", "/dev/null"],
          {framestring, _} = System.cmd("ffmpeg", args, stderr_to_stdout: true),
          frames = String.split(framestring, "frame=") |> Enum.at(1) |> String.split("fps=") |> Enum.at(0) |> String.trim,
@@ -69,12 +79,8 @@ defmodule Ytctapi.TransscriptController do
   end
 
   def show(conn, %{"id" => id}, _user, _claims) do
-    transscript = case Mongo.Ecto.ObjectID.cast(id) do 
-       {:ok, objectID} -> 
-          Repo.get_by!(Transscript, id: objectID)
-       :error -> 
-          Repo.get_by!(Transscript, ytid: id)
-    end
+    transscript = Repo.get_by!(Transscript, Transscript.multi_id(id))
+    
     render(conn, "show.json", transscript: transscript)
   end
 

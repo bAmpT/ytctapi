@@ -6,7 +6,11 @@ defmodule Ytctapi.Word do
     field :trad, :string
     field :pinyin, :string
     field :translation, :string
+
+    #field :ytid, :string#s, {:array, :string}
+    has_one :transscript, Ytctapi.Transscript
     
+    field :views, :integer
     field :hsklevel, :integer
     timestamps()
   end
@@ -16,6 +20,14 @@ defmodule Ytctapi.Word do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
+    |> cast(params, [:simp, :trad, :pinyin, :translation])
+    |> validate_required([:simp])
+    |> calculate_hsklevel()
+    # |> Task.async(Ytctapi.Word, :calculate_hsklevel, [changeset])
   end
+
+  defp calculate_hsklevel(changeset) do
+    changeset
+  end
+
 end

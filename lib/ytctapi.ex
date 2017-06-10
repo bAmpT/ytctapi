@@ -16,7 +16,19 @@ defmodule Ytctapi do
       supervisor(Ytctapi.Presence, []),
       # Start the Task supervisor
       supervisor(Task.Supervisor, [[name: Ytctapi.TaskSupervisor]]),
+      # Start the Annotator supervisor
+      supervisor(Annotator, [])
     ]
+
+    # workers = [
+    #   worker(Ytctapi.PushCollector, []),
+    #   worker(Ytctapi.Pusher, [Ytctapi.PushCollector], {producer: Ytctapi.PushCollector, id: 1})
+    # ] 
+    
+    {:ok, collector} = Ytctapi.PushCollector.start_link()
+    for id <- 1..System.schedulers_online * 2 do
+      Ytctapi.Pusher.start_link(Ytctapi.PushCollector, {collector, id})
+    end
 
     # Init ExJieba Library
     ExJieba.MixSegment.init

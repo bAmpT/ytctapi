@@ -3,6 +3,7 @@ defmodule Ytctapi.LikeChannel do
 
   alias Ytctapi.Like
   alias Ytctapi.Transscript
+  alias Mongo.Ecto
 
   def join("like:" <> _transscript_id, payload, socket) do
     if user = Guardian.Phoenix.Socket.current_resource(socket) do 
@@ -19,13 +20,11 @@ defmodule Ytctapi.LikeChannel do
   end
 
   def handle_in("create_like", %{"transscript_id" => transscript_id} = payload, socket) do
-    transscript = case Mongo.Ecto.ObjectID.cast(transscript_id) do 
-       {:ok, objectID} -> 
-          Repo.get_by!(Transscript, id: objectID)
-       :error -> 
-          Repo.get_by!(Transscript, ytid: transscript_id)
-    end
-    changeset = Like.changeset(%Like{}, %{transscript_id: transscript.id, user_id: socket.assigns.user_id})
+    transscript = Repo.get_by!(Transscript, Transscript.multi_id(transscript_id))
+    changeset = Like.changeset(%Like{}, %{
+      transscript_id: transscript.id, 
+      user_id: socket.assigns.user_id
+    })
 
     case Repo.insert(changeset) do
       {:ok, like} -> 
@@ -47,12 +46,7 @@ defmodule Ytctapi.LikeChannel do
   end
 
   def handle_in("delete_like", %{"transscript_id" => transscript_id} = payload, socket) do
-    transscript = case Mongo.Ecto.ObjectID.cast(transscript_id) do 
-       {:ok, objectID} -> 
-          Repo.get_by!(Transscript, id: objectID)
-       :error -> 
-          Repo.get_by!(Transscript, ytid: transscript_id)
-    end
+    transscript = Repo.get_by!(Transscript, Transscript.multi_id(transscript_id))
     like = Repo.get_by!(Like, transscript_id: transscript.id, user_id: socket.assigns.user_id)
     Repo.delete!(like)
 

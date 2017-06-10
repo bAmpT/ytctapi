@@ -5,4 +5,9 @@
         	<img width=500 style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/>
         </a>
     </row>
-  <% end %>
+<% end %>
+<%= if @transscripts == [] do %>
+	<row>
+        <h4>We couldn’t find any posts.</h4>
+	</row>
+<% end %>

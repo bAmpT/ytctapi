@@ -19,8 +19,8 @@ defmodule Ytctapi.Web do
   def model do
     quote do
       # Change in to old Ecto.Model because MongodbEcto
-      # use Ecto.Schema
-      use Ecto.Model
+      use Ecto.Schema
+      #use Ecto.Model
 
       import Ecto
       import Ecto.Changeset

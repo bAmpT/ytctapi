@@ -7,7 +7,7 @@ defmodule Ytctapi.UserController do
   alias Ytctapi.User
 
   def me(conn, _params, user, _claims) do
-    user = user |> Repo.preload([:transscripts, :likes, likes: :transscript])
+    user = user |> Repo.preload(:transscripts) |> Repo.preload(:likes) |> Repo.preload(likes: :transscript)
     render(conn, "me.json", user: user)
   end
 
@@ -18,8 +18,8 @@ defmodule Ytctapi.UserController do
   end
 
   def create(conn, %{"user" => user_params}, _user, _claims) do
-    user_params = Map.put( user_params, "encrypted_password", User.hashpassword( user_params["password"] )  )
-    changeset = User.changeset(%User{}, user_params)
+    # user_params = Map.put( user_params, "encrypted_password", User.hashpassword( user_params["password"] )  )
+    changeset = User.registration_changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
       {:ok, user} ->
@@ -38,8 +38,8 @@ defmodule Ytctapi.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}, user, _claims) do
-    changeset = User.changeset(user, user_params)
+  def update(conn, %{"id" => _id, "user" => user_params}, user, _claims) do
+    changeset = User.update_changeset(user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->
@@ -51,7 +51,7 @@ defmodule Ytctapi.UserController do
     end
   end
 
-  def delete(conn, %{"id" => id}, user, _claims) do
+  def delete(conn, %{"id" => _id}, user, _claims) do
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

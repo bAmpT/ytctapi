@@ -44,6 +44,11 @@ config :guardian, Guardian,
 config :briefly,
   default_prefix: "briefly"
 
+config :arc,
+  storage: Arc.Storage.Local # or Arc.Storage.S3, bucket: {:system, "AWS_S3_BUCKET"}
+
+config :mix_docker, image: "bampt/ytctapi"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

@@ -15,6 +15,13 @@ form, ul, table {
 }
 
 /* Phoenix flash messages */
+.alert-warn {
+	background-color: #FFF6F6;
+	color: #9F3A38;
+	box-shadow: 0 0 0 1px #E0B4B4 inset, 0 0 0 0 transparent;
+	border: 0;
+}
+
 .alert:empty { display: none; }
 
 /* Phoenix inline forms in links and buttons */
@@ -241,16 +248,25 @@ outline: 0;
 
 ul.video-list {
 	display: flex;
-    flex-direction: column;
-	align-items: center;
-	padding: 0;
-	list-style: none;
+flex-direction: row;
+flex-wrap: wrap;
+flex-flow: row wrap;
+align-content: flex-end;
+align-items: baseline;
+justify-content: center;
+padding: 0;
+list-style: none;
 }
 
 ul.video-list li {
 	max-width:480px;
-	width: 100%;
+	width: 45%;
 }
+
+ul.video-list li:nth-child(2n + 1) {
+	margin-right: 10px;
+}
+
 
 .action-bar.is-visible {
 	visibility: visible;
@@ -317,6 +333,11 @@ footer.bottomfooter {
 	align-items: center;
 }
 
+#email_form_footer {
+	flex-direction: column;
+	align-items: center;
+}
+
 .login-form {
 	 color: #262626;
     -webkit-box-flex: 1;
@@ -366,6 +387,23 @@ footer.bottomfooter {
     -webkit-appearance: none;
 }
 
+.login-form p {
+	width: 90%;
+	margin: 0 20px 6px;
+    padding: 9px 8px 7px;
+}
+
+.login-form input.inactive {
+    background-color: #dbdbdb !important;
+    color: #fff !important;
+}
+
+.login-form input.error {
+    outline: none !important;
+    border:1px solid red !important;
+    /*box-shadow: 0 0 10px #719ECE;*/
+}
+
 input.textInputGiant {
 	outline-width: 0;
 
@@ -381,6 +419,10 @@ width: 100%;
 border: 0;
 border-bottom: 1px solid rgba(0, 0, 0, .15);
 border-radius: 0
+}
+
+input.textInputGiant:focus {
+	outline: 0;
 }
 
 /* The side navigation menu */
@@ -446,6 +488,3050 @@ border-radius: 0
     .sidenav a {font-size: 18px;}
 }
 
+/*!
+ * 
+ * Modern HTML5 Responsive Youtube Playlist Player
+ * For jQuery 1.9 and above
+ * 
+ * @author  Rik de Vos
+ * @link    http://rikdevos.com/
+ * @version 1.5.0
+ *
+ * This is not free software. Visit http://codecanyon.net/item/modern-html5-responsive-youtube-playlist-player/8619272?ref=RikdeVos to purchase a license
+ * 
+ */
+
+.yesp {
+    position: relative;
+    overflow: hidden;
+}
+
+.yesp, .yesp * {
+    -moz-box-sizing: content-box !important;
+    -webkit-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
+.yesp:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.yesp .yesp-container {
+    float: left;
+    width: 600px;
+    background: url(../images/ajax.gif) center center no-repeat #333;
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.yesp .yesp-playlist {
+    float: left;
+    width: 200px;
+    background: url(../images/ajax.gif) center center no-repeat #333;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.yesp .yesp-container .yesp-autoposter {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: pointer
+}
+
+.yesp .yesp-container .yesp-autoposter .yesp-autoposter-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%
+}
+
+.yesp .yesp-container .yesp-autoposter .yesp-autoposter-icon div {
+    position: relative;
+    left: -42px;
+    top: -30px;
+    background: url(../images/youtube-icon-dark.png) top left no-repeat;
+    width: 85px;
+    height: 60px
+}
+
+.yesp .yesp-container .yesp-autoposter:hover .yesp-autoposter-icon div {
+    background-image: url(../images/youtube-icon-red.png)
+}
+
+.yesp a.yesp-big-play {
+    display: block;
+    display: none;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    background: rgba(0, 0, 0, .5) !important;
+    border-radius: 30px;
+    text-decoration: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #fff;
+    font-size: 30px;
+    line-height: 60px !important;
+    text-align: center !important;
+    outline: 0
+}
+
+.yesp a.yesp-big-replay {
+    display: block;
+    display: none;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    background: rgba(0, 0, 0, .5) !important;
+    border-radius: 30px;
+    text-decoration: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #fff;
+    font-size: 30px;
+    line-height: 60px !important;
+    text-align: center !important
+}
+
+.yesp .yesp-title {
+    height: 70px;
+    z-index: 999;
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, .5)), color-stop(100%, rgba(0, 0, 0, 0)));
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -o-linear-gradient(top, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0
+}
+
+.yesp .yesp-title .yesp-title-wrapper {
+    padding: 20px 20px 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    height: 24px;
+    line-height: 18px;
+    color: #fff;
+    font-weight: 700;
+    z-index: 9999;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden
+}
+
+.yesp .yesp-title a.yesp-subtitle {
+    display: inline-block;
+    height: 18px;
+    padding: 0 10px 0 0 !important;
+    margin: 0 10px 0 0 !important;
+    border-right: 2px solid #fff;
+    line-height: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    color: #dff76d;
+    z-index: 9999;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    background: 0 0 !important;
+    box-shadow: none !important;
+    font-style: normal !important
+}
+
+.yesp .yesp-title a.yesp-subtitle:hover {
+    text-decoration: underline !important
+}
+
+.yesp .yesp-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 18px;
+    padding: 5px 10px;
+    margin-left: -20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, .5);
+    z-index: 999;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    border-radius: 100px;
+    display: none
+}
+
+.yesp .yesp-social {
+    position: absolute;
+    z-index: 999;
+    right: 10px;
+    right: -180px;
+    bottom: 60px
+}
+
+.yesp .yesp-social a.yesp-social-button {
+    text-decoration: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 0 1px !important;
+    width: 40px;
+    height: 40px;
+    float: right;
+    z-index: 999;
+    display: block;
+    font-size: 14px !important;
+    color: #fff !important;
+    line-height: 40px !important;
+    text-align: center !important
+}
+
+.yesp .yesp-social a.yesp-social-facebook {
+    background: #3b5998
+}
+
+.yesp .yesp-social a.yesp-social-twitter {
+    background: #55acee
+}
+
+.yesp .yesp-social a.yesp-social-google {
+    background: #dd4b39
+}
+
+.yesp .yesp-social a.yesp-social-link {
+    background: url(../images/share_link.png) top left no-repeat
+}
+
+.yesp a.yesp-youtube-logo {
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    display: block;
+    border: none !important;
+    padding: none !important;
+    margin: none !important;
+    outline: 0;
+    z-index: 999;
+    bottom: 50px;
+    right: 0;
+    background: url(../images/youtube-logo-light.png) top left no-repeat;
+    background-size: 100%;
+    opacity: .5;
+    cursor: pointer
+}
+
+.yesp a.yesp-youtube-logo:hover {
+    opacity: 1
+}
+
+.yesp .yesp-controls {
+    font-family: 'Open Sans', sans-serif;
+    background: #e6bc57;
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    z-index: 999;
+    bottom: -50px;
+    left: 0
+}
+
+.yesp .yesp-controls .yesp-controls-wrapper {
+    height: 30px;
+    padding: 10px
+}
+
+.yesp .yesp-controls:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.yesp a.yesp-play {
+    display: block;
+    float: left;
+    width: 12px;
+    height: 14px;
+    background: 0 0;
+    opacity: 1;
+    text-decoration: none !important;
+    border: none !important;
+    padding: 8px 9px !important;
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 14px;
+    line-height: 14px !important;
+    text-align: center !important;
+    outline: 0
+}
+
+.yesp .yesp-time {
+    float: left;
+    width: 40px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 12px;
+    padding: 9px
+}
+
+.yesp .yesp-time.yesp-full-time {
+    width: 80px
+}
+
+.yesp .yesp-bar {
+    float: left;
+    position: relative;
+    width: 100px;
+    height: 10px;
+    margin: 10px 9px;
+    background: rgba(255, 255, 255, .5);
+    cursor: pointer
+}
+
+.yesp .yesp-bar .yesp-bar-buffer {
+    position: absolute;
+    height: 10px;
+    background: rgba(255, 255, 255, .5);
+    width: 0
+}
+
+.yesp .yesp-bar .yesp-bar-time {
+    position: absolute;
+    height: 10px;
+    background: rgba(255, 255, 255, 1);
+    width: 0
+}
+
+.yesp .yesp-volume {
+    float: left;
+    height: 30px;
+    width: 110px
+}
+
+.yesp .yesp-volume:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.yesp .yesp-volume a.yesp-volume-icon {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 14px;
+    background: 0 0;
+    opacity: 1;
+    text-decoration: none !important;
+    border: none !important;
+    padding: 8px 4px 8px 14px !important;
+    margin: 0 !important;
+    color: #fff;
+    font-size: 14px;
+    line-height: 14px !important;
+    text-align: left !important
+}
+
+.yesp .yesp-volume a.yesp-volume-icon.yesp-volume-icon-off {
+    background: url(../images/volume-off.png) center center no-repeat
+}
+
+.yesp .yesp-volume .yesp-volume-bar {
+    float: left;
+    position: relative;
+    width: 55px;
+    height: 10px;
+    margin: 10px 12px 10px 9px;
+    background: rgba(255, 255, 255, .5);
+    cursor: pointer
+}
+
+.yesp .yesp-volume .yesp-volume-bar .yesp-volume-amount {
+    position: absolute;
+    height: 10px;
+    background: #fff;
+    width: 75%
+}
+
+.yesp a.yesp-backward, .yesp a.yesp-forward, .yesp a.yesp-fullscreen,
+.yesp a.yesp-playlist-toggle, .yesp a.yesp-share, .yesp a.yesp-youtube {
+    display: block;
+    float: left;
+    width: 14px;
+    height: 14px;
+    background: 0 0;
+    opacity: 1;
+    text-decoration: none !important;
+    border: none !important;
+    padding: 8px !important;
+    margin: 0 !important;
+    color: #fff;
+    font-size: 14px;
+    line-height: 14px !important;
+    text-align: left !important;
+    outline: 0
+}
+
+.yesp .yesp-playlist .ps-scrollbar-y-rail {
+    opacity: 0;
+    -webkit-transition: opacity .2s;
+    -moz-transition: opacity .2s;
+    -o-transition: opacity .2s;
+    -ms-transition: opacity .2s;
+    transition: opacity .2s
+}
+
+.yesp .yesp-playlist:hover .ps-scrollbar-y-rail {
+    opacity: 1
+}
+
+.yesp.yesp-mobile .yesp-playlist .ps-scrollbar-y-rail {
+    opacity: 1 !important
+}
+
+.yesp.yesp-touch .yesp-playlist .ps-scrollbar-y-rail {
+    opacity: 1
+}
+
+.yesp .yesp-playlist .yesp-playlist-video {
+    display: block;
+    height: 112px;
+    width: 200px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer
+}
+
+.yesp .yesp-playlist .yesp-playlist-video img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    -ms-transition: all .2s;
+    transition: all .2s
+}
+
+.yesp .yesp-playlist .yesp-playlist-video .yesp-playlist-overlay {
+    position: absolute;
+    left: 0;
+    background: rgba(0, 0, 0, .75);
+    width: 100%;
+    height: 112px;
+    -webkit-transition: top .2s, opacity .2s;
+    -moz-transition: top .2s, opacity .2s;
+    -o-transition: top .2s, opacity .2s;
+    -ms-transition: top .2s, opacity .2s;
+    transition: top .2s, opacity .2s;
+    z-index: 2;
+    opacity: 0;
+    top: -20px
+}
+
+.yesp .yesp-playlist.yesp-playlist-simple .yesp-playlist-video .yesp-playlist-overlay {
+    display: none
+}
+
+.yesp .yesp-playlist .yesp-playlist-video:after {
+    height: 100%;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(0, 0, 0, .5)), color-stop(100%, rgba(0, 0, 0, 0)));
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -o-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -ms-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to right, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    content: '';
+    z-index: 1
+}
+
+.yesp .yesp-playlist .yesp-playlist-video[data-playing="0"]:hover .yesp-playlist-overlay {
+    top: 0;
+    opacity: 1
+}
+
+.yesp .yesp-playlist .yesp-playlist-video[data-playing="0"]:hover img {
+    transform: scale(1.2)
+}
+
+.yesp.yesp-mobile .yesp-playlist .yesp-playlist-video[data-playing="0"] .yesp-playlist-overlay {
+    top: -112px !important;
+    display: none !important
+}
+
+.yesp .yesp-playlist .yesp-playlist-video .yesp-playlist-title {
+    padding: 15px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    line-height: 16px;
+    font-size: 12px
+}
+
+.yesp .yesp-playlist .yesp-playlist-video .yesp-playlist-channel {
+    padding: 15px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #dff76d;
+    line-height: 12px;
+    font-size: 12px
+}
+
+.yesp .yesp-playlist .yesp-playlist-video .yesp-playlist-current {
+    position: absolute;
+    width: 180px;
+    bottom: 0;
+    left: 0;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    line-height: 12px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, .75);
+    padding: 10px;
+    display: none;
+    z-index: 2
+}
+
+.yesp .yesp-playlist.yesp-playlist-simple .yesp-playlist-video .yesp-playlist-current span {
+    display: none
+}
+
+.yesp .yesp-playlist .yesp-playlist-video[data-playing="1"] .yesp-playlist-current {
+    display: block
+}
+
+.yesp .yesp-playlist .yesp-playlist-video .yesp-playlist-current i {
+    margin-right: 5px
+}
+
+.yesp .yesp-hp {
+    clear: both;
+    height: 90px;
+    background: url(../images/ajax.gif) center center no-repeat #333;
+    overflow: hidden;
+    width: 100%
+}
+
+.yesp .yesp-hp-videos {
+    width: 50px
+}
+
+.yesp .ps-scrollbar-x-rail {
+    left: 0 !important
+}
+
+.yesp .yesp-hp-videos:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.yesp .yesp-hp .yesp-hp-next-page {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    font-size: 12px;
+    background: #000;
+    padding: 0;
+    line-height: 90px;
+    text-align: center;
+    display: inline-block;
+    height: 90px;
+    width: 50px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer
+}
+
+.yesp.yesp-ios .yesp-hp .yesp-hp-next-page {
+    top: -41px
+}
+
+.yesp .yesp-hp .yesp-hp-video {
+    display: inline-block;
+    height: 90px;
+    width: 160px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer
+}
+
+.yesp .yesp-hp .yesp-hp-video img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    -ms-transition: all .2s;
+    transition: all .2s
+}
+
+.yesp .yesp-hp .yesp-hp-video .yesp-hp-overlay {
+    position: absolute;
+    left: 0;
+    background: rgba(0, 0, 0, .75);
+    width: 100%;
+    height: 90px;
+    -webkit-transition: top .2s, opacity .2s;
+    -moz-transition: top .2s, opacity .2s;
+    -o-transition: top .2s, opacity .2s;
+    -ms-transition: top .2s, opacity .2s;
+    transition: top .2s, opacity .2s;
+    z-index: 2;
+    opacity: 0;
+    top: -20px
+}
+
+.yesp .yesp-hp.yesp-hp-simple .yesp-hp-video .yesp-hp-overlay {
+    display: none
+}
+
+.yesp .yesp-hp .yesp-hp-video:after {
+    height: 100%;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(0, 0, 0, .5)), color-stop(100%, rgba(0, 0, 0, 0)));
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -o-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: -ms-linear-gradient(left, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to right, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, 0) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    content: '';
+    z-index: 1
+}
+
+.yesp .yesp-hp .yesp-hp-video[data-playing="0"]:hover .yesp-hp-overlay {
+    top: 0;
+    opacity: 1
+}
+
+.yesp .yesp-hp .yesp-hp-video[data-playing="0"]:hover img {
+    transform: scale(1.2)
+}
+
+.yesp.yesp-mobile .yesp-hp .yesp-hp-video[data-playing="0"] .yesp-hp-overlay {
+    top: -90px !important;
+    display: none !important
+}
+
+.yesp .yesp-hp .yesp-hp-video .yesp-hp-title {
+    padding: 15px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    line-height: 16px;
+    font-size: 12px;
+    overflow: hidden;
+    max-height: 35px
+}
+
+.yesp .yesp-hp .yesp-hp-video .yesp-hp-channel {
+    padding: 15px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #dff76d;
+    line-height: 12px;
+    font-size: 12px
+}
+
+.yesp .yesp-hp .yesp-hp-video .yesp-hp-current {
+    position: absolute;
+    width: 140px;
+    bottom: 0;
+    left: 0;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    line-height: 12px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, .75);
+    padding: 10px;
+    display: none;
+    z-index: 2
+}
+
+.yesp .yesp-hp.yesp-hp-simple .yesp-hp-video .yesp-hp-current span {
+    display: none
+}
+
+.yesp .yesp-hp .yesp-hp-video[data-playing="1"] .yesp-hp-current {
+    display: block
+}
+
+.yesp .yesp-hp .yesp-hp-video .yesp-hp-current i {
+    margin-right: 5px
+}
+
+.yesp .yesp-next-page {
+    right: 0;
+    bottom: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    line-height: 18px;
+    height: 18px;
+    font-size: 12px;
+    background: #000;
+    padding: 16px 0;
+    z-index: 100;
+    cursor: pointer;
+    text-align: center;
+    display: none
+}
+
+.yesp .yesp-next-page i {
+    margin-right: 5px
+}
+
+.yesp .yesp-error {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
+    color: #fff;
+    background: rgba(229, 45, 39, 1);
+    text-align: center;
+    padding: 10px 2px;
+    font-size: 12px;
+    line-height: 16px;
+    font-family: 'Open Sans', sans-serif;
+    display: none
+}
+
+.yesp .yesp-error i {
+    margin-right: 5px
+}
+
+
+
+/*!
+ *  Font Awesome 4.3.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/*
+ * NOTE: The prefix "fa" has been changed to "yesp-icon" for this plugin!
+ */
+@font-face {
+    font-family: FontAwesomeYESP;
+    src: url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/fonts/fontawesome-webfont.eot);
+    font-weight: 400;
+    font-style: normal
+}
+
+.yesp-icon {
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesomeYESP;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0)
+}
+
+.yesp-icon-lg {
+    font-size: 1.33333333em;
+    line-height: .75em;
+    vertical-align: -15%
+}
+
+.yesp-icon-2x {
+    font-size: 2em
+}
+
+.yesp-icon-3x {
+    font-size: 3em
+}
+
+.yesp-icon-4x {
+    font-size: 4em
+}
+
+.yesp-icon-5x {
+    font-size: 5em
+}
+
+.yesp-icon-fw {
+    width: 1.28571429em;
+    text-align: center
+}
+
+.yesp-icon-ul {
+    padding-left: 0;
+    margin-left: 2.14285714em;
+    list-style-type: none
+}
+
+.yesp-icon-ul > li {
+    position: relative
+}
+
+.yesp-icon-li {
+    position: absolute;
+    left: -2.14285714em;
+    width: 2.14285714em;
+    top: .14285714em;
+    text-align: center
+}
+
+.yesp-icon-li.yesp-icon-lg {
+    left: -1.85714286em
+}
+
+.yesp-icon-border {
+    padding: .2em .25em .15em;
+    border: .08em solid #eee;
+    border-radius: .1em
+}
+
+.pull-right {
+    float: right
+}
+
+.pull-left {
+    float: left
+}
+
+.yesp-icon.pull-left {
+    margin-right: .3em
+}
+
+.yesp-icon.pull-right {
+    margin-left: .3em
+}
+
+.yesp-icon-spin {
+    -webkit-animation: yesp-icon-spin 2s infinite linear;
+    animation: yesp-icon-spin 2s infinite linear
+}
+
+.yesp-icon-pulse {
+    -webkit-animation: yesp-icon-spin 1s infinite steps(8);
+    animation: yesp-icon-spin 1s infinite steps(8)
+}
+
+@-webkit-keyframes yesp-icon-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg)
+    }
+}
+
+@keyframes yesp-icon-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg)
+    }
+}
+
+.yesp-icon-rotate-90 {
+    filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=1);
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg)
+}
+
+.yesp-icon-rotate-180 {
+    filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=2);
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg)
+}
+
+.yesp-icon-rotate-270 {
+    filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=3);
+    -webkit-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg)
+}
+
+.yesp-icon-flip-horizontal {
+    filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+    -webkit-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1)
+}
+
+.yesp-icon-flip-vertical {
+    filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+    -webkit-transform: scale(1, -1);
+    -ms-transform: scale(1, -1);
+    transform: scale(1, -1)
+}
+
+:root .yesp-icon-flip-horizontal, :root .yesp-icon-flip-vertical,
+:root .yesp-icon-rotate-180, :root .yesp-icon-rotate-270, :root .yesp-icon-rotate-90 {
+    filter: none
+}
+
+.yesp-icon-stack {
+    position: relative;
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+    vertical-align: middle
+}
+
+.yesp-icon-stack-1x, .yesp-icon-stack-2x {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center
+}
+
+.yesp-icon-stack-1x {
+    line-height: inherit
+}
+
+.yesp-icon-stack-2x {
+    font-size: 2em
+}
+
+.yesp-icon-inverse {
+    color: #fff
+}
+
+.yesp-icon-glass:before {
+    content: "\f000"
+}
+
+.yesp-icon-music:before {
+    content: "\f001"
+}
+
+.yesp-icon-search:before {
+    content: "\f002"
+}
+
+.yesp-icon-envelope-o:before {
+    content: "\f003"
+}
+
+.yesp-icon-heart:before {
+    content: "\f004"
+}
+
+.yesp-icon-star:before {
+    content: "\f005"
+}
+
+.yesp-icon-star-o:before {
+    content: "\f006"
+}
+
+.yesp-icon-user:before {
+    content: "\f007"
+}
+
+.yesp-icon-film:before {
+    content: "\f008"
+}
+
+.yesp-icon-th-large:before {
+    content: "\f009"
+}
+
+.yesp-icon-th:before {
+    content: "\f00a"
+}
+
+.yesp-icon-th-list:before {
+    content: "\f00b"
+}
+
+.yesp-icon-check:before {
+    content: "\f00c"
+}
+
+.yesp-icon-close:before, .yesp-icon-remove:before, .yesp-icon-times:before {
+    content: "\f00d"
+}
+
+.yesp-icon-search-plus:before {
+    content: "\f00e"
+}
+
+.yesp-icon-search-minus:before {
+    content: "\f010"
+}
+
+.yesp-icon-power-off:before {
+    content: "\f011"
+}
+
+.yesp-icon-signal:before {
+    content: "\f012"
+}
+
+.yesp-icon-cog:before, .yesp-icon-gear:before {
+    content: "\f013"
+}
+
+.yesp-icon-trash-o:before {
+    content: "\f014"
+}
+
+.yesp-icon-home:before {
+    content: "\f015"
+}
+
+.yesp-icon-file-o:before {
+    content: "\f016"
+}
+
+.yesp-icon-clock-o:before {
+    content: "\f017"
+}
+
+.yesp-icon-road:before {
+    content: "\f018"
+}
+
+.yesp-icon-download:before {
+    content: "\f019"
+}
+
+.yesp-icon-arrow-circle-o-down:before {
+    content: "\f01a"
+}
+
+.yesp-icon-arrow-circle-o-up:before {
+    content: "\f01b"
+}
+
+.yesp-icon-inbox:before {
+    content: "\f01c"
+}
+
+.yesp-icon-play-circle-o:before {
+    content: "\f01d"
+}
+
+.yesp-icon-repeat:before, .yesp-icon-rotate-right:before {
+    content: "\f01e"
+}
+
+.yesp-icon-refresh:before {
+    content: "\f021"
+}
+
+.yesp-icon-list-alt:before {
+    content: "\f022"
+}
+
+.yesp-icon-lock:before {
+    content: "\f023"
+}
+
+.yesp-icon-flag:before {
+    content: "\f024"
+}
+
+.yesp-icon-headphones:before {
+    content: "\f025"
+}
+
+.yesp-icon-volume-off:before {
+    content: "\f026"
+}
+
+.yesp-icon-volume-down:before {
+    content: "\f027"
+}
+
+.yesp-icon-volume-up:before {
+    content: "\f028"
+}
+
+.yesp-icon-qrcode:before {
+    content: "\f029"
+}
+
+.yesp-icon-barcode:before {
+    content: "\f02a"
+}
+
+.yesp-icon-tag:before {
+    content: "\f02b"
+}
+
+.yesp-icon-tags:before {
+    content: "\f02c"
+}
+
+.yesp-icon-book:before {
+    content: "\f02d"
+}
+
+.yesp-icon-bookmark:before {
+    content: "\f02e"
+}
+
+.yesp-icon-print:before {
+    content: "\f02f"
+}
+
+.yesp-icon-camera:before {
+    content: "\f030"
+}
+
+.yesp-icon-font:before {
+    content: "\f031"
+}
+
+.yesp-icon-bold:before {
+    content: "\f032"
+}
+
+.yesp-icon-italic:before {
+    content: "\f033"
+}
+
+.yesp-icon-text-height:before {
+    content: "\f034"
+}
+
+.yesp-icon-text-width:before {
+    content: "\f035"
+}
+
+.yesp-icon-align-left:before {
+    content: "\f036"
+}
+
+.yesp-icon-align-center:before {
+    content: "\f037"
+}
+
+.yesp-icon-align-right:before {
+    content: "\f038"
+}
+
+.yesp-icon-align-justify:before {
+    content: "\f039"
+}
+
+.yesp-icon-list:before {
+    content: "\f03a"
+}
+
+.yesp-icon-dedent:before, .yesp-icon-outdent:before {
+    content: "\f03b"
+}
+
+.yesp-icon-indent:before {
+    content: "\f03c"
+}
+
+.yesp-icon-video-camera:before {
+    content: "\f03d"
+}
+
+.yesp-icon-image:before, .yesp-icon-photo:before, .yesp-icon-picture-o:before {
+    content: "\f03e"
+}
+
+.yesp-icon-pencil:before {
+    content: "\f040"
+}
+
+.yesp-icon-map-marker:before {
+    content: "\f041"
+}
+
+.yesp-icon-adjust:before {
+    content: "\f042"
+}
+
+.yesp-icon-tint:before {
+    content: "\f043"
+}
+
+.yesp-icon-edit:before, .yesp-icon-pencil-square-o:before {
+    content: "\f044"
+}
+
+.yesp-icon-share-square-o:before {
+    content: "\f045"
+}
+
+.yesp-icon-check-square-o:before {
+    content: "\f046"
+}
+
+.yesp-icon-arrows:before {
+    content: "\f047"
+}
+
+.yesp-icon-step-backward:before {
+    content: "\f048"
+}
+
+.yesp-icon-fast-backward:before {
+    content: "\f049"
+}
+
+.yesp-icon-backward:before {
+    content: "\f04a"
+}
+
+.yesp-icon-play:before {
+    content: "\f04b"
+}
+
+.yesp-icon-pause:before {
+    content: "\f04c"
+}
+
+.yesp-icon-stop:before {
+    content: "\f04d"
+}
+
+.yesp-icon-forward:before {
+    content: "\f04e"
+}
+
+.yesp-icon-fast-forward:before {
+    content: "\f050"
+}
+
+.yesp-icon-step-forward:before {
+    content: "\f051"
+}
+
+.yesp-icon-eject:before {
+    content: "\f052"
+}
+
+.yesp-icon-chevron-left:before {
+    content: "\f053"
+}
+
+.yesp-icon-chevron-right:before {
+    content: "\f054"
+}
+
+.yesp-icon-plus-circle:before {
+    content: "\f055"
+}
+
+.yesp-icon-minus-circle:before {
+    content: "\f056"
+}
+
+.yesp-icon-times-circle:before {
+    content: "\f057"
+}
+
+.yesp-icon-check-circle:before {
+    content: "\f058"
+}
+
+.yesp-icon-question-circle:before {
+    content: "\f059"
+}
+
+.yesp-icon-info-circle:before {
+    content: "\f05a"
+}
+
+.yesp-icon-crosshairs:before {
+    content: "\f05b"
+}
+
+.yesp-icon-times-circle-o:before {
+    content: "\f05c"
+}
+
+.yesp-icon-check-circle-o:before {
+    content: "\f05d"
+}
+
+.yesp-icon-ban:before {
+    content: "\f05e"
+}
+
+.yesp-icon-arrow-left:before {
+    content: "\f060"
+}
+
+.yesp-icon-arrow-right:before {
+    content: "\f061"
+}
+
+.yesp-icon-arrow-up:before {
+    content: "\f062"
+}
+
+.yesp-icon-arrow-down:before {
+    content: "\f063"
+}
+
+.yesp-icon-mail-forward:before, .yesp-icon-share:before {
+    content: "\f064"
+}
+
+.yesp-icon-expand:before {
+    content: "\f065"
+}
+
+.yesp-icon-compress:before {
+    content: "\f066"
+}
+
+.yesp-icon-plus:before {
+    content: "\f067"
+}
+
+.yesp-icon-minus:before {
+    content: "\f068"
+}
+
+.yesp-icon-asterisk:before {
+    content: "\f069"
+}
+
+.yesp-icon-exclamation-circle:before {
+    content: "\f06a"
+}
+
+.yesp-icon-gift:before {
+    content: "\f06b"
+}
+
+.yesp-icon-leaf:before {
+    content: "\f06c"
+}
+
+.yesp-icon-fire:before {
+    content: "\f06d"
+}
+
+.yesp-icon-eye:before {
+    content: "\f06e"
+}
+
+.yesp-icon-eye-slash:before {
+    content: "\f070"
+}
+
+.yesp-icon-exclamation-triangle:before, .yesp-icon-warning:before {
+    content: "\f071"
+}
+
+.yesp-icon-plane:before {
+    content: "\f072"
+}
+
+.yesp-icon-calendar:before {
+    content: "\f073"
+}
+
+.yesp-icon-random:before {
+    content: "\f074"
+}
+
+.yesp-icon-comment:before {
+    content: "\f075"
+}
+
+.yesp-icon-magnet:before {
+    content: "\f076"
+}
+
+.yesp-icon-chevron-up:before {
+    content: "\f077"
+}
+
+.yesp-icon-chevron-down:before {
+    content: "\f078"
+}
+
+.yesp-icon-retweet:before {
+    content: "\f079"
+}
+
+.yesp-icon-shopping-cart:before {
+    content: "\f07a"
+}
+
+.yesp-icon-folder:before {
+    content: "\f07b"
+}
+
+.yesp-icon-folder-open:before {
+    content: "\f07c"
+}
+
+.yesp-icon-arrows-v:before {
+    content: "\f07d"
+}
+
+.yesp-icon-arrows-h:before {
+    content: "\f07e"
+}
+
+.yesp-icon-bar-chart-o:before, .yesp-icon-bar-chart:before {
+    content: "\f080"
+}
+
+.yesp-icon-twitter-square:before {
+    content: "\f081"
+}
+
+.yesp-icon-facebook-square:before {
+    content: "\f082"
+}
+
+.yesp-icon-camera-retro:before {
+    content: "\f083"
+}
+
+.yesp-icon-key:before {
+    content: "\f084"
+}
+
+.yesp-icon-cogs:before, .yesp-icon-gears:before {
+    content: "\f085"
+}
+
+.yesp-icon-comments:before {
+    content: "\f086"
+}
+
+.yesp-icon-thumbs-o-up:before {
+    content: "\f087"
+}
+
+.yesp-icon-thumbs-o-down:before {
+    content: "\f088"
+}
+
+.yesp-icon-star-half:before {
+    content: "\f089"
+}
+
+.yesp-icon-heart-o:before {
+    content: "\f08a"
+}
+
+.yesp-icon-sign-out:before {
+    content: "\f08b"
+}
+
+.yesp-icon-linkedin-square:before {
+    content: "\f08c"
+}
+
+.yesp-icon-thumb-tack:before {
+    content: "\f08d"
+}
+
+.yesp-icon-external-link:before {
+    content: "\f08e"
+}
+
+.yesp-icon-sign-in:before {
+    content: "\f090"
+}
+
+.yesp-icon-trophy:before {
+    content: "\f091"
+}
+
+.yesp-icon-github-square:before {
+    content: "\f092"
+}
+
+.yesp-icon-upload:before {
+    content: "\f093"
+}
+
+.yesp-icon-lemon-o:before {
+    content: "\f094"
+}
+
+.yesp-icon-phone:before {
+    content: "\f095"
+}
+
+.yesp-icon-square-o:before {
+    content: "\f096"
+}
+
+.yesp-icon-bookmark-o:before {
+    content: "\f097"
+}
+
+.yesp-icon-phone-square:before {
+    content: "\f098"
+}
+
+.yesp-icon-twitter:before {
+    content: "\f099"
+}
+
+.yesp-icon-facebook-f:before, .yesp-icon-facebook:before {
+    content: "\f09a"
+}
+
+.yesp-icon-github:before {
+    content: "\f09b"
+}
+
+.yesp-icon-unlock:before {
+    content: "\f09c"
+}
+
+.yesp-icon-credit-card:before {
+    content: "\f09d"
+}
+
+.yesp-icon-rss:before {
+    content: "\f09e"
+}
+
+.yesp-icon-hdd-o:before {
+    content: "\f0a0"
+}
+
+.yesp-icon-bullhorn:before {
+    content: "\f0a1"
+}
+
+.yesp-icon-bell:before {
+    content: "\f0f3"
+}
+
+.yesp-icon-certificate:before {
+    content: "\f0a3"
+}
+
+.yesp-icon-hand-o-right:before {
+    content: "\f0a4"
+}
+
+.yesp-icon-hand-o-left:before {
+    content: "\f0a5"
+}
+
+.yesp-icon-hand-o-up:before {
+    content: "\f0a6"
+}
+
+.yesp-icon-hand-o-down:before {
+    content: "\f0a7"
+}
+
+.yesp-icon-arrow-circle-left:before {
+    content: "\f0a8"
+}
+
+.yesp-icon-arrow-circle-right:before {
+    content: "\f0a9"
+}
+
+.yesp-icon-arrow-circle-up:before {
+    content: "\f0aa"
+}
+
+.yesp-icon-arrow-circle-down:before {
+    content: "\f0ab"
+}
+
+.yesp-icon-globe:before {
+    content: "\f0ac"
+}
+
+.yesp-icon-wrench:before {
+    content: "\f0ad"
+}
+
+.yesp-icon-tasks:before {
+    content: "\f0ae"
+}
+
+.yesp-icon-filter:before {
+    content: "\f0b0"
+}
+
+.yesp-icon-briefcase:before {
+    content: "\f0b1"
+}
+
+.yesp-icon-arrows-alt:before {
+    content: "\f0b2"
+}
+
+.yesp-icon-group:before, .yesp-icon-users:before {
+    content: "\f0c0"
+}
+
+.yesp-icon-chain:before, .yesp-icon-link:before {
+    content: "\f0c1"
+}
+
+.yesp-icon-cloud:before {
+    content: "\f0c2"
+}
+
+.yesp-icon-flask:before {
+    content: "\f0c3"
+}
+
+.yesp-icon-cut:before, .yesp-icon-scissors:before {
+    content: "\f0c4"
+}
+
+.yesp-icon-copy:before, .yesp-icon-files-o:before {
+    content: "\f0c5"
+}
+
+.yesp-icon-paperclip:before {
+    content: "\f0c6"
+}
+
+.yesp-icon-floppy-o:before, .yesp-icon-save:before {
+    content: "\f0c7"
+}
+
+.yesp-icon-square:before {
+    content: "\f0c8"
+}
+
+.yesp-icon-bars:before, .yesp-icon-navicon:before, .yesp-icon-reorder:before {
+    content: "\f0c9"
+}
+
+.yesp-icon-list-ul:before {
+    content: "\f0ca"
+}
+
+.yesp-icon-list-ol:before {
+    content: "\f0cb"
+}
+
+.yesp-icon-strikethrough:before {
+    content: "\f0cc"
+}
+
+.yesp-icon-underline:before {
+    content: "\f0cd"
+}
+
+.yesp-icon-table:before {
+    content: "\f0ce"
+}
+
+.yesp-icon-magic:before {
+    content: "\f0d0"
+}
+
+.yesp-icon-truck:before {
+    content: "\f0d1"
+}
+
+.yesp-icon-pinterest:before {
+    content: "\f0d2"
+}
+
+.yesp-icon-pinterest-square:before {
+    content: "\f0d3"
+}
+
+.yesp-icon-google-plus-square:before {
+    content: "\f0d4"
+}
+
+.yesp-icon-google-plus:before {
+    content: "\f0d5"
+}
+
+.yesp-icon-money:before {
+    content: "\f0d6"
+}
+
+.yesp-icon-caret-down:before {
+    content: "\f0d7"
+}
+
+.yesp-icon-caret-up:before {
+    content: "\f0d8"
+}
+
+.yesp-icon-caret-left:before {
+    content: "\f0d9"
+}
+
+.yesp-icon-caret-right:before {
+    content: "\f0da"
+}
+
+.yesp-icon-columns:before {
+    content: "\f0db"
+}
+
+.yesp-icon-sort:before, .yesp-icon-unsorted:before {
+    content: "\f0dc"
+}
+
+.yesp-icon-sort-desc:before, .yesp-icon-sort-down:before {
+    content: "\f0dd"
+}
+
+.yesp-icon-sort-asc:before, .yesp-icon-sort-up:before {
+    content: "\f0de"
+}
+
+.yesp-icon-envelope:before {
+    content: "\f0e0"
+}
+
+.yesp-icon-linkedin:before {
+    content: "\f0e1"
+}
+
+.yesp-icon-rotate-left:before, .yesp-icon-undo:before {
+    content: "\f0e2"
+}
+
+.yesp-icon-gavel:before, .yesp-icon-legal:before {
+    content: "\f0e3"
+}
+
+.yesp-icon-dashboard:before, .yesp-icon-tachometer:before {
+    content: "\f0e4"
+}
+
+.yesp-icon-comment-o:before {
+    content: "\f0e5"
+}
+
+.yesp-icon-comments-o:before {
+    content: "\f0e6"
+}
+
+.yesp-icon-bolt:before, .yesp-icon-flash:before {
+    content: "\f0e7"
+}
+
+.yesp-icon-sitemap:before {
+    content: "\f0e8"
+}
+
+.yesp-icon-umbrella:before {
+    content: "\f0e9"
+}
+
+.yesp-icon-clipboard:before, .yesp-icon-paste:before {
+    content: "\f0ea"
+}
+
+.yesp-icon-lightbulb-o:before {
+    content: "\f0eb"
+}
+
+.yesp-icon-exchange:before {
+    content: "\f0ec"
+}
+
+.yesp-icon-cloud-download:before {
+    content: "\f0ed"
+}
+
+.yesp-icon-cloud-upload:before {
+    content: "\f0ee"
+}
+
+.yesp-icon-user-md:before {
+    content: "\f0f0"
+}
+
+.yesp-icon-stethoscope:before {
+    content: "\f0f1"
+}
+
+.yesp-icon-suitcase:before {
+    content: "\f0f2"
+}
+
+.yesp-icon-bell-o:before {
+    content: "\f0a2"
+}
+
+.yesp-icon-coffee:before {
+    content: "\f0f4"
+}
+
+.yesp-icon-cutlery:before {
+    content: "\f0f5"
+}
+
+.yesp-icon-file-text-o:before {
+    content: "\f0f6"
+}
+
+.yesp-icon-building-o:before {
+    content: "\f0f7"
+}
+
+.yesp-icon-hospital-o:before {
+    content: "\f0f8"
+}
+
+.yesp-icon-ambulance:before {
+    content: "\f0f9"
+}
+
+.yesp-icon-medkit:before {
+    content: "\f0fa"
+}
+
+.yesp-icon-fighter-jet:before {
+    content: "\f0fb"
+}
+
+.yesp-icon-beer:before {
+    content: "\f0fc"
+}
+
+.yesp-icon-h-square:before {
+    content: "\f0fd"
+}
+
+.yesp-icon-plus-square:before {
+    content: "\f0fe"
+}
+
+.yesp-icon-angle-double-left:before {
+    content: "\f100"
+}
+
+.yesp-icon-angle-double-right:before {
+    content: "\f101"
+}
+
+.yesp-icon-angle-double-up:before {
+    content: "\f102"
+}
+
+.yesp-icon-angle-double-down:before {
+    content: "\f103"
+}
+
+.yesp-icon-angle-left:before {
+    content: "\f104"
+}
+
+.yesp-icon-angle-right:before {
+    content: "\f105"
+}
+
+.yesp-icon-angle-up:before {
+    content: "\f106"
+}
+
+.yesp-icon-angle-down:before {
+    content: "\f107"
+}
+
+.yesp-icon-desktop:before {
+    content: "\f108"
+}
+
+.yesp-icon-laptop:before {
+    content: "\f109"
+}
+
+.yesp-icon-tablet:before {
+    content: "\f10a"
+}
+
+.yesp-icon-mobile-phone:before, .yesp-icon-mobile:before {
+    content: "\f10b"
+}
+
+.yesp-icon-circle-o:before {
+    content: "\f10c"
+}
+
+.yesp-icon-quote-left:before {
+    content: "\f10d"
+}
+
+.yesp-icon-quote-right:before {
+    content: "\f10e"
+}
+
+.yesp-icon-spinner:before {
+    content: "\f110"
+}
+
+.yesp-icon-circle:before {
+    content: "\f111"
+}
+
+.yesp-icon-mail-reply:before, .yesp-icon-reply:before {
+    content: "\f112"
+}
+
+.yesp-icon-github-alt:before {
+    content: "\f113"
+}
+
+.yesp-icon-folder-o:before {
+    content: "\f114"
+}
+
+.yesp-icon-folder-open-o:before {
+    content: "\f115"
+}
+
+.yesp-icon-smile-o:before {
+    content: "\f118"
+}
+
+.yesp-icon-frown-o:before {
+    content: "\f119"
+}
+
+.yesp-icon-meh-o:before {
+    content: "\f11a"
+}
+
+.yesp-icon-gamepad:before {
+    content: "\f11b"
+}
+
+.yesp-icon-keyboard-o:before {
+    content: "\f11c"
+}
+
+.yesp-icon-flag-o:before {
+    content: "\f11d"
+}
+
+.yesp-icon-flag-checkered:before {
+    content: "\f11e"
+}
+
+.yesp-icon-terminal:before {
+    content: "\f120"
+}
+
+.yesp-icon-code:before {
+    content: "\f121"
+}
+
+.yesp-icon-mail-reply-all:before, .yesp-icon-reply-all:before {
+    content: "\f122"
+}
+
+.yesp-icon-star-half-empty:before, .yesp-icon-star-half-full:before,
+.yesp-icon-star-half-o:before {
+    content: "\f123"
+}
+
+.yesp-icon-location-arrow:before {
+    content: "\f124"
+}
+
+.yesp-icon-crop:before {
+    content: "\f125"
+}
+
+.yesp-icon-code-fork:before {
+    content: "\f126"
+}
+
+.yesp-icon-chain-broken:before, .yesp-icon-unlink:before {
+    content: "\f127"
+}
+
+.yesp-icon-question:before {
+    content: "\f128"
+}
+
+.yesp-icon-info:before {
+    content: "\f129"
+}
+
+.yesp-icon-exclamation:before {
+    content: "\f12a"
+}
+
+.yesp-icon-superscript:before {
+    content: "\f12b"
+}
+
+.yesp-icon-subscript:before {
+    content: "\f12c"
+}
+
+.yesp-icon-eraser:before {
+    content: "\f12d"
+}
+
+.yesp-icon-puzzle-piece:before {
+    content: "\f12e"
+}
+
+.yesp-icon-microphone:before {
+    content: "\f130"
+}
+
+.yesp-icon-microphone-slash:before {
+    content: "\f131"
+}
+
+.yesp-icon-shield:before {
+    content: "\f132"
+}
+
+.yesp-icon-calendar-o:before {
+    content: "\f133"
+}
+
+.yesp-icon-fire-extinguisher:before {
+    content: "\f134"
+}
+
+.yesp-icon-rocket:before {
+    content: "\f135"
+}
+
+.yesp-icon-maxcdn:before {
+    content: "\f136"
+}
+
+.yesp-icon-chevron-circle-left:before {
+    content: "\f137"
+}
+
+.yesp-icon-chevron-circle-right:before {
+    content: "\f138"
+}
+
+.yesp-icon-chevron-circle-up:before {
+    content: "\f139"
+}
+
+.yesp-icon-chevron-circle-down:before {
+    content: "\f13a"
+}
+
+.yesp-icon-html5:before {
+    content: "\f13b"
+}
+
+.yesp-icon-css3:before {
+    content: "\f13c"
+}
+
+.yesp-icon-anchor:before {
+    content: "\f13d"
+}
+
+.yesp-icon-unlock-alt:before {
+    content: "\f13e"
+}
+
+.yesp-icon-bullseye:before {
+    content: "\f140"
+}
+
+.yesp-icon-ellipsis-h:before {
+    content: "\f141"
+}
+
+.yesp-icon-ellipsis-v:before {
+    content: "\f142"
+}
+
+.yesp-icon-rss-square:before {
+    content: "\f143"
+}
+
+.yesp-icon-play-circle:before {
+    content: "\f144"
+}
+
+.yesp-icon-ticket:before {
+    content: "\f145"
+}
+
+.yesp-icon-minus-square:before {
+    content: "\f146"
+}
+
+.yesp-icon-minus-square-o:before {
+    content: "\f147"
+}
+
+.yesp-icon-level-up:before {
+    content: "\f148"
+}
+
+.yesp-icon-level-down:before {
+    content: "\f149"
+}
+
+.yesp-icon-check-square:before {
+    content: "\f14a"
+}
+
+.yesp-icon-pencil-square:before {
+    content: "\f14b"
+}
+
+.yesp-icon-external-link-square:before {
+    content: "\f14c"
+}
+
+.yesp-icon-share-square:before {
+    content: "\f14d"
+}
+
+.yesp-icon-compass:before {
+    content: "\f14e"
+}
+
+.yesp-icon-caret-square-o-down:before, .yesp-icon-toggle-down:before {
+    content: "\f150"
+}
+
+.yesp-icon-caret-square-o-up:before, .yesp-icon-toggle-up:before {
+    content: "\f151"
+}
+
+.yesp-icon-caret-square-o-right:before, .yesp-icon-toggle-right:before {
+    content: "\f152"
+}
+
+.yesp-icon-eur:before, .yesp-icon-euro:before {
+    content: "\f153"
+}
+
+.yesp-icon-gbp:before {
+    content: "\f154"
+}
+
+.yesp-icon-dollar:before, .yesp-icon-usd:before {
+    content: "\f155"
+}
+
+.yesp-icon-inr:before, .yesp-icon-rupee:before {
+    content: "\f156"
+}
+
+.yesp-icon-cny:before, .yesp-icon-jpy:before, .yesp-icon-rmb:before,
+.yesp-icon-yen:before {
+    content: "\f157"
+}
+
+.yesp-icon-rouble:before, .yesp-icon-rub:before, .yesp-icon-ruble:before {
+    content: "\f158"
+}
+
+.yesp-icon-krw:before, .yesp-icon-won:before {
+    content: "\f159"
+}
+
+.yesp-icon-bitcoin:before, .yesp-icon-btc:before {
+    content: "\f15a"
+}
+
+.yesp-icon-file:before {
+    content: "\f15b"
+}
+
+.yesp-icon-file-text:before {
+    content: "\f15c"
+}
+
+.yesp-icon-sort-alpha-asc:before {
+    content: "\f15d"
+}
+
+.yesp-icon-sort-alpha-desc:before {
+    content: "\f15e"
+}
+
+.yesp-icon-sort-amount-asc:before {
+    content: "\f160"
+}
+
+.yesp-icon-sort-amount-desc:before {
+    content: "\f161"
+}
+
+.yesp-icon-sort-numeric-asc:before {
+    content: "\f162"
+}
+
+.yesp-icon-sort-numeric-desc:before {
+    content: "\f163"
+}
+
+.yesp-icon-thumbs-up:before {
+    content: "\f164"
+}
+
+.yesp-icon-thumbs-down:before {
+    content: "\f165"
+}
+
+.yesp-icon-youtube-square:before {
+    content: "\f166"
+}
+
+.yesp-icon-youtube:before {
+    content: "\f167"
+}
+
+.yesp-icon-xing:before {
+    content: "\f168"
+}
+
+.yesp-icon-xing-square:before {
+    content: "\f169"
+}
+
+.yesp-icon-youtube-play:before {
+    content: "\f16a"
+}
+
+.yesp-icon-dropbox:before {
+    content: "\f16b"
+}
+
+.yesp-icon-stack-overflow:before {
+    content: "\f16c"
+}
+
+.yesp-icon-instagram:before {
+    content: "\f16d"
+}
+
+.yesp-icon-flickr:before {
+    content: "\f16e"
+}
+
+.yesp-icon-adn:before {
+    content: "\f170"
+}
+
+.yesp-icon-bitbucket:before {
+    content: "\f171"
+}
+
+.yesp-icon-bitbucket-square:before {
+    content: "\f172"
+}
+
+.yesp-icon-tumblr:before {
+    content: "\f173"
+}
+
+.yesp-icon-tumblr-square:before {
+    content: "\f174"
+}
+
+.yesp-icon-long-arrow-down:before {
+    content: "\f175"
+}
+
+.yesp-icon-long-arrow-up:before {
+    content: "\f176"
+}
+
+.yesp-icon-long-arrow-left:before {
+    content: "\f177"
+}
+
+.yesp-icon-long-arrow-right:before {
+    content: "\f178"
+}
+
+.yesp-icon-apple:before {
+    content: "\f179"
+}
+
+.yesp-icon-windows:before {
+    content: "\f17a"
+}
+
+.yesp-icon-android:before {
+    content: "\f17b"
+}
+
+.yesp-icon-linux:before {
+    content: "\f17c"
+}
+
+.yesp-icon-dribbble:before {
+    content: "\f17d"
+}
+
+.yesp-icon-skype:before {
+    content: "\f17e"
+}
+
+.yesp-icon-foursquare:before {
+    content: "\f180"
+}
+
+.yesp-icon-trello:before {
+    content: "\f181"
+}
+
+.yesp-icon-female:before {
+    content: "\f182"
+}
+
+.yesp-icon-male:before {
+    content: "\f183"
+}
+
+.yesp-icon-gittip:before, .yesp-icon-gratipay:before {
+    content: "\f184"
+}
+
+.yesp-icon-sun-o:before {
+    content: "\f185"
+}
+
+.yesp-icon-moon-o:before {
+    content: "\f186"
+}
+
+.yesp-icon-archive:before {
+    content: "\f187"
+}
+
+.yesp-icon-bug:before {
+    content: "\f188"
+}
+
+.yesp-icon-vk:before {
+    content: "\f189"
+}
+
+.yesp-icon-weibo:before {
+    content: "\f18a"
+}
+
+.yesp-icon-renren:before {
+    content: "\f18b"
+}
+
+.yesp-icon-pagelines:before {
+    content: "\f18c"
+}
+
+.yesp-icon-stack-exchange:before {
+    content: "\f18d"
+}
+
+.yesp-icon-arrow-circle-o-right:before {
+    content: "\f18e"
+}
+
+.yesp-icon-arrow-circle-o-left:before {
+    content: "\f190"
+}
+
+.yesp-icon-caret-square-o-left:before, .yesp-icon-toggle-left:before {
+    content: "\f191"
+}
+
+.yesp-icon-dot-circle-o:before {
+    content: "\f192"
+}
+
+.yesp-icon-wheelchair:before {
+    content: "\f193"
+}
+
+.yesp-icon-vimeo-square:before {
+    content: "\f194"
+}
+
+.yesp-icon-try:before, .yesp-icon-turkish-lira:before {
+    content: "\f195"
+}
+
+.yesp-icon-plus-square-o:before {
+    content: "\f196"
+}
+
+.yesp-icon-space-shuttle:before {
+    content: "\f197"
+}
+
+.yesp-icon-slack:before {
+    content: "\f198"
+}
+
+.yesp-icon-envelope-square:before {
+    content: "\f199"
+}
+
+.yesp-icon-wordpress:before {
+    content: "\f19a"
+}
+
+.yesp-icon-openid:before {
+    content: "\f19b"
+}
+
+.yesp-icon-bank:before, .yesp-icon-institution:before, .yesp-icon-university:before {
+    content: "\f19c"
+}
+
+.yesp-icon-graduation-cap:before, .yesp-icon-mortar-board:before {
+    content: "\f19d"
+}
+
+.yesp-icon-yahoo:before {
+    content: "\f19e"
+}
+
+.yesp-icon-google:before {
+    content: "\f1a0"
+}
+
+.yesp-icon-reddit:before {
+    content: "\f1a1"
+}
+
+.yesp-icon-reddit-square:before {
+    content: "\f1a2"
+}
+
+.yesp-icon-stumbleupon-circle:before {
+    content: "\f1a3"
+}
+
+.yesp-icon-stumbleupon:before {
+    content: "\f1a4"
+}
+
+.yesp-icon-delicious:before {
+    content: "\f1a5"
+}
+
+.yesp-icon-digg:before {
+    content: "\f1a6"
+}
+
+.yesp-icon-pied-piper:before {
+    content: "\f1a7"
+}
+
+.yesp-icon-pied-piper-alt:before {
+    content: "\f1a8"
+}
+
+.yesp-icon-drupal:before {
+    content: "\f1a9"
+}
+
+.yesp-icon-joomla:before {
+    content: "\f1aa"
+}
+
+.yesp-icon-language:before {
+    content: "\f1ab"
+}
+
+.yesp-icon-fax:before {
+    content: "\f1ac"
+}
+
+.yesp-icon-building:before {
+    content: "\f1ad"
+}
+
+.yesp-icon-child:before {
+    content: "\f1ae"
+}
+
+.yesp-icon-paw:before {
+    content: "\f1b0"
+}
+
+.yesp-icon-spoon:before {
+    content: "\f1b1"
+}
+
+.yesp-icon-cube:before {
+    content: "\f1b2"
+}
+
+.yesp-icon-cubes:before {
+    content: "\f1b3"
+}
+
+.yesp-icon-behance:before {
+    content: "\f1b4"
+}
+
+.yesp-icon-behance-square:before {
+    content: "\f1b5"
+}
+
+.yesp-icon-steam:before {
+    content: "\f1b6"
+}
+
+.yesp-icon-steam-square:before {
+    content: "\f1b7"
+}
+
+.yesp-icon-recycle:before {
+    content: "\f1b8"
+}
+
+.yesp-icon-automobile:before, .yesp-icon-car:before {
+    content: "\f1b9"
+}
+
+.yesp-icon-cab:before, .yesp-icon-taxi:before {
+    content: "\f1ba"
+}
+
+.yesp-icon-tree:before {
+    content: "\f1bb"
+}
+
+.yesp-icon-spotify:before {
+    content: "\f1bc"
+}
+
+.yesp-icon-deviantart:before {
+    content: "\f1bd"
+}
+
+.yesp-icon-soundcloud:before {
+    content: "\f1be"
+}
+
+.yesp-icon-database:before {
+    content: "\f1c0"
+}
+
+.yesp-icon-file-pdf-o:before {
+    content: "\f1c1"
+}
+
+.yesp-icon-file-word-o:before {
+    content: "\f1c2"
+}
+
+.yesp-icon-file-excel-o:before {
+    content: "\f1c3"
+}
+
+.yesp-icon-file-powerpoint-o:before {
+    content: "\f1c4"
+}
+
+.yesp-icon-file-image-o:before, .yesp-icon-file-photo-o:before,
+.yesp-icon-file-picture-o:before {
+    content: "\f1c5"
+}
+
+.yesp-icon-file-archive-o:before, .yesp-icon-file-zip-o:before {
+    content: "\f1c6"
+}
+
+.yesp-icon-file-audio-o:before, .yesp-icon-file-sound-o:before {
+    content: "\f1c7"
+}
+
+.yesp-icon-file-movie-o:before, .yesp-icon-file-video-o:before {
+    content: "\f1c8"
+}
+
+.yesp-icon-file-code-o:before {
+    content: "\f1c9"
+}
+
+.yesp-icon-vine:before {
+    content: "\f1ca"
+}
+
+.yesp-icon-codepen:before {
+    content: "\f1cb"
+}
+
+.yesp-icon-jsfiddle:before {
+    content: "\f1cc"
+}
+
+.yesp-icon-life-bouy:before, .yesp-icon-life-buoy:before, .yesp-icon-life-ring:before,
+.yesp-icon-life-saver:before, .yesp-icon-support:before {
+    content: "\f1cd"
+}
+
+.yesp-icon-circle-o-notch:before {
+    content: "\f1ce"
+}
+
+.yesp-icon-ra:before, .yesp-icon-rebel:before {
+    content: "\f1d0"
+}
+
+.yesp-icon-empire:before, .yesp-icon-ge:before {
+    content: "\f1d1"
+}
+
+.yesp-icon-git-square:before {
+    content: "\f1d2"
+}
+
+.yesp-icon-git:before {
+    content: "\f1d3"
+}
+
+.yesp-icon-hacker-news:before {
+    content: "\f1d4"
+}
+
+.yesp-icon-tencent-weibo:before {
+    content: "\f1d5"
+}
+
+.yesp-icon-qq:before {
+    content: "\f1d6"
+}
+
+.yesp-icon-wechat:before, .yesp-icon-weixin:before {
+    content: "\f1d7"
+}
+
+.yesp-icon-paper-plane:before, .yesp-icon-send:before {
+    content: "\f1d8"
+}
+
+.yesp-icon-paper-plane-o:before, .yesp-icon-send-o:before {
+    content: "\f1d9"
+}
+
+.yesp-icon-history:before {
+    content: "\f1da"
+}
+
+.yesp-icon-circle-thin:before, .yesp-icon-genderless:before {
+    content: "\f1db"
+}
+
+.yesp-icon-header:before {
+    content: "\f1dc"
+}
+
+.yesp-icon-paragraph:before {
+    content: "\f1dd"
+}
+
+.yesp-icon-sliders:before {
+    content: "\f1de"
+}
+
+.yesp-icon-share-alt:before {
+    content: "\f1e0"
+}
+
+.yesp-icon-share-alt-square:before {
+    content: "\f1e1"
+}
+
+.yesp-icon-bomb:before {
+    content: "\f1e2"
+}
+
+.yesp-icon-futbol-o:before, .yesp-icon-soccer-ball-o:before {
+    content: "\f1e3"
+}
+
+.yesp-icon-tty:before {
+    content: "\f1e4"
+}
+
+.yesp-icon-binoculars:before {
+    content: "\f1e5"
+}
+
+.yesp-icon-plug:before {
+    content: "\f1e6"
+}
+
+.yesp-icon-slideshare:before {
+    content: "\f1e7"
+}
+
+.yesp-icon-twitch:before {
+    content: "\f1e8"
+}
+
+.yesp-icon-yelp:before {
+    content: "\f1e9"
+}
+
+.yesp-icon-newspaper-o:before {
+    content: "\f1ea"
+}
+
+.yesp-icon-wifi:before {
+    content: "\f1eb"
+}
+
+.yesp-icon-calculator:before {
+    content: "\f1ec"
+}
+
+.yesp-icon-paypal:before {
+    content: "\f1ed"
+}
+
+.yesp-icon-google-wallet:before {
+    content: "\f1ee"
+}
+
+.yesp-icon-cc-visa:before {
+    content: "\f1f0"
+}
+
+.yesp-icon-cc-mastercard:before {
+    content: "\f1f1"
+}
+
+.yesp-icon-cc-discover:before {
+    content: "\f1f2"
+}
+
+.yesp-icon-cc-amex:before {
+    content: "\f1f3"
+}
+
+.yesp-icon-cc-paypal:before {
+    content: "\f1f4"
+}
+
+.yesp-icon-cc-stripe:before {
+    content: "\f1f5"
+}
+
+.yesp-icon-bell-slash:before {
+    content: "\f1f6"
+}
+
+.yesp-icon-bell-slash-o:before {
+    content: "\f1f7"
+}
+
+.yesp-icon-trash:before {
+    content: "\f1f8"
+}
+
+.yesp-icon-copyright:before {
+    content: "\f1f9"
+}
+
+.yesp-icon-at:before {
+    content: "\f1fa"
+}
+
+.yesp-icon-eyedropper:before {
+    content: "\f1fb"
+}
+
+.yesp-icon-paint-brush:before {
+    content: "\f1fc"
+}
+
+.yesp-icon-birthday-cake:before {
+    content: "\f1fd"
+}
+
+.yesp-icon-area-chart:before {
+    content: "\f1fe"
+}
+
+.yesp-icon-pie-chart:before {
+    content: "\f200"
+}
+
+.yesp-icon-line-chart:before {
+    content: "\f201"
+}
+
+.yesp-icon-lastfm:before {
+    content: "\f202"
+}
+
+.yesp-icon-lastfm-square:before {
+    content: "\f203"
+}
+
+.yesp-icon-toggle-off:before {
+    content: "\f204"
+}
+
+.yesp-icon-toggle-on:before {
+    content: "\f205"
+}
+
+.yesp-icon-bicycle:before {
+    content: "\f206"
+}
+
+.yesp-icon-bus:before {
+    content: "\f207"
+}
+
+.yesp-icon-ioxhost:before {
+    content: "\f208"
+}
+
+.yesp-icon-angellist:before {
+    content: "\f209"
+}
+
+.yesp-icon-cc:before {
+    content: "\f20a"
+}
+
+.yesp-icon-ils:before, .yesp-icon-shekel:before, .yesp-icon-sheqel:before {
+    content: "\f20b"
+}
+
+.yesp-icon-meanpath:before {
+    content: "\f20c"
+}
+
+.yesp-icon-buysellads:before {
+    content: "\f20d"
+}
+
+.yesp-icon-connectdevelop:before {
+    content: "\f20e"
+}
+
+.yesp-icon-dashcube:before {
+    content: "\f210"
+}
+
+.yesp-icon-forumbee:before {
+    content: "\f211"
+}
+
+.yesp-icon-leanpub:before {
+    content: "\f212"
+}
+
+.yesp-icon-sellsy:before {
+    content: "\f213"
+}
+
+.yesp-icon-shirtsinbulk:before {
+    content: "\f214"
+}
+
+.yesp-icon-simplybuilt:before {
+    content: "\f215"
+}
+
+.yesp-icon-skyatlas:before {
+    content: "\f216"
+}
+
+.yesp-icon-cart-plus:before {
+    content: "\f217"
+}
+
+.yesp-icon-cart-arrow-down:before {
+    content: "\f218"
+}
+
+.yesp-icon-diamond:before {
+    content: "\f219"
+}
+
+.yesp-icon-ship:before {
+    content: "\f21a"
+}
+
+.yesp-icon-user-secret:before {
+    content: "\f21b"
+}
+
+.yesp-icon-motorcycle:before {
+    content: "\f21c"
+}
+
+.yesp-icon-street-view:before {
+    content: "\f21d"
+}
+
+.yesp-icon-heartbeat:before {
+    content: "\f21e"
+}
+
+.yesp-icon-venus:before {
+    content: "\f221"
+}
+
+.yesp-icon-mars:before {
+    content: "\f222"
+}
+
+.yesp-icon-mercury:before {
+    content: "\f223"
+}
+
+.yesp-icon-transgender:before {
+    content: "\f224"
+}
+
+.yesp-icon-transgender-alt:before {
+    content: "\f225"
+}
+
+.yesp-icon-venus-double:before {
+    content: "\f226"
+}
+
+.yesp-icon-mars-double:before {
+    content: "\f227"
+}
+
+.yesp-icon-venus-mars:before {
+    content: "\f228"
+}
+
+.yesp-icon-mars-stroke:before {
+    content: "\f229"
+}
+
+.yesp-icon-mars-stroke-v:before {
+    content: "\f22a"
+}
+
+.yesp-icon-mars-stroke-h:before {
+    content: "\f22b"
+}
+
+.yesp-icon-neuter:before {
+    content: "\f22c"
+}
+
+.yesp-icon-facebook-official:before {
+    content: "\f230"
+}
+
+.yesp-icon-pinterest-p:before {
+    content: "\f231"
+}
+
+.yesp-icon-whatsapp:before {
+    content: "\f232"
+}
+
+.yesp-icon-server:before {
+    content: "\f233"
+}
+
+.yesp-icon-user-plus:before {
+    content: "\f234"
+}
+
+.yesp-icon-user-times:before {
+    content: "\f235"
+}
+
+.yesp-icon-bed:before, .yesp-icon-hotel:before {
+    content: "\f236"
+}
+
+.yesp-icon-viacoin:before {
+    content: "\f237"
+}
+
+.yesp-icon-train:before {
+    content: "\f238"
+}
+
+.yesp-icon-subway:before {
+    content: "\f239"
+}
+
+.yesp-icon-medium:before {
+    content: "\f23a"
+}
+
+
+
 #search-results {
 	display: flex;
     flex-direction: column;
@@ -455,6 +3541,541 @@ border-radius: 0
 #search-results row {
 	max-width:500px;
 }
+/* Fley List */
+.list-wrapper {
+	display: block;
+}
+
+.list-player, .nav {
+	float: right;
+}
+
+.list-player {
+	width: 100%;
+}
+
+/* Navigation styles */
+.nav {
+	width: 8em;
+	margin-right: -10em;
+	/*margin: 0 0 0 3em;*/
+}
+
+.nav__item {
+	line-height: 1;
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 0;
+	color: currentColor;
+	border: 0;
+	background: none;
+}
+
+.nav__item:focus {
+	outline: none;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  top: 0;
+}
+
+/* Individual styles */
+/*** Magool ***/
+
+.nav--magool .nav__item {
+	width: 1.5em;
+	height: 1.25em;
+}
+
+.nav--magool .nav__item::after {
+	content: '';
+	position: absolute;
+	top: 45%;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	background: #949a52;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transition: -webkit-transform 0.5s, background-color 0.5s;
+	transition: transform 0.5s, background-color 0.5s;
+	-webkit-transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+	transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+}
+
+.nav--magool .nav__item:not(.nav__item--current):focus::after,
+.nav--magool .nav__item:not(.nav__item--current):hover::after {
+	background: #707539;
+}
+
+.nav--magool .nav__item:not(.nav__item--current):hover::after {
+	-webkit-transform: scale3d(2,1,1);
+	transform: scale3d(2,1,1);
+}
+
+.nav--magool .nav__item--current::after {
+	background: #333;
+	-webkit-transform: scale3d(2,1,1);
+	transform: scale3d(2,1,1);
+}
+
+
+
+/* Highlight Menu */
+.highlightMenu {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    z-index: 500;
+    transition: none;
+    top: 0;
+    left: 0
+}
+
+.highlightMenu--quoteResponses {
+    z-index: 800
+}
+
+.highlightMenu-inner {
+    position: relative;
+    background-image: linear-gradient(to bottom, rgba(49, 49, 47, .99), #262625);
+    background-repeat: repeat-x;
+    border-radius: 5px
+}
+
+.buttonSet {
+	display: block;
+}
+
+.buttonSet > .button--highlightMenu {
+    height: 44px;
+    line-height: 46px
+}
+
+.button--highlightMenu {
+    display: inline-block;
+    border: 0;
+    color: #fff;
+    box-sizing: content-box;
+    vertical-align: center
+}
+
+.button--highlightMenu .svgIcon {
+    margin-top: -3px
+}
+
+.buttonSet .button--highlightMenu:first-child {
+    padding-left: 18px
+}
+
+.buttonSet .button--highlightMenu:last-child {
+    padding-right: 18px
+}
+
+.button.button--highlightMenu .svgIcon {
+    fill: #fff
+}
+
+.button--highlightMenu.is-active .svgIcon {
+    fill: #48e79a
+}
+
+.button--highlightMenu.button--withSvgIcon .svgIcon {
+    margin-left: -3px;
+    margin-right: -3px
+}
+
+.button--highlightMenu.button--withSvgIcon .svgIcon--highlighter {
+    margin-left: -7px;
+    margin-right: -7px
+}
+
+.button--highlightMenu.button--withSvgIcon .svgIcon--italic {
+    margin-left: -9px;
+    margin-right: -9px
+}
+
+.buttonSet-separator {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1px;
+    margin: 0 6px;
+    height: 24px;
+    background: rgba(255, 255, 255, .2)
+}
+
+.highlightMenu .highlightMenu-arrowClip {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    clip: rect(10px 20px 20px 0);
+    margin-left: -10px
+}
+
+.highlightMenu .highlightMenu-arrowClip .highlightMenu-arrow {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: #262625;
+    transform: rotate(45deg) scale(.5)
+}
+
+.highlightMenu.is-flushTop .highlightMenu-arrowClip {
+    display: none
+}
+
+.button--highlightMenu.is-active .svgIcon--blockquote {
+    fill: #fff
+}
+
+.button--highlightMenu.is-blockquoteMode .svgIcon--blockquote path:nth-child(1) {
+    fill: #48e79a
+}
+
+.button--highlightMenu.is-pullquoteMode .svgIcon--blockquote {
+    fill: #48e79a
+}
+
+.button--highlightMenu.is-active .svgIcon--tt {
+    fill: #fff
+}
+
+.button--highlightMenu.is-h4Mode .svgIcon--tt path:nth-child(1) {
+    fill: #48e79a
+}
+
+.button--highlightMenu.is-h3Mode .svgIcon--tt {
+    fill: #48e79a
+}
+
+.highlightMenu-linkinput {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+.highlightMenu-linkinputField {
+    background: rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 13px 40px 11px 10px;
+    color: #fff;
+    border: none;
+    outline: 0;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga" on
+}
+
+.highlightMenu-linkinput > .button {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: -3px
+}
+
+.highlightMenu--linkMode .buttonSet {
+    visibility: hidden
+}
+
+.highlightMenu--linkMode .highlightMenu-linkinput {
+    display: block;
+    animation: pop-upwards 180ms forwards linear
+}
+
+.highlightMenu--measure {
+    display: inline-block;
+    visibility: hidden
+}
+
+.highlightMenu--active {
+    display: inline-block;
+    visibility: visible;
+    transition: top 75ms ease-out, left 75ms ease-out;
+    animation: pop-upwards 180ms forwards linear
+}
+
+.buttonSet > .button--chromeless + .button--chromeless:not(.button--circle) {
+    margin-left: 0;
+    padding-left: 7px;
+}
+
+.buttonSet > .button--chromeless:not(.button--circle) {
+    margin-right: 0;
+    padding-right: 7px
+}
+
+
+
+/* Button */ 
+
+.button {
+    display: inline-block;
+    position: relative;
+    height: 37px;
+    padding: 0 16px;
+    color: rgba(0, 0, 0, .44);
+    background: rgba(0, 0, 0, 0);
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, .15);
+    vertical-align: bottom;
+    white-space: nowrap;
+    text-rendering: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+    border-radius: 999em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga" on
+}
+
+.button--withSvgIcon .svgIcon {
+    top: -1px;
+    position: relative
+}
+
+.button.button--withIcon.is-active > .button-activeState, .button.button--withIcon > .button-defaultState {
+    display: inline-block;
+    vertical-align: top
+}
+
+.button--chromeless, .button--link {
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+    line-height: inherit;
+    border-width: 0;
+    padding: 0;
+    vertical-align: baseline;
+    color: rgba(0, 0, 0, .44);
+    white-space: normal;
+    text-align: left
+}
+
+.button--chromeless:active, .button--chromeless:focus, .button--chromeless:hover,
+.button--link:active, .button--link:focus, .button--link:hover {
+    color: rgba(0, 0, 0, .6);
+    border-width: 0
+}
+
+.button--link:active, .button--link:focus, .button--link:hover {
+    text-decoration: underline
+}
+
+.button--chromeless.button--circle {
+    border-radius: 999em
+}
+
+.button--chromeless.button--circle, .button--link.button--circle {
+    text-align: center
+}
+
+.button .svgIcon {
+    vertical-align: middle;
+    fill: rgba(0, 0, 0, .44)
+}
+
+.button:hover .svgIcon {
+    fill: rgba(0, 0, 0, .44)
+}
+
+.button:active .svgIcon, .button:focus .svgIcon {
+    fill: rgba(0, 0, 0, .8)
+}
+
+.button--chromeless .svgIcon, .button--link .svgIcon {
+     fill: rgba(0, 0, 0, .44) 
+}
+
+.button--chromeless:hover .svgIcon, .button--link:hover .svgIcon {
+    fill: rgba(0, 0, 0, .8)
+}
+
+.button--chromeless:active .svgIcon, .button--chromeless:focus .svgIcon,
+.button--link:active .svgIcon, .button--link:focus .svgIcon {
+    fill: rgba(0, 0, 0, .9)
+}
+
+.button--withIconAndLabel {
+    line-height: 35px
+}
+
+.button--withIconAndLabel .svgIcon {
+    padding-right: 4px
+}
+
+.button--withIconAndLabel.button--withIconRight .svgIcon {
+    padding-left: 4px;
+    padding-right: 0
+}
+
+.button--withIconAndLabel.button--expandable .svgIcon {
+    padding-right: 0
+}
+
+.button--withIconAndLabel.button--expandable:hover .svgIcon {
+    padding-right: 4px
+}
+
+.button--withSvgIcon .svgIcon {
+     top: -1px; 
+     position: relative; 
+}
+
+
+/* SVG ICON */
+.drawer-content .button--circle .svgIcon, .drawer-content .button--circle .svgIcon-use {
+        width: 19px;
+        height: 19px
+}
+
+.button--signin .svgIcon--25px {
+    padding-right: 8px
+}
+
+.svgIcon--light {
+    fill: rgba(255, 255, 255, .65)
+}
+
+.svgIcon {
+    display: inline-block
+}
+
+.svgIcon--15px {
+    line-height: 15px;
+    height: 15px
+}
+
+.svgIcon--19px {
+    line-height: 19px;
+    height: 19px
+}
+
+.svgIcon--21px {
+    line-height: 21px;
+    height: 21px
+}
+
+.svgIcon--25px {
+    line-height: 25px;
+    height: 25px
+}
+
+.svgIcon--29px {
+    line-height: 29px;
+    height: 29px
+}
+
+.svgIcon--33px {
+    line-height: 33px;
+    height: 33px
+}
+
+.svgIcon--45px {
+    line-height: 45px;
+    height: 45px
+}
+
+.svgIcon--65px {
+    line-height: 65px;
+    height: 65px
+}
+
+.svgIcon--85px {
+    line-height: 85px;
+    height: 85px
+}
+
+.svgIcon--120px {
+    line-height: 120px;
+    height: 120px
+}
+
+.svgIcon--129x37px {
+    line-height: 37px;
+    height: 37px
+}
+
+.svgIcon--95x45px {
+    line-height: 45px;
+    height: 45px
+}
+
+.svgIcon--151x65px {
+    line-height: 65px;
+    height: 65px
+}
+
+.svgIcon--201x85px {
+    line-height: 85px;
+    height: 85px
+}
+
+.svgIcon--25px.svgIcon--heart.is-flushLeft, .svgIcon--25px.svgIcon--heartFilled.is-flushLeft {
+    margin-left: -3px
+}
+
+.svgIcon--25px.svgIcon--bookmark.is-flushRight, .svgIcon--25px.svgIcon--bookmarkFilled.is-flushRight {
+    margin-right: -6px
+}
+
+.svgIcon--25px.svgIcon--lockStory.is-flushRight {
+    margin-right: -6px
+}
+
+.svgIcon--45px.svgIcon--logoNew.is-flushLeft, .svgIcon--45px.svgIcon--logoNewRainbow.is-flushLeft {
+    margin-left: -2px
+}
+
+.svgIcon--21px.svgIcon--arrowRight.is-flushRight {
+    margin-right: -6px
+}
+
+
+.screenContent {
+    outline: 0;
+    background-color: #fff
+}
+
+@media not print {
+    .screenContent {
+        height: 100%
+    }
+}
+
 ul.list-player {
 	text-align: center;
 	list-style: none;

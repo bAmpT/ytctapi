@@ -1,0 +1,368 @@
+<div id="words-container" style="position: relative; z-index: 1;">
+
+<style type="text/css">
+	.words-list {
+		font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, KaiTi, "楷体", STKaiti, "华文楷体", "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", "宋体", SimSun, STXihei, "华文细黑", sans-serif;
+		margin-right: -15px;
+		margin-left: -15px;
+		display: block;
+	}
+
+	.col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {
+		float: left;
+	}
+
+	.col-md-3 {
+		width: 25%;
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+
+	.tile {
+		padding: 15px;
+	}
+
+	.tile .tile-inner {
+		text-align: center;
+		position: relative;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .125);
+		background-color: #F9F9F9;
+		border-radius: 5px;
+	}
+
+	.tile .tile-inner .tile-content {
+		padding: 15px 20px;
+	}
+
+	.tile .tile-inner li, .tile .tile-inner p {
+		margin: 5px 0;
+		line-height: 1.6em;
+		font-size: 14px;
+	}
+
+	.tile .tile-inner .meta {
+		margin-top: 0;
+	}
+
+	.tile .tile-inner .meta ul {
+		list-style: none;
+		padding: 0;
+		margin: 5px 0 0;
+		text-align: center;
+	}
+
+	.tile .tile-inner .meta ul li:first-child {
+		margin-left: 0;
+	}
+
+	.tile .tile-inner .meta ul li {
+		display: inline-block;
+		margin: 0 0 0 8px;
+		font-size: 11px;
+	}
+
+	.tile .tile-inner .tile-content .meta, .tile .tile-inner .tile-content ul {
+		color: #999;
+		line-height: 1.6em;
+	}
+
+	a.pop {
+		height: 70px;
+		width: 70px;
+		font-size: 40px;
+		line-height: 70px;
+		margin: 0 auto;
+		background-color: #6B6B6B;
+		border-radius: 50%;
+		display: inline-block;
+		text-decoration: none !important;
+		overflow: hidden;
+		position: relative;
+	}
+
+	a.pop, a.pop:focus, a.pop:hover {
+		color: #fff;
+	}
+
+	.switchable .zhu {
+		display: none;
+	}
+
+	.pop.tone.tone1 {
+    	background-color: #ED7989
+	}
+
+	.pop.tone.tone2 {
+	    background-color: #F4B952
+	}
+
+	.pop.tone.tone3 {
+	    background-color: #45BDA0
+	}
+
+	.pop.tone.tone4 {
+	    background-color: #409FDD
+	}
+
+	.pop.tone.tone5 {
+	    background-color: #6B6B6B
+	}
+
+	.text-tone1 {
+	    color: #ED7989 !important
+	}
+
+	.text-tone2 {
+	    color: #F4B952 !important
+	}
+
+	.text-tone3 {
+	    color: #45BDA0 !important
+	}
+
+	.text-tone4 {
+	    color: #409FDD !important
+	}
+
+	.text-tone5 {
+	    color: #6B6B6B !important
+	}
+</style>
+
+
+<style type="text/css">
+	._a1rcs {
+		background-color: rgba(0, 0, 0, .5);
+		bottom: 0;
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		left: 0;
+		overflow-y: auto;
+		position: fixed;
+		right: 0;
+		top: 0;
+		z-index: 1;
+	}
+
+	._quk42 {
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		position: fixed;
+		right: 0;
+		top: 0;
+		z-index: 0;
+	}
+
+	._g1ax7 {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		min-height: 100%;
+		overflow: auto;
+		width: auto;
+		z-index: 1;
+		padding: 0 40px;
+		pointer-events: none;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+
+	._g1ax7::after, ._g1ax7::before {
+		content: '';
+		display: block;
+		-ms-flex-preferred-size: 40px;
+		flex-basis: 40px;
+		-ms-flex-negative: 0;
+		flex-shrink: 0;
+	}
+
+	._qjr85 {
+		background: #fff;
+		-webkit-box-flex: 0;
+		-ms-flex: 0 1 600px;
+		flex: 0 1 600px;
+		min-height: 200px;
+		max-width: 600px;
+	}
+
+	._n3cp9 {
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		margin: auto;
+		max-width: 935px;
+		pointer-events: auto;
+		width: 100%;
+	}
+
+	._q44m8 {
+		background: #fff;
+		border-bottom: solid 1px #dbdbdb;
+		color: #262626;
+		font-size: 16px;
+		font-weight: 600;
+		padding: 16px;
+	}
+
+	._3eajp {
+		background: 0 0;
+		border: none;
+		cursor: pointer;
+		height: 36px;
+		outline: none;
+		overflow: hidden;
+		position: absolute;
+		right: 0;
+		top: 0;
+		z-index: 2;
+	}
+
+	._3eajp::before {
+		color: #fff;
+		content: '\00D7';
+		display: block;
+		font-size: 36px;
+		font-weight: 600;
+		line-height: 36px;
+		padding: 0;
+		margin: 0;
+	}
+
+	._cx1ua {
+		border-bottom: solid 1px #efefef;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		padding: 16px 20px;
+	}
+
+	._4j13h {
+		list-style: none;
+		background: #fff;
+	}
+
+	._4gt3b {
+		display: block;
+		overflow-y: scroll;
+	}
+
+	._4gt3b, ._7z4zb {
+		margin: 0 auto;
+		width: 600px;
+	}
+
+	._6jvgy {
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: row;
+		flex-direction: row;
+	}
+
+	._9tu8m {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-flex: 1;
+		-ms-flex: 1 1 100px;
+		flex: 1 1 100px;
+		overflow: hidden;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-ms-flex-direction: row;
+		flex-direction: row;
+	}
+
+	._mmgca {
+		-webkit-box-flex: 1;
+		-ms-flex: 1 1 70px;
+		flex: 1 1 70px;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		min-width: 70px;
+		-webkit-box-orient: vertical;
+		-ms-flex-direction: column;
+		flex-direction: column;
+	}
+
+	._5lote {
+		background-color: #fafafa;
+		border: 1px solid #dbdbdb;
+		border-radius: 50%;
+		box-sizing: border-box;
+		display: block;
+		overflow: hidden;
+	}
+
+	a._5lote._pfo25._vbtk2 {
+		width: 30px;
+		height: 30px;
+	}
+
+	._72gdz {
+		-webkit-box-flex: 0;
+		-ms-flex: 0 0 110px;
+		flex: 0 0 110px;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		margin-left: 15px;
+	}
+</style>
+
+	<div data-reactroot="" class="_a1rcs" role="dialog">
+		<div class="_quk42"></div>
+		<div class="_g1ax7">
+			<div class="_n3cp9 _qjr85">
+				<div class="_q44m8 _7z4zb">Words</div>
+				<div class="_4gt3b">
+
+				<button onclick="document.getElementById('words-container').remove(); return false;">Export List</button>
+				<div class="grid row words-list">
+					<%= for word <- @user.words do %>
+					<div class="character tile col-md-3 col-sm-4 col-xs-12"> 
+						<div class="tile-inner tone tone2">  
+							<div class="tile-content center"> 
+								<a href="https://characterpop.com/explode/%E5%94%AF" class="pop tone tone2"> <%= word.simp %></a> 
+								<div class="switchable"> 
+									<p class="pin text-tone2" data-switch=""> <%= word.pinyin %> </p> <p class="zhu text-tone2" data-switch=""> ㄨㄟˊ </p>
+								</div> 
+								<p title="<%= word.translation %>"><%= word.translation %></p> 
+								<div class="meta">
+									<ul>
+									<li title="Views"> <i class="icon-eye"></i>232 </li>   
+									<li> <a href="https://characterpop.com/characters/%E5%94%AF/lists" title="Families"> <i class="icon-hotpot"></i>6 </a> </li>   
+									</ul> 
+								</div> 
+							</div> 
+						</div> 
+					</div>  
+					<% end %>
+				</div>
+
+				</div>
+			</div>
+		</div>
+		<button class="_3eajp" onclick="document.getElementById('words-container').remove(); return false;">Schließen</button>
+		<script type="text/javascript">
+			window.onkeypress = function(evt) {
+    			evt = evt || window.event;
+    			if (evt.keyCode == 27) {
+        			alert("Esc was pressed");
+        			document.getElementById('words-container').remove();
+    			}
+			};
+		</script>
+	</div>
+</div>

@@ -1,0 +1,534 @@
+/* Fley List */
+.list-wrapper {
+	display: block;
+}
+
+.list-player, .nav {
+	float: right;
+}
+
+.list-player {
+	width: 100%;
+}
+
+/* Navigation styles */
+.nav {
+	width: 8em;
+	margin-right: -10em;
+	/*margin: 0 0 0 3em;*/
+}
+
+.nav__item {
+	line-height: 1;
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 0;
+	color: currentColor;
+	border: 0;
+	background: none;
+}
+
+.nav__item:focus {
+	outline: none;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  top: 0;
+}
+
+/* Individual styles */
+/*** Magool ***/
+
+.nav--magool .nav__item {
+	width: 1.5em;
+	height: 1.25em;
+}
+
+.nav--magool .nav__item::after {
+	content: '';
+	position: absolute;
+	top: 45%;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	background: #949a52;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transition: -webkit-transform 0.5s, background-color 0.5s;
+	transition: transform 0.5s, background-color 0.5s;
+	-webkit-transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+	transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+}
+
+.nav--magool .nav__item:not(.nav__item--current):focus::after,
+.nav--magool .nav__item:not(.nav__item--current):hover::after {
+	background: #707539;
+}
+
+.nav--magool .nav__item:not(.nav__item--current):hover::after {
+	-webkit-transform: scale3d(2,1,1);
+	transform: scale3d(2,1,1);
+}
+
+.nav--magool .nav__item--current::after {
+	background: #333;
+	-webkit-transform: scale3d(2,1,1);
+	transform: scale3d(2,1,1);
+}
+
+
+
+/* Highlight Menu */
+.highlightMenu {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    z-index: 500;
+    transition: none;
+    top: 0;
+    left: 0
+}
+
+.highlightMenu--quoteResponses {
+    z-index: 800
+}
+
+.highlightMenu-inner {
+    position: relative;
+    background-image: linear-gradient(to bottom, rgba(49, 49, 47, .99), #262625);
+    background-repeat: repeat-x;
+    border-radius: 5px
+}
+
+.buttonSet {
+	display: block;
+}
+
+.buttonSet > .button--highlightMenu {
+    height: 44px;
+    line-height: 46px
+}
+
+.button--highlightMenu {
+    display: inline-block;
+    border: 0;
+    color: #fff;
+    box-sizing: content-box;
+    vertical-align: center
+}
+
+.button--highlightMenu .svgIcon {
+    margin-top: -3px
+}
+
+.buttonSet .button--highlightMenu:first-child {
+    padding-left: 18px
+}
+
+.buttonSet .button--highlightMenu:last-child {
+    padding-right: 18px
+}
+
+.button.button--highlightMenu .svgIcon {
+    fill: #fff
+}
+
+.button--highlightMenu.is-active .svgIcon {
+    fill: #48e79a
+}
+
+.button--highlightMenu.button--withSvgIcon .svgIcon {
+    margin-left: -3px;
+    margin-right: -3px
+}
+
+.button--highlightMenu.button--withSvgIcon .svgIcon--highlighter {
+    margin-left: -7px;
+    margin-right: -7px
+}
+
+.button--highlightMenu.button--withSvgIcon .svgIcon--italic {
+    margin-left: -9px;
+    margin-right: -9px
+}
+
+.buttonSet-separator {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1px;
+    margin: 0 6px;
+    height: 24px;
+    background: rgba(255, 255, 255, .2)
+}
+
+.highlightMenu .highlightMenu-arrowClip {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    clip: rect(10px 20px 20px 0);
+    margin-left: -10px
+}
+
+.highlightMenu .highlightMenu-arrowClip .highlightMenu-arrow {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: #262625;
+    transform: rotate(45deg) scale(.5)
+}
+
+.highlightMenu.is-flushTop .highlightMenu-arrowClip {
+    display: none
+}
+
+.button--highlightMenu.is-active .svgIcon--blockquote {
+    fill: #fff
+}
+
+.button--highlightMenu.is-blockquoteMode .svgIcon--blockquote path:nth-child(1) {
+    fill: #48e79a
+}
+
+.button--highlightMenu.is-pullquoteMode .svgIcon--blockquote {
+    fill: #48e79a
+}
+
+.button--highlightMenu.is-active .svgIcon--tt {
+    fill: #fff
+}
+
+.button--highlightMenu.is-h4Mode .svgIcon--tt path:nth-child(1) {
+    fill: #48e79a
+}
+
+.button--highlightMenu.is-h3Mode .svgIcon--tt {
+    fill: #48e79a
+}
+
+.highlightMenu-linkinput {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+.highlightMenu-linkinputField {
+    background: rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 13px 40px 11px 10px;
+    color: #fff;
+    border: none;
+    outline: 0;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga" on
+}
+
+.highlightMenu-linkinput > .button {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: -3px
+}
+
+.highlightMenu--linkMode .buttonSet {
+    visibility: hidden
+}
+
+.highlightMenu--linkMode .highlightMenu-linkinput {
+    display: block;
+    animation: pop-upwards 180ms forwards linear
+}
+
+.highlightMenu--measure {
+    display: inline-block;
+    visibility: hidden
+}
+
+.highlightMenu--active {
+    display: inline-block;
+    visibility: visible;
+    transition: top 75ms ease-out, left 75ms ease-out;
+    animation: pop-upwards 180ms forwards linear
+}
+
+.buttonSet > .button--chromeless + .button--chromeless:not(.button--circle) {
+    margin-left: 0;
+    padding-left: 7px;
+}
+
+.buttonSet > .button--chromeless:not(.button--circle) {
+    margin-right: 0;
+    padding-right: 7px
+}
+
+
+
+/* Button */ 
+
+.button {
+    display: inline-block;
+    position: relative;
+    height: 37px;
+    padding: 0 16px;
+    color: rgba(0, 0, 0, .44);
+    background: rgba(0, 0, 0, 0);
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, .15);
+    vertical-align: bottom;
+    white-space: nowrap;
+    text-rendering: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+    border-radius: 999em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga" on
+}
+
+.button--withSvgIcon .svgIcon {
+    top: -1px;
+    position: relative
+}
+
+.button.button--withIcon.is-active > .button-activeState, .button.button--withIcon > .button-defaultState {
+    display: inline-block;
+    vertical-align: top
+}
+
+.button--chromeless, .button--link {
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+    line-height: inherit;
+    border-width: 0;
+    padding: 0;
+    vertical-align: baseline;
+    color: rgba(0, 0, 0, .44);
+    white-space: normal;
+    text-align: left
+}
+
+.button--chromeless:active, .button--chromeless:focus, .button--chromeless:hover,
+.button--link:active, .button--link:focus, .button--link:hover {
+    color: rgba(0, 0, 0, .6);
+    border-width: 0
+}
+
+.button--link:active, .button--link:focus, .button--link:hover {
+    text-decoration: underline
+}
+
+.button--chromeless.button--circle {
+    border-radius: 999em
+}
+
+.button--chromeless.button--circle, .button--link.button--circle {
+    text-align: center
+}
+
+.button .svgIcon {
+    vertical-align: middle;
+    fill: rgba(0, 0, 0, .44)
+}
+
+.button:hover .svgIcon {
+    fill: rgba(0, 0, 0, .44)
+}
+
+.button:active .svgIcon, .button:focus .svgIcon {
+    fill: rgba(0, 0, 0, .8)
+}
+
+.button--chromeless .svgIcon, .button--link .svgIcon {
+     fill: rgba(0, 0, 0, .44) 
+}
+
+.button--chromeless:hover .svgIcon, .button--link:hover .svgIcon {
+    fill: rgba(0, 0, 0, .8)
+}
+
+.button--chromeless:active .svgIcon, .button--chromeless:focus .svgIcon,
+.button--link:active .svgIcon, .button--link:focus .svgIcon {
+    fill: rgba(0, 0, 0, .9)
+}
+
+.button--withIconAndLabel {
+    line-height: 35px
+}
+
+.button--withIconAndLabel .svgIcon {
+    padding-right: 4px
+}
+
+.button--withIconAndLabel.button--withIconRight .svgIcon {
+    padding-left: 4px;
+    padding-right: 0
+}
+
+.button--withIconAndLabel.button--expandable .svgIcon {
+    padding-right: 0
+}
+
+.button--withIconAndLabel.button--expandable:hover .svgIcon {
+    padding-right: 4px
+}
+
+.button--withSvgIcon .svgIcon {
+     top: -1px; 
+     position: relative; 
+}
+
+
+/* SVG ICON */
+.drawer-content .button--circle .svgIcon, .drawer-content .button--circle .svgIcon-use {
+        width: 19px;
+        height: 19px
+}
+
+.button--signin .svgIcon--25px {
+    padding-right: 8px
+}
+
+.svgIcon--light {
+    fill: rgba(255, 255, 255, .65)
+}
+
+.svgIcon {
+    display: inline-block
+}
+
+.svgIcon--15px {
+    line-height: 15px;
+    height: 15px
+}
+
+.svgIcon--19px {
+    line-height: 19px;
+    height: 19px
+}
+
+.svgIcon--21px {
+    line-height: 21px;
+    height: 21px
+}
+
+.svgIcon--25px {
+    line-height: 25px;
+    height: 25px
+}
+
+.svgIcon--29px {
+    line-height: 29px;
+    height: 29px
+}
+
+.svgIcon--33px {
+    line-height: 33px;
+    height: 33px
+}
+
+.svgIcon--45px {
+    line-height: 45px;
+    height: 45px
+}
+
+.svgIcon--65px {
+    line-height: 65px;
+    height: 65px
+}
+
+.svgIcon--85px {
+    line-height: 85px;
+    height: 85px
+}
+
+.svgIcon--120px {
+    line-height: 120px;
+    height: 120px
+}
+
+.svgIcon--129x37px {
+    line-height: 37px;
+    height: 37px
+}
+
+.svgIcon--95x45px {
+    line-height: 45px;
+    height: 45px
+}
+
+.svgIcon--151x65px {
+    line-height: 65px;
+    height: 65px
+}
+
+.svgIcon--201x85px {
+    line-height: 85px;
+    height: 85px
+}
+
+.svgIcon--25px.svgIcon--heart.is-flushLeft, .svgIcon--25px.svgIcon--heartFilled.is-flushLeft {
+    margin-left: -3px
+}
+
+.svgIcon--25px.svgIcon--bookmark.is-flushRight, .svgIcon--25px.svgIcon--bookmarkFilled.is-flushRight {
+    margin-right: -6px
+}
+
+.svgIcon--25px.svgIcon--lockStory.is-flushRight {
+    margin-right: -6px
+}
+
+.svgIcon--45px.svgIcon--logoNew.is-flushLeft, .svgIcon--45px.svgIcon--logoNewRainbow.is-flushLeft {
+    margin-left: -2px
+}
+
+.svgIcon--21px.svgIcon--arrowRight.is-flushRight {
+    margin-right: -6px
+}
+
+
+.screenContent {
+    outline: 0;
+    background-color: #fff
+}
+
+@media not print {
+    .screenContent {
+        height: 100%
+    }
+}

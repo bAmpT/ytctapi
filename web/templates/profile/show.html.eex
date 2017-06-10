@@ -1,27 +1,153 @@
 <header class="profile-page">
 	<div class="profile-page-image">
-		<img class="_8gpiy _r43r5" src="https://scontent-fra3-1.cdninstagram.com/t51.2885-19/s150x150/12356350_1510009145960986_670697426_a.jpg">
+		<img class="_8gpiy _r43r5" src="<%= avatar_url(@user) %>">
 	</div>
 	<div class="profile-page-info">
 		<div class="_8mm5v">
-			<h1 class="_i572c notranslate" title="<%= @user.username %>"><%= @user.username %></h1>
+			<h1 class="_i572c notranslate" title="<%= @user.username %>">
+				<%= @user.username %>
+			</h1>
 			<ul class="profile-page-info-list">
 				<li class="_218yx">
-					<span class="_s53mj"><!-- react-text: 26 --><!-- /react-text -->
+					<span class="_s53mj">
 					<span class="_bkw5z"><%= length(@user.transscripts) %></span>
 					<%= if length(@user.transscripts) == 1 do %>Beitrag
 					<% else %>Beiträge<% end %>
 					</span>
 				</li>
 				<li class="_218yx">
-					<a class="_s53mj" href="/<%= @user.username %>/followers/"><!-- react-text: 31 --><!-- /react-text -->
-					<span class="_bkw5z" title="14">4</span><!-- react-text: 33 --> Playlists<!-- /react-text --></a>
+					<a class="_s53mj" href="/<%= @user.username %>/followers/">
+					<span class="_bkw5z" title="14">4</span> Playlists</a>
 				</li>
-				<li class="_218yx"><a class="_s53mj" href="/<%= @user.username %>/following/"><!-- react-text: 36 --><!-- /react-text --><span class="_bkw5z">2</span><!-- react-text: 38 --> Words<!-- /react-text --></a>
+				<li class="_218yx"><a class="_s53mj" onclick="Profile.onclick('<%= @user.username %>'); return false;" href="#/<%= @user.username %>/following/"><span class="_bkw5z"><%= length(@user.words) %></span> Words</a>
 				</li>
 			</ul>
 	</div>
 </header>
+
+<style type="text/css">
+._82fo9 {
+	background-color: #fff;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+	margin-left: -1px;
+	margin-right: -1px;
+
+	-webkit-box-align: stretch;
+	-ms-flex-align: stretch;
+	align-items: stretch;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-ms-flex-negative: 0;
+	flex-shrink: 0;
+	margin: 0;
+	padding: 0;
+
+	position: relative;
+}
+
+._29u55 {
+	background-color: #fff;
+	margin-bottom: 20px;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	color: #3897f0;
+	padding: 10px;
+	-webkit-transition: opacity .2s ease-in;
+	transition: opacity .2s ease-in;
+}
+
+._8g9t0 {
+	height: 36px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 36px;
+
+	background: 0 0;
+	border: none;
+	cursor: pointer;
+	outline: none;
+}
+
+._8g9t0::before {
+	color: #c7c7c7;
+	content: '\00D7';
+	display: block;
+	font-size: 36px;
+	font-weight: 100;
+	line-height: 36px;
+	margin: 0;
+	padding: 0;
+}
+
+._n4m46 {
+	padding: 0 0 15px;
+	color: #3897f0;
+	font: inherit;
+	margin: 0;
+	background: 0 0;
+	border: none;
+	cursor: pointer;
+	outline: none;
+	align-items: flex-start;
+	box-sizing: border-box;
+	display: inline-block;
+	-webkit-writing-mode: horizontal-tb !important;
+	-webkit-box-direction: normal;
+}
+
+._p1u2e {
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	border-radius: 50%;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	height: 80px;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	margin: 15px auto;
+	-webkit-transition: height 1.5s ease-in, margin-bottom 1.5s ease-in, opacity 1.5s ease-in, width 1.5s ease-in;
+	transition: height 1.5s ease-in, margin-bottom 1.5s ease-in, opacity 1.5s ease-in, width 1.5s ease-in;
+	width: 80px;
+}
+
+.coreSpriteAddPhoto {
+	background-image: url(//instagramstatic-a.akamaihd.net/h1/sprites/core/9ee7cc.png);
+	background-repeat: no-repeat;
+	background-position: -94px -53px;
+	height: 80px;
+	width: 80px;
+}
+</style>
+
+	
+<section id="add-container" class="_82fo9 _29u55">
+	<button class="_8g9t0" onclick="document.getElementById('add-container').remove(); return false;"></button>
+	<button class="_n4m46" onclick="document.location.href = '/editor';">
+	<span class="_p1u2e _ldozo coreSpriteAddPhoto"><span class="_32wir"></span></span>Füge ein neues Video hinzu</button>
+	
+</section>
+
+
 <style type="text/css">
 	header.profile-page {
 		display: flex;
@@ -81,13 +207,349 @@
 	}
 </style>
 
+<!--
 <ul class="video-list">
-  <%= for transscript <- @user.transscripts do %>
+  <%= for transscript <- transscripts(@user) do %>
     <li>
-        <a href="/watch?v=<%= transscript.ytid %>">
-        <h4><%= transscript.title %></h4>
-        <img width=500 style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/>
+        <a href="/watch?v=<%= elem(transscript, 0).ytid %>">
+        <h4><%= elem(transscript, 0).title %></h4>
+        <img width=500 style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= elem(transscript, 0).ytid %>/hqdefault.jpg"/>
         </a>
     </li>
   <% end %>
 </ul>
+-->
+
+<style type="text/css">
+._nljxa {
+	box-sizing: content-box;
+	padding: 30px 20px 0;
+	width: calc(100% - 40px);
+}
+
+/* Image Column Element */
+._myci9 {
+    /*margin-bottom: 28px;*/
+    margin-bottom: 58px;
+}
+._myci9:last-child {
+	margin-bottom: 0;
+}
+._myci9 {
+    flex-direction: row;
+}
+
+/* Image Link A*/
+
+._t5r8b {
+    margin-right: 28px;
+}
+._t5r8b:last-child {
+	margin-right: 0;
+}
+._t5r8b {
+    flex: 1 0 0%;
+}
+._8mlbc {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+/* Image DIV Wrapper */
+
+._22yr2 {
+    background-color: #edeeee;
+    display: block;
+    width: 100%;
+
+    max-height: 180px;
+}
+
+/* Image DIV */
+._jjzlb {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 100%;
+}
+
+._ovg3g {
+    bottom: 0;
+    right: 0;
+}
+._icyx7, ._ovg3g {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+/* Image */
+._icyx7 {
+    -moz-user-select: none;
+    height: 100%;
+    width: 100%;
+
+    max-height: 180px;
+    object-fit: cover;
+}
+._icyx7, ._ovg3g {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+/* Subtitle*/
+._idsh2 {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: calc(100% + 5px);
+
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical; 
+	overflow: hidden;
+}
+</style>
+
+<section>
+<div class="_nljxa">
+<%= for {transscript, index} <- transscripts(@user) do %>
+
+	<%= if rem(index, 2) == 0 do %>
+    <div class="_myci9">
+        <a class="_8mlbc _vbtk2 _t5r8b" href="/watch?v=<%= transscript.ytid %>">
+            <div class="_22yr2">
+                <div class="_jjzlb"><img class="_icyx7" id="pImage_0" src="http://img.youtube.com/vi/<%= transscript.ytid %>/mqdefault.jpg" style=""></div>
+                <div class="_ovg3g"></div>
+                <p class="_idsh2"><%= transscript.title %></p>
+            </div>
+        </a>
+    <% else %>
+        <a class="_8mlbc _vbtk2 _t5r8b" href="/watch?v=<%= transscript.ytid %>">
+            <div class="_22yr2">
+                <div class="_jjzlb"><img class="_icyx7" id="pImage_1" src="http://img.youtube.com/vi/<%= transscript.ytid %>/mqdefault.jpg" style=""></div>
+                <div class="_ovg3g"></div>
+                <p class="_idsh2"><%= transscript.title %></p>
+            </div>
+        </a>
+    </div>
+    <% end %>
+
+ <% end %>
+    
+</div>
+</section>
+
+<style type="text/css">
+	._pupj3::before, ._stvbq {
+    border-color: #3897f0;
+}
+._gsvhg, ._gsvhg::after, ._gsvhg::before, ._pupj3, ._pupj3::before {
+    height: 120px;
+    width: 120px;
+}
+._gsvhg::after, ._gsvhg::before, ._pupj3::before {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 2px;
+    box-sizing: border-box;
+    content: "";
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+._gsvhg, ._gsvhg::after, ._gsvhg::before, ._pupj3, ._pupj3::before {
+    height: 120px;
+    width: 120px;
+}
+._gsvhg, ._pupj3 {
+    justify-content: center;
+    margin: 60px auto 0;
+    position: relative;
+}
+
+._1ooyk, ._1ooyk:visited, ._oidfu, ._oidfu:visited {
+    color: #3897f0;
+}
+._1ooyk, ._hnn7m, ._lml9j, ._oidfu {
+    font-weight: 600;
+}
+._hnn7m, ._oidfu {
+    display: block;
+    font-size: 14px;
+    margin: -60px 0;
+    padding: 60px 9px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1;
+}
+
+</style>
+
+<section class="_rajdd">
+	<div class="_pupj3">
+		<a class="_oidfu" href="/">Mehr laden</a>
+	</div>
+</section>
+
+<!--
+<style type="text/css">
+	.words-list {
+		font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, KaiTi, "楷体", STKaiti, "华文楷体", "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", "宋体", SimSun, STXihei, "华文细黑", sans-serif;
+		margin-right: -15px;
+		margin-left: -15px;
+		display: block;
+	}
+
+	.col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {
+		float: left;
+	}
+
+	.col-md-3 {
+		width: 25%;
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+
+	.tile {
+		padding: 15px;
+	}
+
+	.tile .tile-inner {
+		text-align: center;
+		position: relative;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .125);
+		background-color: #F9F9F9;
+		border-radius: 5px;
+	}
+
+	.tile .tile-inner .tile-content {
+		padding: 15px 20px;
+	}
+
+	.tile .tile-inner li, .tile .tile-inner p {
+		margin: 5px 0;
+		line-height: 1.6em;
+		font-size: 14px;
+	}
+
+	.tile .tile-inner .meta {
+		margin-top: 0;
+	}
+
+	.tile .tile-inner .meta ul {
+		list-style: none;
+		padding: 0;
+		margin: 5px 0 0;
+		text-align: center;
+	}
+
+	.tile .tile-inner .meta ul li:first-child {
+		margin-left: 0;
+	}
+
+	.tile .tile-inner .meta ul li {
+		display: inline-block;
+		margin: 0 0 0 8px;
+		font-size: 11px;
+	}
+
+	.tile .tile-inner .tile-content .meta, .tile .tile-inner .tile-content ul {
+		color: #999;
+		line-height: 1.6em;
+	}
+
+	a.pop {
+		height: 70px;
+		width: 70px;
+		font-size: 40px;
+		line-height: 70px;
+		margin: 0 auto;
+		background-color: #6B6B6B;
+		border-radius: 50%;
+		display: inline-block;
+		text-decoration: none !important;
+		overflow: hidden;
+		position: relative;
+	}
+
+	a.pop, a.pop:focus, a.pop:hover {
+		color: #fff;
+	}
+
+	.switchable .zhu {
+		display: none;
+	}
+
+	.pop.tone.tone1 {
+    	background-color: #ED7989
+	}
+
+	.pop.tone.tone2 {
+	    background-color: #F4B952
+	}
+
+	.pop.tone.tone3 {
+	    background-color: #45BDA0
+	}
+
+	.pop.tone.tone4 {
+	    background-color: #409FDD
+	}
+
+	.pop.tone.tone5 {
+	    background-color: #6B6B6B
+	}
+
+	.text-tone1 {
+	    color: #ED7989 !important
+	}
+
+	.text-tone2 {
+	    color: #F4B952 !important
+	}
+
+	.text-tone3 {
+	    color: #45BDA0 !important
+	}
+
+	.text-tone4 {
+	    color: #409FDD !important
+	}
+
+	.text-tone5 {
+	    color: #6B6B6B !important
+	}
+</style>
+
+<div class="grid row words-list">
+	<%= for word <- @user.words do %>
+	<div class="character tile col-md-3 col-sm-4 col-xs-12"> 
+		<div class="tile-inner tone tone2">  
+			<div class="tile-content center"> 
+				<a href="https://characterpop.com/explode/%E5%94%AF" class="pop tone tone2"> <%= word.simp %></a> 
+				<div class="switchable"> 
+					<p class="pin text-tone2" data-switch=""> <%= word.pinyin %> </p> <p class="zhu text-tone2" data-switch=""> ㄨㄟˊ </p>
+				</div> 
+				<p title="<%= word.translation %>"><%= word.translation %></p> 
+				<div class="meta">
+					<ul>
+					<li title="Views"> <i class="icon-eye"></i>232 </li>   
+					<li> <a href="https://characterpop.com/characters/%E5%94%AF/lists" title="Families"> <i class="icon-hotpot"></i>6 </a> </li>   
+					</ul> 
+				</div> 
+			</div> 
+		</div> 
+	</div>  
+	<% end %>
+</div>
+-->
+
+<script>
+var Profile = require("web/static/js/profile").Profile; 
+Profile.constructor(document.socket);
+</script>

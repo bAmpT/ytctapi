@@ -1,8 +1,14 @@
-document.addEventListener("turbolinks:load", function() {
-    onYouTubeIframeAPIReady && onYouTubeIframeAPIReady();
+import { Channel } from "phoenix";
 
-    document.ytct = document.getElementById("ytid").getAttribute("data-ytid")
+document.addEventListener("turbolinks:load", function() {
+    document.ytct = document.getElementById("ytid").getAttribute("data-ytid");
+    onYouTubeIframeAPIReady && onYouTubeIframeAPIReady();
 })
+
+window.addEventListener("load", function(event) {
+    var event = new Event("turbolinks:load");
+    document.dispatchEvent(event);
+}, false);
 
 // This code loads the IFrame Player API code asynchronously.
 var loadYoutubeApi = function() {
@@ -86,13 +92,14 @@ function playingAt(time) {
         currentTimestampIndex = currentTimestampIndex + 1
         currentTimestamp = parseFloat(timestamps[currentTimestampIndex].getAttribute("data-timestamp"))
 
+        tl.moveToIndex(currentTimestampIndex)
+
         timestamps[currentTimestampIndex].getElementsByTagName("a")[0].style.color = "hotpink"
      }
 }
 
 
 import {Socket, Presence} from "phoenix"
-console.log("Requering Search...")
 
 if (document.socket == undefined) {
     document.socket = new Socket("/socket", {params: {guardian_token: document.jwt}})
@@ -113,13 +120,17 @@ function fade(element) {
 }
 
 export var Player = {
-    presence_channel: document.socket.channel("watch:"+ytid, {}),
-    like_channel: document.socket.channel("like:"+ytid, {}),
-    comment_channel: document.socket.channel("comment:"+ytid, {}),
+    presence_channel: Channel,
+    like_channel: Channel,
+    comment_channel: Channel,
+
+    ytid: "",
 
     presences: {},
 
     join_like_channel: function () {
+        this.like_channel = document.socket.channel("like:"+ytid, {})
+
         this.like_channel.join()
             .receive('ok', function(resp) { console.log('LIKE: Joined successfully', resp) })
             .receive('error', function(resp) { console.log('LIKE: Unable to join', resp) })
@@ -131,6 +142,8 @@ export var Player = {
     },
 
     join_comment_channel: function () {
+        this.comment_channel = document.socket.channel("comment:"+ytid, {})
+
         this.comment_channel.join()
             .receive('ok', function(resp) { console.log('COMMENT: Joined successfully', resp) })
             .receive('error', function(resp) { console.log('COMMENT: Unable to join', resp) })
@@ -148,6 +161,8 @@ export var Player = {
     },
 
     join_presence_channel: function () {
+        this.presence_channel = document.socket.channel("watch:"+ytid, {})
+
         this.presence_channel.join()
             .receive("ok", resp => { console.log("PRESENCE: Joined successfully", resp) })
             .receive("error", resp => { console.log("PRESENCE: Unable to join", resp) })
@@ -180,7 +195,10 @@ export var Player = {
         })
     },
 
-    init: function () {
+    init: function (theYtid) {
+        console.log('Loading Module: Player')
+
+        this.ytid = theYtid
         
         if (this.presence_channel.isClosed()) {
             this.presence_channel = document.socket.channel("watch:"+ytid, {})

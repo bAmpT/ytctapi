@@ -23,7 +23,17 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
+# config :ytctapi, Ytctapi.Repo,
+#   adapter: Mongo.Ecto,
+#   database: "ytctapi_dev",
+#   pool_size: 10
+
+# Nanobox Setup
 config :ytctapi, Ytctapi.Repo,
   adapter: Mongo.Ecto,
   database: "ytctapi_dev",
+  username: System.get_env("DATA_DB_USER"),
+  password: System.get_env("DATA_DB_PASS"),
+  hostname: System.get_env("DATA_DB_HOST"),
   pool_size: 10
+

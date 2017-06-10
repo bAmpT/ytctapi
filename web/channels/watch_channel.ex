@@ -44,6 +44,7 @@ defmodule Ytctapi.WatchChannel do
     })
 
     ytid = String.slice(socket.topic, 6..-1)
+    IO.inspect ytid
     from(t in Transscript, where: t.ytid == ^ytid)
       |> Repo.update_all([inc: [views_count: 1]], returning: :views_count)
 

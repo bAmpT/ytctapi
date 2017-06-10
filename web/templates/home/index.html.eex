@@ -4,13 +4,132 @@
 Welcome back, <strong><%= @user.username %></strong>!
 <% end %>
 
-<ul class="video-list">
+<ul id="video-list" class="video-list">
   <%= for transscript <- @transscripts do %>
     <li>
         <a href="/watch?v=<%= transscript.ytid %>">
+        
+        <div class="imgwrap"><img width="100%" style="object-fit: cover; max-width:500px; height: auto !important; max-height:175px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/></div>
         <h4><%= transscript.title %></h4>
-        <img width="100%" style="object-fit: cover; max-width:500px; height: auto !important; max-height:200px;" src="http://img.youtube.com/vi/<%= transscript.ytid %>/hqdefault.jpg"/>
         </a>
     </li>
   <% end %>
 </ul>
+
+<style type="text/css">
+  ul.video-list .imgwrap {
+    overflow: hidden;
+  }
+  ul.video-list img {
+    -webkit-transition: all .2s;
+-moz-transition: all .2s;
+-o-transition: all .2s;
+-ms-transition: all .2s;
+transition: all .2s;
+  }
+  ul.video-list img:hover {
+    transform: scale(1.2)
+  }
+</style>
+
+<div id="home-page">
+  <h1>Navigation:</h1>
+  <p>
+    <!-- use router-link component for navigation. -->
+    <!-- specify the link by passing the `to` prop. -->
+    <!-- <router-link> will be rendered as an `<a>` tag by default -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- route outlet -->
+  <!-- component matched by the route will render here -->
+  <router-view></router-view>
+</div>
+
+<!--
+<div id="example-1">
+<input type="radio" id="one" value="1" v-model="pickedDifficulty">
+<label for="one">Beginner</label>
+<input type="radio" id="two" value="2" v-model="pickedDifficulty">
+<label for="two">Elementary</label>
+<input type="radio" id="three" value="3" v-model="pickedDifficulty">
+<label for="three">Intermediate</label>
+<br>
+<span>Difficulty: {{ pickedDifficulty }}</span>
+<br>
+<input type="checkbox" id="jack" value="clips" v-model="checkedCategories">
+<label for="jack">Clips</label>
+<input type="checkbox" id="john" value="commercials" v-model="checkedCategories">
+<label for="john">Commercials</label>
+<input type="checkbox" id="mike" value="music-videos" v-model="checkedCategories">
+<label for="mike">Music-Videos</label>
+
+<span>Checked names: {{ checkedCategories }}</span>
+
+<br>
+<input type="checkbox" id="business" value="business" v-model="checkedTopics">
+<label for="business">Business</label>
+<input type="checkbox" id="culture" value="culture" v-model="checkedTopics">
+<label for="culture">Culture</label>
+<input type="checkbox" id="everyday-life" value="everyday-life" v-model="checkedTopics">
+<label for="everyday-life">Everyday Life</label>
+
+<span>Checked topics: {{ checkedTopics }}</span>
+<br>
+<button v-on:click="locate">Locate</button>
+</div>
+-->
+
+<script>var Home = require("web/static/js/home").Home; Home.init()</script>
+
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script type="text/javascript">
+
+// 1. Define route components.
+// These can be imported from other files
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+// 2. Define some routes
+// Each route should map to a component. The "component" can
+// either be an actual component constructor created via
+// Vue.extend(), or just a component options object.
+// We'll talk about nested routes later.
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 3. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = new VueRouter({
+  routes // short for routes: routes
+})
+
+// 4. Create and mount the root instance.
+// Make sure to inject the router with the router option to make the
+// whole app router-aware.
+const app = new Vue({
+  router
+}).$mount('#home-page')
+
+
+// var sl = new Vue({
+//   el: '#example-1',
+//   data: {
+//     checkedCategories: "<%= raw( Map.get(@conn, :query_params) |> Map.get("category") ) %>".split(",").filter(p => p != ""),
+//     checkedTopics: "<%= raw( Map.get(@conn, :query_params) |> Map.get("topic") ) %>".split(",").filter(p => p != ""), 
+//     pickedDifficulty: "<%= raw( Map.get(@conn, :query_params) |> Map.get("difficulty") ) %>"
+//   },
+//   methods: { 
+//     locate: function() {
+//       let categories = this.checkedCategories.length > 0 ? "category="+this.checkedCategories.join(",") : "";
+//       let topics = this.checkedTopics.length > 0 ? "&topic="+this.checkedTopics.join(",") : "";
+//       let difficulty = this.pickedDifficulty != "" ? "&difficulty="+this.pickedDifficulty : "";
+
+//       document.location.search = categories + topics + difficulty;
+//     }
+//   }
+// })
+</script>

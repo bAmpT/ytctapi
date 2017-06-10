@@ -15,6 +15,13 @@ form, ul, table {
 }
 
 /* Phoenix flash messages */
+.alert-warn {
+	background-color: #FFF6F6;
+	color: #9F3A38;
+	box-shadow: 0 0 0 1px #E0B4B4 inset, 0 0 0 0 transparent;
+	border: 0;
+}
+
 .alert:empty { display: none; }
 
 /* Phoenix inline forms in links and buttons */
@@ -241,16 +248,25 @@ outline: 0;
 
 ul.video-list {
 	display: flex;
-    flex-direction: column;
-	align-items: center;
-	padding: 0;
-	list-style: none;
+flex-direction: row;
+flex-wrap: wrap;
+flex-flow: row wrap;
+align-content: flex-end;
+align-items: baseline;
+justify-content: center;
+padding: 0;
+list-style: none;
 }
 
 ul.video-list li {
 	max-width:480px;
-	width: 100%;
+	width: 45%;
 }
+
+ul.video-list li:nth-child(2n + 1) {
+	margin-right: 10px;
+}
+
 
 .action-bar.is-visible {
 	visibility: visible;
@@ -317,6 +333,11 @@ footer.bottomfooter {
 	align-items: center;
 }
 
+#email_form_footer {
+	flex-direction: column;
+	align-items: center;
+}
+
 .login-form {
 	 color: #262626;
     -webkit-box-flex: 1;
@@ -366,6 +387,23 @@ footer.bottomfooter {
     -webkit-appearance: none;
 }
 
+.login-form p {
+	width: 90%;
+	margin: 0 20px 6px;
+    padding: 9px 8px 7px;
+}
+
+.login-form input.inactive {
+    background-color: #dbdbdb !important;
+    color: #fff !important;
+}
+
+.login-form input.error {
+    outline: none !important;
+    border:1px solid red !important;
+    /*box-shadow: 0 0 10px #719ECE;*/
+}
+
 input.textInputGiant {
 	outline-width: 0;
 
@@ -381,6 +419,10 @@ width: 100%;
 border: 0;
 border-bottom: 1px solid rgba(0, 0, 0, .15);
 border-radius: 0
+}
+
+input.textInputGiant:focus {
+	outline: 0;
 }
 
 /* The side navigation menu */

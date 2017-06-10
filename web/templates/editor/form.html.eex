@@ -34,8 +34,9 @@
 
   <div id="player"></div>
 
+
   <ul class="list-player">
-<%= for line <- @changeset.model.lines do %>
+<%= for line <- @changeset.data.lines do %>
     <li>
       <a onclick="">
         <input class="line_q" id="lines_q_" value="<%= line["q"] %>"></input>
@@ -45,6 +46,20 @@
     </li>
 <% end %>
 </ul>
+
+<div id="line-list">
+  <ul class="list-player">
+    <li
+      is="line-item"
+      v-for="(line, index) in lines"
+      v-bind:title="line['q']"
+      v-bind:subtitle="line['a']"
+      v-bind:timestamp="line['t']"
+      v-on:remove="lines.splice(index, 1)"
+    ></li>
+  </ul>
+  <button v-on:click="addNewLine">Add New Line</button>
+</div>
 
 <button onclick="add_new_line(event)" style="width:100%;">add new line</button>
 
@@ -113,6 +128,38 @@
     return true
   }
 </script>
+
+<script type="text/javascript">
+
+Vue.component('line-item', {
+  template: '\
+    <li>\
+     <a onclick="">\
+        <input class="line_q" id="lines_q_" :value=title></input>\
+        <input class="line_a" id="lines_a_" :value=subtitle></input>\
+        <button class=line_t onclick=\"getTimestamp(event)\" :value=timestamp>Timestamp</button>\
+      </a>\
+    </li>\
+  ',
+  props: ['title', 'subtitle', 'timestamp']
+})
+
+var tl = new Vue({
+  el: '#line-list',
+  data: {
+    lines: <%= raw(Poison.encode!(@changeset.data.lines)) %>,
+  },
+  methods: {
+    addNewLine: function() {
+      this.lines.push({q:"", a:"", t:""})
+    }
+  }
+})
+</script>
+
+
+
 <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-<script>require("web/static/js/ytctplayer")</script>
+<div id="ytid" data-ytid="<%= @changeset.data.ytid %>"></div>
+<script>var Player = require("web/static/js/player").Player; Player.init("<%= @changeset.data.ytid %>")</script>
 

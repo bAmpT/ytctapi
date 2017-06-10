@@ -1,9 +1,13 @@
 defmodule Ytctapi.CommentChannel do
+  @moduledoc false
   use Ytctapi.Web, :channel
 
   alias Ytctapi.Comment
   alias Ytctapi.Transscript
 
+  @doc """
+  Calculates the sum of two numbers.
+  """
   def join("comment:"<> _comment_id, payload, socket) do
     if authorized?(payload) do
       {:ok, socket}
@@ -12,8 +16,10 @@ defmodule Ytctapi.CommentChannel do
     end
   end
 
-  # Channels can be used in a request/response fashion
-  # by sending replies to requests from the client
+  @doc """
+  Channels can be used in a request/response fashion
+  by sending replies to requests from the client
+  """
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
   end
@@ -56,7 +62,7 @@ defmodule Ytctapi.CommentChannel do
     end
   end
 
-  # Add authorization logic here as required.
+  @doc false
   defp authorized?(_payload) do
     true
   end
